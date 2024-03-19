@@ -12,6 +12,7 @@ Vue.component('login', require('./components/Login.vue').default);
 Vue.component('user-register', require('./components/User/userRegistration.vue').default);
 // Productos
 Vue.component('consult-product', require('./components/Products/Products.vue').default);
+Vue.component('show-products', require('./components/Products/ShowProducts.vue').default);
 
 const app = new Vue({
     el: '#app',

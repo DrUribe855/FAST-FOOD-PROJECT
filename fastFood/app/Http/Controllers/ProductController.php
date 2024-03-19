@@ -23,12 +23,15 @@ class ProductController extends Controller
         ];
         return response()->json($data);
     }
+    public function viewProducts(){
+        return view('Products/showProducts');
+    }
     public function ShowProducts()
     {
-        $showproducts = Product::get();
+        $showProducts = Product::get();
         $data = [
             'status' => true,
-            'showproducts' => $showproducts,
+            'showproducts' => $showProducts,
         ];
         return response()->json($data);
     }
