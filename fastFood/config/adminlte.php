@@ -303,7 +303,7 @@ return [
         ],
         [
             'text' => 'Categorias',
-            'url' => 'admin/settings',
+            'url' => '/categorie',
             'icon' => 'fas fa-fw fa-lock',
         ],
     ],
