@@ -2,15 +2,40 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function index(){
-        return view('login');
+        return view('Login/login');
     }
-    public function RegisterUser(Request $request)
+
+    public function showRegister(){
+        return view('User/userRegistration');
+    }
+
+    public function registerUser(Request $request)
     {
+        // Definir reglas de validación
+        $rules = [
+            'document' => 'required|int',
+            'name' => 'required|string',
+            'phone_number' => 'required|int',
+            'email' => 'required|email',
+            'status' => 'required|string',
+            'password' => 'required|string',
+        ];
+
+        // Aplicar validación
+        $validator = Validator::make($request->all(), $rules);
+
+        // Verificar si la validación falla
+        if ($validator->fails()) {
+            echo("Error en el tipo de dato");
+            return response()->json(['status' => false, 'error' => $validator->errors()], 400);
+        }
+
         $users = new User();
         $users->document = $request->input('document');
         $users->name = $request->input('name');
@@ -26,5 +51,7 @@ class UserController extends Controller
         ];
         return response()->json($data);
     }
+    
+
     
 }
