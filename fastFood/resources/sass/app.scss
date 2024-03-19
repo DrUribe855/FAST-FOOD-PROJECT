@@ -6,5 +6,23 @@
     font-weight: bold; /* Para negrita */
     font-family: 'system-ui'; /* Cambia 'Arial' por la fuente que desees utilizar */
 }
+
+.title, .poppins-label{
+    font-family: 'Poppins', sans-serif;
+}
+
+.custom-btn{
+    background-color: #FABB5C;
+    color: white;
+}
+
+/* Estilo para cambiar el color al hacer hover sobre el botón */
+.custom-btn:hover {
+    background-color: #EAA94C; /* Cambiar el color de fondo al hacer hover */
+    border-color: #EAA94C; /* Cambiar el color del borde al hacer hover */
+    color: white;
+}
+
+
   
   

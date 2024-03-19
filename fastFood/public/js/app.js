@@ -2171,16 +2171,168 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _vm._m(0);
+  return _c("div", {
+    staticClass: "container d-flex justify-content-center align-items-center vh-100"
+  }, [_c("div", {
+    staticClass: "bg-light p-4 rounded shadow",
+    staticStyle: {
+      width: "600px"
+    }
+  }, [_c("form", [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("p", {
+    staticClass: "poppins-label"
+  }, [_vm._v("Documento")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.document,
+      expression: "document"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "number"
+    },
+    domProps: {
+      value: _vm.document
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.document = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("p", {
+    staticClass: "poppins-label"
+  }, [_vm._v("Nombre")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.name,
+      expression: "name"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text"
+    },
+    domProps: {
+      value: _vm.name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.name = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("p", {
+    staticClass: "poppins-label"
+  }, [_vm._v("Telefono")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.phone_number,
+      expression: "phone_number"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "number"
+    },
+    domProps: {
+      value: _vm.phone_number
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.phone_number = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-2"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("p", {
+    staticClass: "poppins-label"
+  }, [_vm._v("Email")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.email,
+      expression: "email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "email"
+    },
+    domProps: {
+      value: _vm.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.email = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-4"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("p", {
+    staticClass: "poppins-label"
+  }, [_vm._v("Contraseña")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.password,
+      expression: "password"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "password"
+    },
+    domProps: {
+      value: _vm.password
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.password = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _vm._m(1)])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "position-relative"
+    staticClass: "row mb-2"
   }, [_c("div", {
-    staticClass: "position-absolute top-50 start-50 translate-middle"
-  }, [_c("h1", [_vm._v("Hello World!")])])]);
+    staticClass: "col-12"
+  }, [_c("h3", {
+    staticClass: "text-center text-uppercase mb-4"
+  }, [_c("b", [_vm._v(" Crea tu cuenta")])])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("button", {
+    staticClass: "btn form-control custom-btn",
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("Continuar")])])]);
 }];
 render._withStripped = true;
 
