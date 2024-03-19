@@ -7,7 +7,7 @@ Vue.use(Vuetify);
  
 window.Vue = require('vue');
 
-Vue.component('login', require('./components/Login.vue').default);
+Vue.component('login', require('./components/Login/Login.vue').default);
 
 const app = new Vue({
     el: '#app',
