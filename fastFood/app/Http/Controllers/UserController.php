@@ -19,10 +19,10 @@ class UserController extends Controller
     {
         // Definir reglas de validación
         $rules = [
-            'document' => 'required|int',
+            'document' => 'required|int|unique:users',
             'name' => 'required|string',
-            'phone_number' => 'required|int',
-            'email' => 'required|email',
+            'phone_number' => 'required|int|unique:users',
+            'email' => 'required|email|unique:users',
             'status' => 'required|string',
             'password' => 'required|string',
         ];

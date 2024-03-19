@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', [UserController::class, 'index']);
 
@@ -9,6 +10,10 @@ Route::get('/', [UserController::class, 'index']);
 Route::get('/userRegistration', [UserController::class, 'showRegister'])->name('userRegistration');
 // Register User --Monsalve 
 Route::post("/RegisterUser", [UserController::class, "registerUser"])->name("user.register");
+//producto
+Route::get('/consultProduct/{id}', [ProductController::class, 'ShowProductsIndivual'])->name('consultProduct');
+
+Route::get('/consult', [ProductController::class, 'viewConsult'])->name('view');
 
 
 

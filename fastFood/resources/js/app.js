@@ -8,7 +8,10 @@ Vue.use(Vuetify);
 window.Vue = require('vue');
 
 Vue.component('login', require('./components/Login.vue').default);
+// usuarios
 Vue.component('user-register', require('./components/User/userRegistration.vue').default);
+// Productos
+Vue.component('consult-product', require('./components/Products/Products.vue').default);
 
 const app = new Vue({
     el: '#app',

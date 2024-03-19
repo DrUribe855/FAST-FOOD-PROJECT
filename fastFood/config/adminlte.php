@@ -323,8 +323,8 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
+            'text' => 'Categorias',
+            // 'route' => 'consultProduct',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [

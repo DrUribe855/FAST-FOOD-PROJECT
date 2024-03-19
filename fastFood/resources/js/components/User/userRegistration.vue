@@ -13,6 +13,8 @@
                                         :counter="10"
                                         label="Documento"
                                         required
+                                        @input="$v.document.$touch()"
+                                        @blur="$v.document.$touch()"
                                     ></v-text-field>
                                 </v-col>
 
@@ -22,6 +24,8 @@
                                         :rules="[v => !!v || 'Name is required']"
                                         label="Nombre"
                                         required
+                                        @input="$v.name.$touch()"
+                                        @blur="$v.name.$touch()"
                                     ></v-text-field>
                                 </v-col>
 
@@ -32,6 +36,8 @@
                                         :counter="10"
                                         label="Telefono - Celular"
                                         required
+                                        @input="$v.phone_number.$touch()"
+                                        @blur="$v.phone_number.$touch()"
                                     ></v-text-field>
                                 </v-col>
 
@@ -41,6 +47,8 @@
                                         :rules="[v => !!v || 'Email is required']"
                                         label="Email"
                                         required
+                                        @input="$v.email.$touch()"
+                                        @blur="$v.email.$touch()"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4" >
@@ -49,6 +57,8 @@
                                         :rules="[v => !!v || 'Password is required']"
                                         label="Contraseña"
                                         required
+                                        @input="$v.password.$touch()"
+                                        @blur="$v.password.$touch()"
                                     ></v-text-field>
                                 </v-col>
 
