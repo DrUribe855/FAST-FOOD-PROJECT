@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .rounded-card {
-  border-radius: 10px; /* Puedes ajustar el valor según tus preferencias */
+  border-radius: 20px; /* Puedes ajustar el valor según tus preferencias */
 }
 
 .custom-label {
@@ -22,4 +22,26 @@
   background-color: #EAA94C; /* Cambiar el color de fondo al hacer hover */
   border-color: #EAA94C; /* Cambiar el color del borde al hacer hover */
   color: white;
+}
+
+.image img {
+  width: 145px;
+  height: 180px;
+}
+
+.content h4 {
+  margin-top: 0;
+}
+
+/* Fuentes personalizadas */
+.raleway-font {
+  font-family: "Raleway", sans-serif;
+}
+
+.inter-font {
+  font-family: "Inter", sans-serif;
+}
+
+.same-width-btn {
+  width: 60%; /* Establece el ancho al 100% */
 }
