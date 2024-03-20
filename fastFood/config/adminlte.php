@@ -301,10 +301,11 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'Categorias',
-            'url' => 'admin/settings',
+            'text' => 'Products',
+            'route' => 'viewP',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        
     ],
 
     /*

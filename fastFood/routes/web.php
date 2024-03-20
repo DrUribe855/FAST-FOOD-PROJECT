@@ -17,6 +17,6 @@ Route::get('/consultProduct/{id}', [ProductController::class, 'ShowProductsIndiv
 Route::get('/consult', [ProductController::class, 'viewConsult'])->name('view');
 Route::get('/viewProducts', [ProductController::class, 'viewProducts'])->name('viewP');
 Route::get('/showProducts', [ProductController::class, 'ShowProducts'])->name('showproducts');
-Route::get('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
-
+Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
+Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
 

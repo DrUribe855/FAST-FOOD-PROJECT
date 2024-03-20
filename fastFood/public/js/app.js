@@ -2209,16 +2209,103 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ShowProducts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowProducts.vue */ "./resources/js/components/Products/ShowProducts.vue");
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    'productos': _ShowProducts_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
   data: function data() {
     return {
-      listProducts: true
+      valid: false,
+      categories: [],
+      selectedFile: null,
+      registerProduct: {
+        id: '',
+        product_name: '',
+        description: '',
+        quantity: '',
+        price: '',
+        status: 'Activo',
+        image_url: '',
+        category_id: ''
+      }
     };
+  },
+  created: function created() {
+    this.getCategorias();
+    // console.log("Datos del categoria", this.categories);
+  },
+  methods: {
+    captureFileName: function captureFileName() {
+      // Verifica si se ha seleccionado un archivo
+      if (this.selectedFile && this.selectedFile.name) {
+        this.registerProduct.image_url = this.selectedFile.name; // Almacena solo el nombre del archivo
+      }
+    },
+    buttonBack: function buttonBack() {
+      this.$parent.backComponent();
+      this.$parent.list();
+    },
+    showProducts: function showProducts() {
+      this.$parent.list();
+    },
+    getCategorias: function getCategorias() {
+      var _this = this;
+      // console.log("Datos del proveedor", this.categories);
+      axios.get('/ExtractCategories').then(function (respuesta) {
+        _this.categories = respuesta.data.categories;
+      })["catch"](function (error) {
+        console.error('Error al obtener la lista de categorias: ', error);
+      });
+    },
+    save: function save() {
+      var _this2 = this;
+      // Validar campos vacíos
+      if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
+        swal({
+          title: "Campos Vacíos",
+          text: "Por favor complete todos los campos",
+          icon: "error",
+          button: "Aceptar"
+        });
+        return; // Detener la ejecución del método si hay campos vacíos
+      }
+
+      // Si todos los campos están completos, enviar la solicitud al servidor
+      axios.post('/registerProduct', this.registerProduct).then(function (respuesta) {
+        if (respuesta.data.status) {
+          console.log("Registro exitoso");
+          swal({
+            title: "Registro Exitoso",
+            text: "El producto se registró correctamente",
+            icon: "success",
+            button: "Aceptar"
+          });
+          //Limpiar los campos de entrada
+          _this2.registerProduct.product_name = null;
+          _this2.registerProduct.description = null;
+          _this2.registerProduct.quantity = null;
+          _this2.registerProduct.price = null;
+          _this2.registerProduct.image_url = null;
+          _this2.registerProduct.status = null;
+          _this2.registerProduct.category_id = null;
+          _this2.$parent.backComponent();
+          _this2.showProducts();
+          //this.desserts = respuesta.data.machineryData;
+        } else {
+          console.log("Error:");
+          swal({
+            title: "Registro Fallido",
+            text: "El usuario no fue registrado correctamente",
+            icon: "error",
+            button: "Aceptar"
+          });
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          alert("Existe");
+        }
+        console.log("Error en servidor");
+        console.log(error);
+        console.log(error.response);
+      });
+    }
   }
 });
 
@@ -2252,6 +2339,9 @@ __webpack_require__.r(__webpack_exports__);
     this.list();
   },
   methods: {
+    backComponent: function backComponent() {
+      this.formRegister = false;
+    },
     list: function list() {
       var _this = this;
       console.log("Entre");
@@ -2434,11 +2524,16 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_vm.listProducts ? _c("v-btn", {
+  return _c("div", [_c("v-btn", {
     attrs: {
       elevation: "2"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.buttonBack();
+      }
     }
-  }, [_vm._v("Volver")]) : _vm._e(), _vm._v(" "), _c("v-app", [_c("v-main", [_c("v-form", {
+  }, [_vm._v("Volver")]), _vm._v(" "), _c("v-app", [_c("v-main", [_c("v-form", {
     model: {
       value: _vm.valid,
       callback: function callback($$v) {
@@ -2453,17 +2548,15 @@ var render = function render() {
     }
   }, [_c("v-text-field", {
     attrs: {
-      rules: _vm.nameRules,
-      counter: 10,
       label: "Nombre",
       required: ""
     },
     model: {
-      value: _vm.product_name,
+      value: _vm.registerProduct.product_name,
       callback: function callback($$v) {
-        _vm.product_name = $$v;
+        _vm.$set(_vm.registerProduct, "product_name", $$v);
       },
-      expression: "product_name"
+      expression: "registerProduct.product_name"
     }
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
@@ -2472,17 +2565,15 @@ var render = function render() {
     }
   }, [_c("v-text-field", {
     attrs: {
-      rules: _vm.nameRules,
-      counter: 10,
       label: "Descripcion",
       required: ""
     },
     model: {
-      value: _vm.description,
+      value: _vm.registerProduct.description,
       callback: function callback($$v) {
-        _vm.description = $$v;
+        _vm.$set(_vm.registerProduct, "description", $$v);
       },
-      expression: "description"
+      expression: "registerProduct.description"
     }
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
@@ -2491,16 +2582,15 @@ var render = function render() {
     }
   }, [_c("v-text-field", {
     attrs: {
-      rules: _vm.emailRules,
       label: "Cantidad",
       required: ""
     },
     model: {
-      value: _vm.quantity,
+      value: _vm.registerProduct.quantity,
       callback: function callback($$v) {
-        _vm.quantity = $$v;
+        _vm.$set(_vm.registerProduct, "quantity", $$v);
       },
-      expression: "quantity"
+      expression: "registerProduct.quantity"
     }
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
@@ -2509,34 +2599,36 @@ var render = function render() {
     }
   }, [_c("v-text-field", {
     attrs: {
-      rules: _vm.emailRules,
       label: "Precio",
       required: ""
     },
     model: {
-      value: _vm.price,
+      value: _vm.registerProduct.price,
       callback: function callback($$v) {
-        _vm.price = $$v;
+        _vm.$set(_vm.registerProduct, "price", $$v);
       },
-      expression: "price"
+      expression: "registerProduct.price"
     }
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
       cols: "12",
       md: "4"
     }
-  }, [_c("v-text-field", {
+  }, [_c("v-file-input", {
     attrs: {
-      rules: _vm.emailRules,
-      label: "Imagen",
+      "truncate-length": "50",
+      label: "File input",
       required: ""
     },
+    on: {
+      change: _vm.captureFileName
+    },
     model: {
-      value: _vm.image_url,
+      value: _vm.selectedFile,
       callback: function callback($$v) {
-        _vm.image_url = $$v;
+        _vm.selectedFile = $$v;
       },
-      expression: "image_url"
+      expression: "selectedFile"
     }
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
@@ -2545,20 +2637,44 @@ var render = function render() {
     }
   }, [_c("v-text-field", {
     attrs: {
-      rules: _vm.emailRules,
       label: "Estado",
       required: ""
     },
     model: {
-      value: _vm.status,
+      value: _vm.registerProduct.status,
       callback: function callback($$v) {
-        _vm.status = $$v;
+        _vm.$set(_vm.registerProduct, "status", $$v);
       },
-      expression: "status"
+      expression: "registerProduct.status"
+    }
+  })], 1), _vm._v(" "), _c("v-col", {
+    staticClass: "d-flex",
+    attrs: {
+      cols: "12",
+      sm: "6"
+    }
+  }, [_c("v-select", {
+    attrs: {
+      items: _vm.categories,
+      label: "Categoria",
+      "item-text": "category_name",
+      "item-value": "id"
+    },
+    model: {
+      value: _vm.registerProduct.category_id,
+      callback: function callback($$v) {
+        _vm.$set(_vm.registerProduct, "category_id", $$v);
+      },
+      expression: "registerProduct.category_id"
     }
   })], 1)], 1), _vm._v(" "), _c("v-btn", {
     attrs: {
       elevation: "2"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.save();
+      }
     }
   }, [_vm._v("Enviar")])], 1)], 1)], 1)], 1)], 1);
 };
@@ -2593,7 +2709,7 @@ var render = function render() {
         _vm.formRegister = true;
       }
     }
-  }, [_vm._v("Soy yo")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.listProducts, function (listProduct) {
+  }, [_vm._v("Registrar Producto")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.listProducts, function (listProduct) {
     return !_vm.formRegister ? _c("section", {
       key: listProduct.id,
       staticClass: "bg-white p-3 rounded shadow mb-3 mt-3"
@@ -2606,7 +2722,7 @@ var render = function render() {
     }, [_c("img", {
       attrs: {
         src: listProduct.image_url,
-        alt: ""
+        alt: "Imagen"
       }
     })])]), _vm._v(" "), _c("div", {
       staticClass: "col-md-3"

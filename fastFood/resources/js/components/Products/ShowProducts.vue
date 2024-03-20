@@ -1,12 +1,12 @@
 <template>
     <div >
-        <button v-if="!formRegister" type="submit" class="btn btn-warning" @click="formRegister=true">Soy yo</button>
+        <button v-if="!formRegister" type="submit" class="btn btn-warning" @click="formRegister=true">Registrar Producto</button>
         <section v-if="!formRegister" class="bg-white p-3 rounded shadow mb-3 mt-3" v-for="listProduct in listProducts" :key="listProduct.id">
             <div class="row align-items-center">
 
                 <div class="col-md-3">
                     <div class="image">
-                        <img :src="listProduct.image_url" alt="">
+                        <img :src="listProduct.image_url" alt="Imagen">
                     </div>
                 </div>
 
@@ -55,6 +55,9 @@ export default {
             this.list();
         },
     methods: {
+        backComponent() {
+            this.formRegister = false;
+        },
         
         list() {
             console.log("Entre")
