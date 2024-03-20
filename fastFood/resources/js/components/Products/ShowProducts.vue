@@ -6,7 +6,7 @@
 
                 <div class="col-md-3">
                     <div class="image">
-                        <img :src="listProduct.image_url" alt="">
+                        <img class="img-" :src="listProduct.image_url" alt="">
                     </div>
                 </div>
 
