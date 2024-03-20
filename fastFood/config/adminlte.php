@@ -295,10 +295,9 @@ return [
 
     'menu' => [
         // Sidebar items:
-        ['header' => 'account_settings'],
         [
-            'text' => 'Usuarios',
-            'url' => 'admin/settings',
+            'text' => 'Registrar Usuario',
+            'route' => 'userRegistration',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
