@@ -1,36 +1,26 @@
 <template>
-	<div>
-		<form>
-			<h1>Formulario de inicio de sesión</h1>
-			<input type="email" name="email" placeholder="Email" v-model="email">
-			<input type="password" name="pass" placeholder="Password" v-model="password">
-			<button @click="login()" type="button">Ingresar</button>
-		</form>
+	<div class="col-12 row m-0 p-0">
+		<section class="row m-0 p-0">
+			<section class="col-6 border left vh-100"></section>
+			<section class="col-6 border right vh-100"></section>
+		</section>
+		<form-login :class="['col-3', 'content-center', 'border', 'shadow mb-5']"></form-login>
 	</div>
 </template>
 <script>
 import swal from 'sweetalert';
+import FormLogin from './FormLogin.vue'
 
 export default{
+	components: {
+		'form-login': FormLogin,
+	},
 	data(){
 		return{
-			email: '',
-			password: '',
-			error: false,
 		}
 	},
 	methods: {
-		login(){
-			axios.post('/login', {
-				email: this.email,
-				password: this.password
-			}).then(response => {
-				console.log(response);
-			}).catch(error => {
-				console.log("Error en login");
-				console.log(error.response);
-			});
-		}
+		
 	}
 }
 </script>
