@@ -2401,54 +2401,46 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "container"
-  }, [_c("div", [_c("table", {
-    staticClass: "table mb-3"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.listProducts, function (listProduct) {
-    return _c("tr", [_c("th", {
+  return _c("div", _vm._l(_vm.listProducts, function (listProduct) {
+    return _c("section", {
+      key: listProduct.id,
+      staticClass: "bg-white p-3 rounded shadow mb-3 mt-3"
+    }, [_c("div", {
+      staticClass: "row align-items-center"
+    }, [_c("div", {
+      staticClass: "col-md-3"
+    }, [_c("div", {
+      staticClass: "image"
+    }, [_c("img", {
       attrs: {
-        scope: "row"
+        src: listProduct.image_url,
+        alt: ""
       }
-    }, [_vm._v(_vm._s(listProduct.id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.product_name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.description))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.quantity))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.price))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.inage_url))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.status))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(listProduct.category_id))])]);
-  }), 0)])])]);
+    })])]), _vm._v(" "), _c("div", {
+      staticClass: "col-md-3"
+    }, [_c("div", {
+      staticClass: "content"
+    }, [_c("h4", {
+      staticClass: "raleway-font"
+    }, [_c("b", [_vm._v(_vm._s(listProduct.product_name))])]), _vm._v(" "), _c("p", {
+      staticClass: "inter-font"
+    }, [_vm._v(_vm._s(listProduct.description))])])]), _vm._v(" "), _c("div", {
+      staticClass: "col-md-3"
+    }), _vm._v(" "), _vm._m(0, true)])]);
+  }), 0);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("ID")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("NAME")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("DESCRIPTION")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("QUANTITY")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("PRICE")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("IMG")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("STATUS")]), _vm._v(" "), _c("th", {
-    attrs: {
-      scope: "col"
-    }
-  }, [_vm._v("CATEGORY")])])]);
+  return _c("div", {
+    staticClass: "col-md-3 text-center"
+  }, [_c("div", {
+    staticClass: "mb-2"
+  }, [_c("button", {
+    staticClass: "btn custom-btn same-width-btn"
+  }, [_vm._v("Modificar")])]), _vm._v(" "), _c("div", [_c("button", {
+    staticClass: "btn custom-btn same-width-btn"
+  }, [_vm._v("Desactivar")])])]);
 }];
 render._withStripped = true;
 
@@ -2477,7 +2469,6 @@ var render = function render() {
     staticStyle: {
       width: "450px"
     }
-<<<<<<< HEAD
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "row mb-2"
   }, [_c("div", {
@@ -2488,31 +2479,6 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-=======
-  }, [_c("v-container", [_c("v-row", [_c("v-col", {
-    attrs: {
-      cols: "12",
-      md: "4"
-    }
-  }, [_c("v-text-field", {
-    attrs: {
-      rules: [function (v) {
-        return !!v || "Document is required";
-      }],
-      counter: 10,
-      label: "Documento",
-      required: ""
-    },
-    on: {
-      input: function input($event) {
-        return _vm.$v.document.$touch();
-      },
-      blur: function blur($event) {
-        return _vm.$v.document.$touch();
-      }
-    },
-    model: {
->>>>>>> bdf3cea8da33801f99ea2b3e096e78361cbde235
       value: _vm.registerUser.document,
       expression: "registerUser.document"
     }],
@@ -2520,7 +2486,6 @@ var render = function render() {
     attrs: {
       type: "number"
     },
-<<<<<<< HEAD
     domProps: {
       value: _vm.registerUser.document
     },
@@ -2540,17 +2505,6 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-=======
-    on: {
-      input: function input($event) {
-        return _vm.$v.name.$touch();
-      },
-      blur: function blur($event) {
-        return _vm.$v.name.$touch();
-      }
-    },
-    model: {
->>>>>>> bdf3cea8da33801f99ea2b3e096e78361cbde235
       value: _vm.registerUser.name,
       expression: "registerUser.name"
     }],
@@ -2558,7 +2512,6 @@ var render = function render() {
     attrs: {
       type: "text"
     },
-<<<<<<< HEAD
     domProps: {
       value: _vm.registerUser.name
     },
@@ -2578,17 +2531,6 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-=======
-    on: {
-      input: function input($event) {
-        return _vm.$v.phone_number.$touch();
-      },
-      blur: function blur($event) {
-        return _vm.$v.phone_number.$touch();
-      }
-    },
-    model: {
->>>>>>> bdf3cea8da33801f99ea2b3e096e78361cbde235
       value: _vm.registerUser.phone_number,
       expression: "registerUser.phone_number"
     }],
@@ -2596,7 +2538,6 @@ var render = function render() {
     attrs: {
       type: "number"
     },
-<<<<<<< HEAD
     domProps: {
       value: _vm.registerUser.phone_number
     },
@@ -2616,17 +2557,6 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-=======
-    on: {
-      input: function input($event) {
-        return _vm.$v.email.$touch();
-      },
-      blur: function blur($event) {
-        return _vm.$v.email.$touch();
-      }
-    },
-    model: {
->>>>>>> bdf3cea8da33801f99ea2b3e096e78361cbde235
       value: _vm.registerUser.email,
       expression: "registerUser.email"
     }],
@@ -2634,7 +2564,6 @@ var render = function render() {
     attrs: {
       type: "email"
     },
-<<<<<<< HEAD
     domProps: {
       value: _vm.registerUser.email
     },
@@ -2654,17 +2583,6 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-=======
-    on: {
-      input: function input($event) {
-        return _vm.$v.password.$touch();
-      },
-      blur: function blur($event) {
-        return _vm.$v.password.$touch();
-      }
-    },
-    model: {
->>>>>>> bdf3cea8da33801f99ea2b3e096e78361cbde235
       value: _vm.registerUser.password,
       expression: "registerUser.password"
     }],
