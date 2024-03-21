@@ -2,9 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+
+
 use App\Http\Controllers\ProductController;
 
 Route::get('/', [UserController::class, 'index']);
+Route::post('/login', [LoginController::class, 'verifyUserData'])->name('login');
 
 //Ver Formulario de Registro de Usuario
 Route::get('/userRegistration', [UserController::class, 'showRegister'])->name('userRegistration');
