@@ -2412,7 +2412,6 @@ var render = function render() {
     }, [_c("div", {
       staticClass: "image"
     }, [_c("img", {
-      staticClass: "img-",
       attrs: {
         src: listProduct.image_url,
         alt: ""
