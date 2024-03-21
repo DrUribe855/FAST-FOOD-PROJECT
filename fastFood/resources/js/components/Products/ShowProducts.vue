@@ -1,12 +1,12 @@
 <template>
-    <div>
-        
-        <section class="bg-white p-3 rounded shadow mb-3 mt-3" v-for="listProduct in listProducts" :key="listProduct.id">
+    <div >
+        <button v-if="!formRegister" type="submit" class="btn btn-warning" @click="formRegister=true">Registrar Producto</button>
+        <section v-if="!formRegister" class="bg-white p-3 rounded shadow mb-3 mt-3" v-for="listProduct in listProducts" :key="listProduct.id">
             <div class="row align-items-center">
 
                 <div class="col-md-3">
                     <div class="image">
-                        <img :src="listProduct.image_url" alt="">
+                        <img :src="listProduct.image_url" alt="Imagen">
                     </div>
                 </div>
 
@@ -33,22 +33,31 @@
             </div>
 
         </section>
+        <formulario v-if="formRegister"></formulario>
 
     </div>
 </template>
 
-
 <script>
+import RegisterProduct from "./RegisterProduct.vue";
 export default {
+    components: {
+        'formulario': RegisterProduct,
+        // 'editar': Editar,
+    },
     data() {
         return {
             listProducts: [],
+            formRegister: false,
         };
     },
         created() {
             this.list();
         },
     methods: {
+        backComponent() {
+            this.formRegister = false;
+        },
         
         list() {
             console.log("Entre")
