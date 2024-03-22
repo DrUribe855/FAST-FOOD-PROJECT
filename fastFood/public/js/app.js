@@ -2186,9 +2186,7 @@ __webpack_require__.r(__webpack_exports__);
         password: this.password
       }).then(function (response) {
         console.log(response);
-        if (response.data.message == "Datos incompletos") {
-          _this.showAlert("Error", " de los campos no fue diligenciado", "error");
-        }
+        window.location.href = 'showProducts';
       })["catch"](function (error) {
         console.log("Error en login");
         console.log(error.response);
@@ -2227,16 +2225,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _FormLogin_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormLogin.vue */ "./resources/js/components/Login/FormLogin.vue");
+/* harmony import */ var _User_userRegistration_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../User/userRegistration.vue */ "./resources/js/components/User/userRegistration.vue");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    'form-login': _FormLogin_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'form-login': _FormLogin_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'user-registration': _User_userRegistration_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return {};
+    return {
+      login: true
+    };
   },
-  methods: {}
+  methods: {
+    goToRegister: function goToRegister() {
+      this.login = false;
+    },
+    backToLogin: function backToLogin() {
+      this.login = true;
+    }
+  }
 });
 
 /***/ }),
@@ -2479,7 +2489,15 @@ var render = function render() {
         _vm.password = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "small-text"
+  }, [_c("b", [_vm._v("¿No tienes una cuenta? "), _c("a", {
+    on: {
+      click: function click($event) {
+        return _vm.$parent.goToRegister();
+      }
+    }
+  }, [_vm._v("Registrate")]), _vm._v(".")])]), _vm._v(" "), _c("div", {
     staticClass: "button-container"
   }, [_c("button", {
     staticClass: "button-login",
@@ -2499,16 +2517,6 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "title"
   }, [_c("h2", {}, [_vm._v("Iniciar sesión")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "small-text"
-  }, [_vm._v("\n\t\t\t  ¿No tienes una cuenta? "), _c("a", {
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("Registrate")]), _vm._v(".\n\t\t\t")]);
 }];
 render._withStripped = true;
 
@@ -2532,9 +2540,11 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "col-12 row m-0 p-0"
-  }, [_vm._m(0), _vm._v(" "), _c("form-login", {
-    "class": ["col-3", "content-center", "border", "shadow mb-5"]
-  })], 1);
+  }, [_vm._m(0), _vm._v(" "), _vm.login ? _c("form-login", {
+    "class": ["col-3", "content-center", "shadow mb-5"]
+  }) : _vm._e(), _vm._v(" "), !_vm.login ? _c("user-registration", {
+    "class": ["col-3", "content-center"]
+  }) : _vm._e()], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -2695,17 +2705,24 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("div", {
-    staticClass: "container d-flex justify-content-center align-items-center vh-100"
+  return _c("div", {
+    staticClass: "d-flex justify-content-center"
   }, [_c("div", {
-    staticClass: "bg-light p-4 rounded-card shadow",
+    staticClass: "container d-flex justify-content-center align-items-center",
     staticStyle: {
-      width: "450px"
+      height: "20em",
+      width: "30em"
+    }
+  }, [_c("div", {
+    staticClass: "p-4 rounded-card shadow",
+    staticStyle: {
+      width: "50em",
+      "background-color": "white"
     }
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "row mb-2"
   }, [_c("div", {
-    staticClass: "col-12"
+    staticClass: "col-6"
   }, [_c("p", {
     staticClass: "poppins-label"
   }, [_vm._v("Documento")]), _vm._v(" "), _c("input", {
@@ -2717,7 +2734,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "number"
+      type: "number",
+      placeholder: "Ingrese el documento"
     },
     domProps: {
       value: _vm.registerUser.document
@@ -2728,10 +2746,8 @@ var render = function render() {
         _vm.$set(_vm.registerUser, "document", $event.target.value);
       }
     }
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "row mb-2"
-  }, [_c("div", {
-    staticClass: "col-12"
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-6"
   }, [_c("p", {
     staticClass: "poppins-label"
   }, [_vm._v("Nombre")]), _vm._v(" "), _c("input", {
@@ -2743,7 +2759,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "text"
+      type: "text",
+      placeholder: "Ingrese su nombre"
     },
     domProps: {
       value: _vm.registerUser.name
@@ -2757,7 +2774,7 @@ var render = function render() {
   })])]), _vm._v(" "), _c("div", {
     staticClass: "row mb-2"
   }, [_c("div", {
-    staticClass: "col-12"
+    staticClass: "col-6"
   }, [_c("p", {
     staticClass: "poppins-label"
   }, [_vm._v("Telefono")]), _vm._v(" "), _c("input", {
@@ -2769,7 +2786,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "number"
+      type: "number",
+      placeholder: "Ingrese su telefono"
     },
     domProps: {
       value: _vm.registerUser.phone_number
@@ -2780,10 +2798,8 @@ var render = function render() {
         _vm.$set(_vm.registerUser, "phone_number", $event.target.value);
       }
     }
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "row mb-2"
-  }, [_c("div", {
-    staticClass: "col-12"
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-6"
   }, [_c("p", {
     staticClass: "poppins-label"
   }, [_vm._v("Email")]), _vm._v(" "), _c("input", {
@@ -2795,7 +2811,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "email"
+      type: "email",
+      placeholder: "Ingrese su email"
     },
     domProps: {
       value: _vm.registerUser.email
@@ -2807,7 +2824,7 @@ var render = function render() {
       }
     }
   })])]), _vm._v(" "), _c("div", {
-    staticClass: "row mb-4"
+    staticClass: "row mb-2"
   }, [_c("div", {
     staticClass: "col-12"
   }, [_c("p", {
@@ -2821,7 +2838,8 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "password"
+      type: "password",
+      placeholder: "Ingrese una contraseña"
     },
     domProps: {
       value: _vm.registerUser.password
@@ -2837,13 +2855,21 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "col-12"
   }, [_c("button", {
-    staticClass: "btn form-control custom-btn",
+    staticClass: "btn form-control custom-btn poppins-label",
     on: {
       click: function click($event) {
         return _vm.save();
       }
     }
-  }, [_vm._v("Continuar")])])])])])]);
+  }, [_vm._v("Continuar")])])]), _vm._v(" "), _c("div", {
+    staticClass: "small-text"
+  }, [_c("b", [_vm._v("¿Ya tienes una cuenta? "), _c("a", {
+    on: {
+      click: function click($event) {
+        return _vm.$parent.backToLogin();
+      }
+    }
+  }, [_vm._v("Inicia sesión")]), _vm._v(".")])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -2853,8 +2879,8 @@ var staticRenderFns = [function () {
   }, [_c("div", {
     staticClass: "col-12"
   }, [_c("h3", {
-    staticClass: "text-center text-uppercase mb-4"
-  }, [_c("b", [_vm._v(" Crea tu cuenta")])])])]);
+    staticClass: "text-center text-uppercase mb-4 poppins-label"
+  }, [_vm._v("Crea tu cuenta")])])]);
 }];
 render._withStripped = true;
 

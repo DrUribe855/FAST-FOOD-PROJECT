@@ -1,55 +1,52 @@
 <template>
-    <div>
-        <div class="container d-flex justify-content-center align-items-center vh-100">
-            <div class="bg-light p-4 rounded-card shadow" style="width: 450px;">
-            
+    <div class="d-flex justify-content-center">
+        <div class="container d-flex justify-content-center align-items-center" style="height: 20em; width: 30em;">
+            <div class="p-4 rounded-card shadow" style="width: 50em; background-color: white ;">
+
                 <div class="row mt-2">
                     <div class="col-12">
-                        <h3 class="text-center text-uppercase mb-4"><b> Crea tu cuenta</b></h3>
+                        <h3 class="text-center text-uppercase mb-4 poppins-label">Crea tu cuenta</h3>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col-12">
+                    <div class="col-6">
                         <p class="poppins-label">Documento</p>
-                        <input type="number" class="form-control" v-model="registerUser.document">
+                        <input type="number" class="form-control" v-model="registerUser.document" placeholder="Ingrese el documento">
                     </div>
-                </div>
-
-                <div class="row mb-2">
-                    <div class=" col-12">
+                
+                    <div class=" col-6">
                         <p class="poppins-label">Nombre</p>
-                        <input type="text" class="form-control" v-model="registerUser.name">
+                        <input type="text" class="form-control" v-model="registerUser.name" placeholder="Ingrese su nombre">
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col-12">
+                    <div class="col-6">
                         <p class="poppins-label">Telefono</p>
-                        <input type="number" class="form-control" v-model="registerUser.phone_number">
+                        <input type="number" class="form-control" v-model="registerUser.phone_number" placeholder="Ingrese su telefono">
+                    </div>
+            
+                    <div class="col-6">
+                        <p class="poppins-label">Email</p>
+                        <input type="email" class="form-control" v-model="registerUser.email" placeholder="Ingrese su email">
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <div class="col-12">
-                        <p class="poppins-label">Email</p>
-                        <input type="email" class="form-control" v-model="registerUser.email">
-                    </div>
-                </div>
-
-                <div class="row mb-4">
                     <div class="col-12">
                         <p class="poppins-label">Contraseña</p>
-                        <input type="password" class="form-control" v-model="registerUser.password">
+                        <input type="password" class="form-control" v-model="registerUser.password" placeholder="Ingrese una contraseña">
                     </div>
                 </div>
-
                 <div class="row mb-2">
                     <div class="col-12">
-                        <button class="btn form-control custom-btn " @click="save()">Continuar</button>
+                        <button class="btn form-control custom-btn poppins-label" @click="save()">Continuar</button>
                     </div>
                 </div>
-
+                <div class="small-text">
+                  <b>¿Ya tienes una cuenta? <a @click="$parent.backToLogin()">Inicia sesión</a>.</b>
+                </div>
             </div>
         </div>
     </div>

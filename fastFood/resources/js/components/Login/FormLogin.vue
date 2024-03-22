@@ -14,7 +14,7 @@
 				  <input v-model="password" type="password" class="form-control" id="formGroupExampleInput2" placeholder="Ingrese su contraseña">
 				</div>
 				<div class="small-text">
-				  ¿No tienes una cuenta? <a href="#">Registrate</a>.
+				  <b>¿No tienes una cuenta? <a @click="$parent.goToRegister()">Registrate</a>.</b>
 				</div>
 				<div class="button-container">
 				  <button class="button-login" type="button" @click="login()">Ingresar</button>
@@ -40,10 +40,8 @@ export default{
 				password: this.password
 			}).then(response => {
 				console.log(response);
-				if(response.data.message == "Datos incompletos"){
-					this.showAlert("Error", " de los campos no fue diligenciado", "error");
-				}
-
+				window.location.href = 'showProducts';
+				
 			}).catch(error => {
 				console.log("Error en login");
 				console.log(error.response);

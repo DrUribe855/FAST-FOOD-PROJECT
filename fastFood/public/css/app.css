@@ -92,8 +92,9 @@ label {
 }
 
 .custom-btn {
-  background-color: #FABB5C;
+  background-color: #E48700;
   color: white;
+  font-style: bold;
 }
 
 /* Estilo para cambiar el color al hacer hover sobre el botón */
