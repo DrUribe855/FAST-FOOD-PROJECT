@@ -57,19 +57,11 @@
               cols="12"
               md="4"
             >
-            <!-- <v-file-input
-              show-size
-              counter
-              multiple
-              label="File input"
-              v-model="registerProduct.image_url"
-              required
-            ></v-file-input> -->
             <v-file-input
               truncate-length="50"
               label="File input"
-              v-model="selectedFile"
-              @change="captureFileName"
+                v-model="selectedFile"
+                @change="captureFileName"
               required
             ></v-file-input>
             </v-col>

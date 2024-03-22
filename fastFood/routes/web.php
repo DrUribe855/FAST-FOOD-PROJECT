@@ -22,5 +22,6 @@ Route::get('/consult', [ProductController::class, 'viewConsult'])->name('view');
 Route::get('/viewProducts', [ProductController::class, 'viewProducts'])->name('viewP');
 Route::get('/showProducts', [ProductController::class, 'ShowProducts'])->name('showproducts');
 Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
+Route::put("/UpdateProduct/{id}", [ProductController::class, 'updateProducto'])->name('updateProd');
 Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
 

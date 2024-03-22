@@ -89,4 +89,45 @@ class ProductController extends Controller
         ];
         return response()->json($data);
     }
+    public function updateProducto(Request $request, $id)
+    {
+
+        // Definir reglas de validación
+        $rules = [
+            'product_name' => 'required|string',
+            'description' => 'required|string',
+            'quantity' => 'required|int',
+            'price' => 'required|int',
+            'image_url' => 'required|string',
+            'status' => 'required|string',
+            'category_id' => 'required|int',
+        ];
+
+        // Aplicar validación
+        $validator = Validator::make($request->all(), $rules);
+
+        // Verificar si la validación falla
+        if ($validator->fails()) {
+            echo("Error en el tipo de dato");
+            return response()->json(['status' => false, 'error' => $validator->errors()], 400);
+        }
+
+        $product = Product::find($id);
+        $product->product_name = $request->input('product_name');
+        $product->description = $request->input('description');
+        $product->quantity = $request->input('quantity');
+        $product->price = $request->input('price');
+        $product->image_url = $request->input('image_url');
+        $product->status = $request->input('status');
+        $product->category_id = $request->input('category_id');
+        $product->save();
+        
+        $data = [
+            'status' => true,
+            'product' => $product,
+            'id' => $id,
+            'request' => $request,
+        ];
+        return response()->json($data);
+    }
 }
