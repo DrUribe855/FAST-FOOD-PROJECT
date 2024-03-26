@@ -5,8 +5,21 @@
                 <template v-if="!showProduct">
                     <div class="my-5">
                         <v-row justify="end">
+                            <v-text-field
+                                class="mx-4"
+                                v-model="searchText"
+                                label="Buscar"
+                            ></v-text-field>
                             <v-btn 
-                                class="mx-4 mt-2" 
+                                class="mr-4 mt-2" 
+                                depressed
+                                color="#E48700"
+                                dark
+                                @click="search">
+                                Buscar
+                            </v-btn>
+                            <v-btn 
+                                class="mr-4 mt-2" 
                                 depressed
                                 color="#FABB5C"
                                 dark
@@ -66,12 +79,24 @@
                                     <div class="row d-flex justify-content-center mx-5">
                                         <v-card-title>{{ data.category_name }}</v-card-title>
                                         <v-btn
+                                            class="mx-1"
                                             color="#FABB5C"
                                             fab
                                             small
                                             dark
                                             @click="openWindow(data.category_name, data.id)">
                                             <v-icon>mdi-pencil</v-icon>
+                                        </v-btn>
+                                        <v-btn
+                                            class="mx-1"
+                                            fab
+                                            dark
+                                            small
+                                            color="#E48700"
+                                            @click="deleteCategory(data.id)">
+                                            <v-icon dark>
+                                                mdi-minus
+                                            </v-icon>
                                         </v-btn>
                                     </div>
                                 </v-card>
@@ -104,6 +129,7 @@
                 categorie_id: '',
                 category_name: '',
                 categorieIdEdit: '',
+                searchText: '',
             }
         },
 
@@ -148,6 +174,7 @@
                         this.close();
                         this.alert('OK', 'La categoria se registro correctamente', 'success')
                     }).catch(error => {
+                        console.log(error.response);
                         if (error.response.status == 422) {
                             this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
                         }else{
@@ -202,6 +229,30 @@
                     button: "Aceptar",
                 });
             },
+
+            deleteCategory(id){
+                let data = {
+                    'id': id
+                }
+
+                axios.post('/deleteCategorie', data).then(res => {
+                    this.initialize()
+                }).catch(error => {
+                    console.log(error.response);
+                });
+            },
+            
+            search(){
+                let data = {
+                    'name': this.searchText
+                };
+                axios.post('/searchCategorie', data).then(res => {
+                    this.categories = res.data.categories;
+                    this.searchText = '';
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
         },
     }
 

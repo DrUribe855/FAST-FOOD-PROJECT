@@ -32,6 +32,26 @@
                             </div>
                         </div>
                     </div>
+                
+                    <div class="col-md-3 ">
+                        <div class="content">
+                            <h4 class="raleway-font"><b>{{ listProduct.product_name }}</b></h4>
+                            <p class="inter-font">{{ listProduct.description }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        
+                    </div>
+
+                    <div class="col-md-3 text-center">
+                        <div class="mb-2">
+                            <button class="btn custom-btn same-width-btn">Modificar</button>
+                        </div>
+                        <div>
+                            <button class="btn custom-btn same-width-btn">Desactivar</button>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

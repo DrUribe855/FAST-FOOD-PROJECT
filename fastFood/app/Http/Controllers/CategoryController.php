@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categorie;
+use App\Models\Category;
 
-class CategorieController extends Controller
+class CategoryController extends Controller
 {
     public function index(){
-        return view('categorie.categorie');
+        return view('Category.category');
     }
 
     public function getCategorie(){
         $data = [
             'status' => true,
-            'categories' => Categorie::get(),
+            'categories' => Category::get(),
         ];
 
         return response()->json($data);
     }
 
-    public function intertCategorie(Request $request){
+    public function insertCategorie(Request $request){
         $request->validate([
             'category_name' => 'required|alpha',
         ]);
         
-        $categorie = new Categorie($request->all());
+        $categorie = new Category($request->all());
         $categorie->save();
 
         $data = [
@@ -41,13 +41,33 @@ class CategorieController extends Controller
             'category_name' => 'required|alpha',
         ]);
 
-        $update = Categorie::find($request->input('id'));
+        $update = Category::find($request->input('id'));
         $update->category_name = $request->input('category_name');
         $update->save();
 
         $data = [
             'status' => true,
             'update' => $update,
+        ];
+
+        return response()->json($data);
+    }
+
+    public function deleteCategorie(Request $request){
+        $category = Category::find($request->input('id'));
+        $category->delete();
+
+        $data = [
+            'status' => true,
+        ];
+
+        return response()->json($request);
+    }
+
+    public function searchCategorie(Request $request){
+        $data = [
+            'status' => true,
+            'categories' => Category::where('category_name', $request->input('name'))->get(),
         ];
 
         return response()->json($data);

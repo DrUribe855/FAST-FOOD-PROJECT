@@ -7,9 +7,11 @@ Vue.use(Vuetify);
  
 window.Vue = require('vue');
 
+
+// Usuarios
 Vue.component('login', require('./components/Login/Login.vue').default);
-// Categorie
-Vue.component('categorie', require('./components/categorie/Categorie.vue').default);
+// Categories
+Vue.component('categorie', require('./components/Category/Category.vue').default);
 // usuarios
 Vue.component('user-register', require('./components/User/userRegistration.vue').default);
 // Productos
