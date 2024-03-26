@@ -2,30 +2,26 @@
     <div>
         <v-app>
             <v-main>
-                <template>
+                <template v-if="!showProduct">
                     <div class="my-5">
                         <v-row justify="end">
+                            <v-btn 
+                                class="mx-4 mt-2" 
+                                depressed
+                                color="#FABB5C"
+                                dark
+                                @click="openWindow('','')">
+                                Nueva categoria
+                            </v-btn>
                             <v-dialog
                                 v-model="dialog"
                                 persistent
                                 max-width="290">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn 
-                                        class="mx-4 mt-2" 
-                                        depressed
-                                        color="#FABB5C"
-                                        dark
-                                        v-bind="attrs"
-                                        v-on="on"
-                                    >
-                                        Nueva categoria
-                                    </v-btn>
-                                </template>
                                 <v-card>
                                     <v-card-title class="text-h5">
                                         <v-text-field
                                             v-model="category_name"
-                                            label="Regular"
+                                            label="Nombre categoria"
                                         ></v-text-field>
                                     </v-card-title>
                                     <v-card-actions>
@@ -40,7 +36,7 @@
                                         <v-btn
                                             color="#E48700"
                                             text
-                                            @click="saveCategorie"
+                                            @click="typeSave"
                                         >
                                             Aceptar
                                         </v-btn>
@@ -49,23 +45,15 @@
                             </v-dialog>
                         </v-row>
                     </div>
-                    <div class="row position-relative d-flex justify-content-center align-items-center">
+                    <div  class="row position-relative d-flex justify-content-center align-items-center">
                         <div v-for="data in categories" :key="data.id">
-                            <div class="col-12">
+                            <div>
                                 <v-card
-                                    max-width="200"
+                                    height="250"
+                                    width="250"
                                     class="pb-5"
-                                    style="overflow: visible; margin: 4em !important;"
-                                    @click="showProduct(data.id)"
-                                >
-                                    <template slot="progress">
-                                        <v-progress-linear
-                                            color="deep-purple"
-                                            height="10"
-                                            indeterminate
-                                        ></v-progress-linear>
-                                    </template>
-                                    <div class="position-relative d-flex justify-content-center align-items-center m-2"> 
+                                    style="overflow: visible; margin: 4em !important;">
+                                    <div class="position-relative d-flex justify-content-center align-items-center mx-2 my-0 p-0" @click="redirectProduct(data.id)"> 
                                         <div>
                                             <v-img
                                                 height="150"
@@ -75,27 +63,47 @@
                                             ></v-img>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-center">
+                                    <div class="row d-flex justify-content-center mx-5">
                                         <v-card-title>{{ data.category_name }}</v-card-title>
+                                        <v-btn
+                                            color="#FABB5C"
+                                            fab
+                                            small
+                                            dark
+                                            @click="openWindow(data.category_name, data.id)">
+                                            <v-icon>mdi-pencil</v-icon>
+                                        </v-btn>
                                     </div>
                                 </v-card>
                             </div>
                         </div>
                     </div>
                 </template>
+                <product v-if="showProduct" :categorie_id="categorie_id"></product>
             </v-main>
         </v-app>
     </div>
 </template>
 
 <script>
-    
+    import Product from "../Products/Products.vue";
+    import swal from 'sweetalert';
+
     export default {
+        components: {
+            'product': Product,
+        },
+
         data(){
             return {
                 categories: [],
                 dialog: false,
+                dialogEdit: false,
+                showProduct: false,
+                showBtn: false,
+                categorie_id: '',
                 category_name: '',
+                categorieIdEdit: '',
             }
         },
 
@@ -106,38 +114,93 @@
         methods:{
             initialize(){
                 axios.get('/getCategorie').then(res => {
-                    console.log("respuesta");
-                    console.log(res.data);
                     this.categories = res.data.categories;
                 }).catch(error => {
                     console.log(error.response);
                 });
             },
 
-            showProduct(categorie_id){
-
-                console.log(categorie_id);
+            typeSave(){
+                console.log(this.showBtn);
+                if (!this.showBtn) {
+                    this.saveCategorie();
+                }else{
+                    this.saveCategorieEdit();
+                }
+            },
+            
+            redirectProduct(categorie_id){
+                this.showProduct = true;
+                this.categorie_id = categorie_id;
+                console.log(this.categorie_id);
             },
 
             saveCategorie(){
-                console.log(this.category_name);
-                let category_name = {
-                    'category_name': this.category_name
-                };
-
-                axios.post('/newCategorie', category_name).then(res => {
-                    console.log('Respuesta de registro');
-                    console.log(res.data);
-                    this.initialize();
-                    this.close();
-                }).catch(error => {
-                    console.log(error.response);
-                })
+                if (this.category_name != '') {
+                    let category_name = {
+                        'category_name': this.category_name
+                    };
+    
+                    axios.post('/newCategorie', category_name).then(res => {
+                        console.log('Respuesta de registro');
+                        console.log(res.data);
+                        this.initialize();
+                        this.close();
+                        this.alert('OK', 'La categoria se registro correctamente', 'success')
+                    }).catch(error => {
+                        if (error.response.status == 422) {
+                            this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
+                        }else{
+                            this.alert('ERROR', 'Error no identificado', 'error')
+                        }
+                    })
+                }else{
+                    this.alert('ERROR', 'El nombre de la categoria no puede esta vacio', 'error')
+                }
             },
 
             close(){
                 this.category_name = '';
-                this.dialog = false
+                this.dialog = false;
+            },
+
+            openWindow(name, id){
+                if (name != '') {
+                    this.showBtn = true;
+                }else{
+                    this.showBtn = false;
+                }
+                this.categorieIdEdit = id;
+                this.category_name = name;
+                this.dialog = true;
+            },
+
+            saveCategorieEdit(){
+                let data = {
+                    'id': this.categorieIdEdit,
+                    'category_name': this.category_name,
+                }
+                axios.post('/editCategorie', data).then(res =>{
+                    this.initialize();
+                    this.close();
+                    this.alert('OK', 'La categoria se modifico correctamente', 'success')
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
+                    }else{
+                        this.alert('ERROR', 'Error no identificado', 'error')
+                    }
+                    console.log(error.response);
+                });
+            },
+
+            alert(title, text, type){
+                swal({
+                    title: title,
+                    text: text,
+                    icon: type,
+                    button: "Aceptar",
+                });
             },
         },
     }

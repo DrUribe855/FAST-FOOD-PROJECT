@@ -12,7 +12,6 @@ class CategorieController extends Controller
     }
 
     public function getCategorie(){
-
         $data = [
             'status' => true,
             'categories' => Categorie::get(),
@@ -22,6 +21,10 @@ class CategorieController extends Controller
     }
 
     public function intertCategorie(Request $request){
+        $request->validate([
+            'category_name' => 'required|alpha',
+        ]);
+        
         $categorie = new Categorie($request->all());
         $categorie->save();
 
@@ -31,5 +34,22 @@ class CategorieController extends Controller
         ];
 
         return response()->json($request);
+    }
+
+    public function editCategorie(Request $request){
+        $request->validate([
+            'category_name' => 'required|alpha',
+        ]);
+
+        $update = Categorie::find($request->input('id'));
+        $update->category_name = $request->input('category_name');
+        $update->save();
+
+        $data = [
+            'status' => true,
+            'update' => $update,
+        ];
+
+        return response()->json($data);
     }
 }
