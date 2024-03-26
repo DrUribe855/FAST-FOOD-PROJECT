@@ -2186,7 +2186,7 @@ __webpack_require__.r(__webpack_exports__);
         password: this.password
       }).then(function (response) {
         console.log(response);
-        window.location.href = 'showProducts';
+        window.location.href = '/viewProducts';
       })["catch"](function (error) {
         console.log("Error en login");
         console.log(error.response);
