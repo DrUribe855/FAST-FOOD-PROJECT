@@ -7,9 +7,11 @@
                     <div class="row align-items-center">
 
                         <div class="col-md-3">
+                            
                             <div class="image">
                                 <img :src="listProduct.image_url" alt="Imagen">
                             </div>
+
                         </div>
 
                         <div class="col-md-3 ">
@@ -52,6 +54,7 @@
                             <button class="btn custom-btn same-width-btn">Desactivar</button>
                         </div>
                     </div>
+
                 </section>
             </div>
         </div>

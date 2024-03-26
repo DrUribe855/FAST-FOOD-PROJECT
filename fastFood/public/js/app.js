@@ -3023,14 +3023,14 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("v-card", {
-    staticClass: "mx-auto",
+  return _c("div", [_c("v-app", [_c("v-main", [_c("v-container", {
+    staticClass: "mx-auto mt-2 pa-5",
     attrs: {
       "max-width": "800"
     }
   }, [_c("v-card-title", {
-    staticClass: "text-center"
-  }, [_vm._v("\n      Registro de Producto\n    ")]), _vm._v(" "), _c("v-card-text", [_c("v-container", [_c("v-row", [_c("v-col", {
+    staticClass: "justify-center"
+  }, [_vm._v("\n            REGISTRO DE PRODUCTO\n        ")]), _vm._v(" "), _c("v-container", [_c("v-row", [_c("v-col", {
     attrs: {
       cols: "12",
       md: "6"
@@ -3154,7 +3154,7 @@ var render = function render() {
       },
       expression: "registerProduct.category_id"
     }
-  })], 1)], 1)], 1)], 1), _vm._v(" "), _c("v-card-actions", {
+  })], 1)], 1)], 1), _vm._v(" "), _c("v-card-actions", {
     staticClass: "d-flex justify-center"
   }, [_c("v-btn", {
     staticClass: "mr-4 primary-btn",
@@ -3179,7 +3179,7 @@ var render = function render() {
         return _vm.save();
       }
     }
-  }, [_vm._v("Enviar")])], 1)], 1)], 1);
+  }, [_vm._v("Enviar")])], 1)], 1)], 1)], 1)], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -3304,10 +3304,14 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("v-app", [_c("v-main", [_c("v-form", [_c("v-container", [_c("v-row", [_c("v-col", {
+  return _c("div", [_c("v-app", [_c("v-main", [_c("v-container", {
+    staticClass: "mx-auto mt-2 pa-5"
+  }, [_c("v-card-title", {
+    staticClass: "justify-center"
+  }, [_vm._v("\n                    MODIFICAR PRODUCTO\n                ")]), _vm._v(" "), _c("v-container", [_c("v-row", [_c("v-col", {
     attrs: {
       cols: "12",
-      md: "4"
+      md: "6"
     }
   }, [_c("v-text-field", {
     attrs: {
@@ -3324,11 +3328,11 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
       cols: "12",
-      md: "4"
+      md: "6"
     }
   }, [_c("v-text-field", {
     attrs: {
-      label: "descripcion",
+      label: "Descripción",
       required: ""
     },
     model: {
@@ -3341,11 +3345,11 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
       cols: "12",
-      md: "4"
+      md: "6"
     }
   }, [_c("v-text-field", {
     attrs: {
-      label: "quantity",
+      label: "Cantidad",
       required: ""
     },
     model: {
@@ -3358,11 +3362,11 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
       cols: "12",
-      md: "4"
+      md: "6"
     }
   }, [_c("v-text-field", {
     attrs: {
-      label: "price",
+      label: "Precio",
       required: ""
     },
     model: {
@@ -3374,29 +3378,13 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("v-col", {
     attrs: {
-      cols: "12",
-      md: "4"
-    }
-  }, [_c("v-text-field", {
-    attrs: {
-      label: "Status",
-      required: ""
-    },
-    model: {
-      value: _vm.datosEdit.status,
-      callback: function callback($$v) {
-        _vm.$set(_vm.datosEdit, "status", $$v);
-      },
-      expression: "datosEdit.status"
-    }
-  })], 1), _vm._v(" "), _c("v-col", {
-    attrs: {
-      cols: "12",
-      md: "4"
+      cols: "12"
     }
   }, [_c("v-file-input", {
     attrs: {
-      "truncate-length": "15"
+      "truncate-length": "50",
+      label: "File input",
+      required: ""
     },
     on: {
       change: _vm.captureFileName
@@ -3409,18 +3397,33 @@ var render = function render() {
       expression: "selectedFile"
     }
   })], 1), _vm._v(" "), _c("v-col", {
-    staticClass: "d-flex",
     attrs: {
       cols: "12",
-      sm: "6"
+      md: "6"
+    }
+  }, [_c("v-text-field", {
+    attrs: {
+      label: "Estado",
+      required: ""
+    },
+    model: {
+      value: _vm.datosEdit.status,
+      callback: function callback($$v) {
+        _vm.$set(_vm.datosEdit, "status", $$v);
+      },
+      expression: "datosEdit.status"
+    }
+  })], 1), _vm._v(" "), _c("v-col", {
+    attrs: {
+      cols: "12",
+      md: "6"
     }
   }, [_c("v-select", {
     attrs: {
       items: _vm.categories,
-      label: "Categoria",
+      label: "Categoría",
       "item-text": "category_name",
-      "item-value": "id",
-      required: ""
+      "item-value": "id"
     },
     model: {
       value: _vm.datosEdit.category_id,
@@ -3429,16 +3432,21 @@ var render = function render() {
       },
       expression: "datosEdit.category_id"
     }
-  })], 1)], 1)], 1), _vm._v(" "), _c("v-btn", {
+  })], 1)], 1)], 1), _vm._v(" "), _c("v-card-actions", {
+    staticClass: "d-flex justify-center"
+  }, [_c("v-btn", {
+    staticClass: "primary-btn",
     attrs: {
-      elevation: "2"
+      elevation: "2",
+      color: "grey",
+      dark: ""
     },
     on: {
       click: function click($event) {
         return _vm.UpdateProduct();
       }
     }
-  }, [_vm._v("Actualizar")])], 1)], 1)], 1)], 1);
+  }, [_vm._v("Actualizar")])], 1)], 1)], 1)], 1)], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

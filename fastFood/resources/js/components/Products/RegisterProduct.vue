@@ -1,49 +1,44 @@
 <template>
   <div>
-    <v-card class="mx-auto" max-width="800">
-      <v-card-title class="text-center">
-        Registro de Producto
-      </v-card-title>
-      <v-card-text>
-        <v-container>
-          <v-row>
-
-            <v-col cols="12" md="6">
-              <v-text-field v-model="registerProduct.product_name" label="Nombre" required></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6">
-              <v-text-field v-model="registerProduct.description" label="Descripción" required></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6">
-              <v-text-field v-model="registerProduct.quantity" label="Cantidad" required></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6">
-              <v-text-field v-model="registerProduct.price" label="Precio" required></v-text-field>
-            </v-col>
-
-            <v-col cols="12">
-              <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
-            </v-col>
-
-            <v-col cols="12" md="6">
-              <v-text-field v-model="registerProduct.status" label="Estado" required></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6">
-              <v-select v-model="registerProduct.category_id" :items="categories" label="Categoría" item-text="category_name" item-value="id"></v-select>
-            </v-col>
-
-          </v-row>
+    <v-app>
+      <v-main>
+        <v-container class="mx-auto mt-2 pa-5" max-width="800">
+          <v-card-title class="justify-center">
+              REGISTRO DE PRODUCTO
+          </v-card-title>
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="registerProduct.product_name" label="Nombre" required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="registerProduct.description" label="Descripción" required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="registerProduct.quantity" label="Cantidad" required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="registerProduct.price" label="Precio" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="registerProduct.status" label="Estado" required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-select v-model="registerProduct.category_id" :items="categories" label="Categoría" item-text="category_name" item-value="id"></v-select>
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn @click="buttonBack()" elevation="2" color="grey" class="mr-4 primary-btn">Volver</v-btn>
+            <v-btn @click="save()" elevation="2" color="primary" dark class="primary-btn">Enviar</v-btn>
+          </v-card-actions>
         </v-container>
-      </v-card-text>
-      <v-card-actions class="d-flex justify-center">
-        <v-btn @click="buttonBack()" elevation="2" color="grey" class="mr-4 primary-btn">Volver</v-btn>
-        <v-btn @click="save()" elevation="2" color="primary" dark class="primary-btn">Enviar</v-btn>
-      </v-card-actions>
-    </v-card>
+      </v-main>
+    </v-app>
+    
   </div>
 </template>
 
