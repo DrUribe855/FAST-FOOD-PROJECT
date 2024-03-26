@@ -45,3 +45,9 @@
 .same-width-btn {
   width: 60%; /* Establece el ancho al 100% */
 }
+
+.primary-btn {
+  background-color: #1976d2; /* Cambia esto al color primario deseado */
+  color: red;
+  align-self: center;
+}

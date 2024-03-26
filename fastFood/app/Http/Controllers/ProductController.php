@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Categorie;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -43,7 +44,7 @@ class ProductController extends Controller
 
     public function getCategorys()
     {
-        $categories = Categorie::get();
+        $categories = Category::get();
         $data = [
             'status'=> true,
             'categories'=> $categories
