@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -24,4 +25,11 @@ Route::get('/showProducts', [ProductController::class, 'ShowProducts'])->name('s
 Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
 Route::put("/UpdateProduct/{id}", [ProductController::class, 'updateProducto'])->name('updateProd');
 Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
+
+//Ver Formulario de Registrar Categoria
+Route::get('/showRegisterCategory', [CategoryController::class, 'showRegisterCategory']);
+//Registrar La Categoria
+Route::post('/registerCategory', [CategoryController::class, 'registerCategory']);
+
+
 

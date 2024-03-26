@@ -56,7 +56,7 @@
     import swal from 'sweetalert';
     export default {
         data: () => ({
-        valid: false,
+            valid: false,
             registerUser: {
                 id:'',
                 document: '',

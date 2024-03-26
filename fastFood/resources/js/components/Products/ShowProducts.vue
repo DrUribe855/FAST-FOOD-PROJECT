@@ -19,10 +19,6 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            
-                        </div>
-
                         <div class="col-md-3 text-center">
                             <div class="mb-2">
                                 <button class="btn custom-btn same-width-btn" @click="viewUpdate(listProduct)">Modificar</button>
@@ -51,7 +47,6 @@ export default {
     data() {
         return {
             listProducts: [],
-            categories: [],
             formRegister: false,
             updateP: true,
             dataUpdate: {},
