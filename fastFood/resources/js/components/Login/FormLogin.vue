@@ -40,7 +40,7 @@ export default{
 				password: this.password
 			}).then(response => {
 				console.log(response);
-				window.location.href = 'showProducts';
+				window.location.href = '/viewProducts';
 				
 			}).catch(error => {
 				console.log("Error en login");
