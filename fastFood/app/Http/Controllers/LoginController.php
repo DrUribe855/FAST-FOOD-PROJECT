@@ -34,9 +34,7 @@ class LoginController extends Controller
             }else{
                 return response()->json([
                     'status' => false,
-                    'message' => 'Datos incorrectos',
-                    'datos' => $credentials,
-                    'datos2' => $user,
+                    'message' => 'Datos incorrectos'
                 ], 401); // Unauthorized 
             }
         }else{
