@@ -42,7 +42,7 @@ class UserController extends Controller
         $users->phone_number = $request->input('phone_number');
         $users->email = $request->input('email');
         $users->status = $request->input('status');
-        $users->password = $request->input('password');
+        $users->password = bcrypt ($request->input('password'));
         $users->save();
 
         $data = [

@@ -305,6 +305,13 @@ return [
             'url' => '/categorie',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        [
+            'text' => 'Products',
+            'route' => 'viewP',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        
+        
     ],
 
     /*

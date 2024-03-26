@@ -1,144 +1,121 @@
 <template>
-    <div>
-        <v-app>
-            <v-main>
-                <template>
-                    <v-form v-model="valid">
-                        <v-container>
-                            <v-row>
-                                <v-col cols="12" md="4">
-                                    <v-text-field
-                                        v-model="registerUser.document"
-                                        :rules="[v => !!v || 'Document is required']"
-                                        :counter="10"
-                                        label="Documento"
-                                        required
-                                        @input="$v.document.$touch()"
-                                        @blur="$v.document.$touch()"
-                                    ></v-text-field>
-                                </v-col>
+    <div class="d-flex justify-content-center">
+        <div class="container d-flex justify-content-center align-items-center" style="height: 20em; width: 30em;">
+            <div class="p-4 rounded-card shadow" style="width: 50em; background-color: white ;">
 
-                                <v-col cols="12" md="4" >
-                                    <v-text-field
-                                        v-model="registerUser.name"
-                                        :rules="[v => !!v || 'Name is required']"
-                                        label="Nombre"
-                                        required
-                                        @input="$v.name.$touch()"
-                                        @blur="$v.name.$touch()"
-                                    ></v-text-field>
-                                </v-col>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <h3 class="text-center text-uppercase mb-4 poppins-label">Crea tu cuenta</h3>
+                    </div>
+                </div>
 
-                                <v-col cols="12" md="4" >
-                                    <v-text-field
-                                        v-model="registerUser.phone_number"
-                                        :rules="[v => !!v || 'Phone is required']"
-                                        :counter="10"
-                                        label="Telefono - Celular"
-                                        required
-                                        @input="$v.phone_number.$touch()"
-                                        @blur="$v.phone_number.$touch()"
-                                    ></v-text-field>
-                                </v-col>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <p class="poppins-label">Documento</p>
+                        <input type="number" class="form-control" v-model="registerUser.document" placeholder="Ingrese el documento">
+                    </div>
+                
+                    <div class=" col-6">
+                        <p class="poppins-label">Nombre</p>
+                        <input type="text" class="form-control" v-model="registerUser.name" placeholder="Ingrese su nombre">
+                    </div>
+                </div>
 
-                                <v-col cols="12" md="4" >
-                                    <v-text-field
-                                        v-model="registerUser.email"
-                                        :rules="[v => !!v || 'Email is required']"
-                                        label="Email"
-                                        required
-                                        @input="$v.email.$touch()"
-                                        @blur="$v.email.$touch()"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col cols="12" md="4" >
-                                    <v-text-field
-                                        v-model="registerUser.password"
-                                        :rules="[v => !!v || 'Password is required']"
-                                        label="Contraseña"
-                                        required
-                                        @input="$v.password.$touch()"
-                                        @blur="$v.password.$touch()"
-                                    ></v-text-field>
-                                </v-col>
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <p class="poppins-label">Telefono</p>
+                        <input type="number" class="form-control" v-model="registerUser.phone_number" placeholder="Ingrese su telefono">
+                    </div>
+            
+                    <div class="col-6">
+                        <p class="poppins-label">Email</p>
+                        <input type="email" class="form-control" v-model="registerUser.email" placeholder="Ingrese su email">
+                    </div>
+                </div>
 
-                                <v-col cols="12" md="4" >
-                                    <v-btn  depressed color="primary" @click="save()">
-                                    Enviar
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-form>
-                </template>
-            </v-main>
-        </v-app>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <p class="poppins-label">Contraseña</p>
+                        <input type="password" class="form-control" v-model="registerUser.password" placeholder="Ingrese una contraseña">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <button class="btn form-control custom-btn poppins-label" @click="save()">Continuar</button>
+                    </div>
+                </div>
+                <div class="small-text">
+                  <b>¿Ya tienes una cuenta? <a @click="$parent.backToLogin()">Inicia sesión</a>.</b>
+                </div>
+            </div>
+        </div>
     </div>
+    
 </template>
 <script>
-import swal from 'sweetalert';
-export default {
-    data: () => ({
-      valid: false,
-        registerUser: {
-            id:'',
-            document: '',
-            name: '',
-            phone_number: '',
-            email: '',
-            status: 'Activo',
+    import swal from 'sweetalert';
+    export default {
+        data: () => ({
+        valid: false,
+            registerUser: {
+                id:'',
+                document: '',
+                name: '',
+                phone_number: '',
+                email: '',
+                status: 'Activo',
+            },
+        }),
+        methods:{
+            save() { 
+                // Validar campos vacíos
+                if (!this.registerUser.document || !this.registerUser.name || !this.registerUser.phone_number || !this.registerUser.email || !this.registerUser.password) {
+                    swal({
+                        title: "Campos Vacíos",
+                        text: "Por favor complete todos los campos",
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+                    return; // Detener la ejecución del método si hay campos vacíos
+                }
+
+                // Si todos los campos están completos, enviar la solicitud al servidor
+                axios.post('/RegisterUser', this.registerUser)
+                .then(respuesta => {
+                    if (respuesta.data.status) {
+                        console.log("Registro exitoso");
+                        swal({
+                            title: "Registro Exitoso",
+                            text: "El usuario se registró correctamente",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+                        //Limpiar los campos de entrada
+                        this.registerUser.document = null;
+                        this.registerUser.name = null;
+                        this.registerUser.phone_number = null;
+                        this.registerUser.email = null;
+                        this.registerUser.password = null;
+                        //this.desserts = respuesta.data.machineryData;
+                    } else {
+                        console.log("Error:");
+                        swal({
+                            title: "Registro Fallido",
+                            text: "El usuario no fue registrado correctamente",
+                            icon: "error",
+                            button: "Aceptar",
+                        });
+                    }
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        alert("Existe");
+                    }
+                    console.log("Error en servidor");
+                    console.log(error);
+                    console.log(error.response);
+                });
+            },
         },
-    }),
-    methods:{
-    save() { 
-        // Validar campos vacíos
-        if (!this.registerUser.document || !this.registerUser.name || !this.registerUser.phone_number || !this.registerUser.email || !this.registerUser.password) {
-            swal({
-                title: "Campos Vacíos",
-                text: "Por favor complete todos los campos",
-                icon: "error",
-                button: "Aceptar",
-            });
-            return; // Detener la ejecución del método si hay campos vacíos
-        }
 
-        // Si todos los campos están completos, enviar la solicitud al servidor
-        axios.post('/RegisterUser', this.registerUser)
-        .then(respuesta => {
-            if (respuesta.data.status) {
-                console.log("Registro exitoso");
-                swal({
-                    title: "Registro Exitoso",
-                    text: "El usuario se registró correctamente",
-                    icon: "success",
-                    button: "Aceptar",
-                });
-                // Limpiar los campos de entrada
-                this.registerUser.document = null;
-                this.registerUser.name = null;
-                this.registerUser.phone_number = null;
-                this.registerUser.email = null;
-                this.registerUser.password = null;
-                //this.desserts = respuesta.data.machineryData;
-            } else {
-                console.log("Error:");
-                swal({
-                    title: "Registro Fallido",
-                    text: "El usuario no fue registrado correctamente",
-                    icon: "error",
-                    button: "Aceptar",
-                });
-            }
-        }).catch(error => {
-            if (error.response.status == 422) {
-                alert("Existe");
-            }
-            console.log("Error en servidor");
-            console.log(error);
-            console.log(error.response);
-        });
-    },
-},
-
-}
+    }
 </script>
