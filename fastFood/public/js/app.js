@@ -2185,8 +2185,10 @@ __webpack_require__.r(__webpack_exports__);
       showBtn: false,
       categorie_id: '',
       category_name: '',
+      status: '',
       categorieIdEdit: '',
-      searchText: ''
+      searchText: '',
+      items: ['ACTIVO', 'INACTIVO']
     };
   },
   created: function created() {
@@ -2242,7 +2244,7 @@ __webpack_require__.r(__webpack_exports__);
       this.category_name = '';
       this.dialog = false;
     },
-    openWindow: function openWindow(name, id) {
+    openWindow: function openWindow(name, id, status) {
       if (name != '') {
         this.showBtn = true;
       } else {
@@ -2250,13 +2252,15 @@ __webpack_require__.r(__webpack_exports__);
       }
       this.categorieIdEdit = id;
       this.category_name = name;
+      this.status = status;
       this.dialog = true;
     },
     saveCategorieEdit: function saveCategorieEdit() {
       var _this3 = this;
       var data = {
         'id': this.categorieIdEdit,
-        'category_name': this.category_name
+        'category_name': this.category_name,
+        'status': this.status
       };
       axios.post('/editCategorie', data).then(function (res) {
         _this3.initialize();
@@ -2279,25 +2283,14 @@ __webpack_require__.r(__webpack_exports__);
         button: "Aceptar"
       });
     },
-    deleteCategory: function deleteCategory(id) {
-      var _this4 = this;
-      var data = {
-        'id': id
-      };
-      axios.post('/deleteCategorie', data).then(function (res) {
-        _this4.initialize();
-      })["catch"](function (error) {
-        console.log(error.response);
-      });
-    },
     search: function search() {
-      var _this5 = this;
+      var _this4 = this;
       var data = {
         'name': this.searchText
       };
       axios.post('/searchCategorie', data).then(function (res) {
-        _this5.categories = res.data.categories;
-        _this5.searchText = '';
+        _this4.categories = res.data.categories;
+        _this4.searchText = '';
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2863,7 +2856,8 @@ var render = function render() {
     staticClass: "text-h5"
   }, [_c("v-text-field", {
     attrs: {
-      label: "Nombre categoria"
+      label: "Nombre categoria",
+      outlined: ""
     },
     model: {
       value: _vm.category_name,
@@ -2871,6 +2865,19 @@ var render = function render() {
         _vm.category_name = $$v;
       },
       expression: "category_name"
+    }
+  }), _vm._v(" "), _c("v-select", {
+    attrs: {
+      items: _vm.items,
+      label: "Estado",
+      outlined: ""
+    },
+    model: {
+      value: _vm.status,
+      callback: function callback($$v) {
+        _vm.status = $$v;
+      },
+      expression: "status"
     }
   })], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
     attrs: {
@@ -2932,27 +2939,10 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.openWindow(data.category_name, data.id);
+          return _vm.openWindow(data.category_name, data.id, data.status);
         }
       }
-    }, [_c("v-icon", [_vm._v("mdi-pencil")])], 1), _vm._v(" "), _c("v-btn", {
-      staticClass: "mx-1",
-      attrs: {
-        fab: "",
-        dark: "",
-        small: "",
-        color: "#E48700"
-      },
-      on: {
-        click: function click($event) {
-          return _vm.deleteCategory(data.id);
-        }
-      }
-    }, [_c("v-icon", {
-      attrs: {
-        dark: ""
-      }
-    }, [_vm._v("\n                                            mdi-minus\n                                        ")])], 1)], 1)])], 1)]);
+    }, [_c("v-icon", [_vm._v("mdi-pencil")])], 1)], 1)])], 1)]);
   }), 0)] : _vm._e(), _vm._v(" "), _vm.showProduct ? _c("product", {
     attrs: {
       categorie_id: _vm.categorie_id

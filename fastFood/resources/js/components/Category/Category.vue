@@ -35,7 +35,14 @@
                                         <v-text-field
                                             v-model="category_name"
                                             label="Nombre categoria"
+                                            outlined
                                         ></v-text-field>
+                                        <v-select
+                                            v-model="status"
+                                            :items="items"
+                                            label="Estado"
+                                            outlined
+                                        ></v-select>
                                     </v-card-title>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
@@ -84,19 +91,8 @@
                                             fab
                                             small
                                             dark
-                                            @click="openWindow(data.category_name, data.id)">
+                                            @click="openWindow(data.category_name, data.id, data.status)">
                                             <v-icon>mdi-pencil</v-icon>
-                                        </v-btn>
-                                        <v-btn
-                                            class="mx-1"
-                                            fab
-                                            dark
-                                            small
-                                            color="#E48700"
-                                            @click="deleteCategory(data.id)">
-                                            <v-icon dark>
-                                                mdi-minus
-                                            </v-icon>
                                         </v-btn>
                                     </div>
                                 </v-card>
@@ -128,8 +124,13 @@
                 showBtn: false,
                 categorie_id: '',
                 category_name: '',
+                status: '',
                 categorieIdEdit: '',
                 searchText: '',
+                items: [
+                    'ACTIVO',
+                    'INACTIVO',
+                ],
             }
         },
 
@@ -191,7 +192,7 @@
                 this.dialog = false;
             },
 
-            openWindow(name, id){
+            openWindow(name, id, status){
                 if (name != '') {
                     this.showBtn = true;
                 }else{
@@ -199,6 +200,7 @@
                 }
                 this.categorieIdEdit = id;
                 this.category_name = name;
+                this.status = status;
                 this.dialog = true;
             },
 
@@ -206,6 +208,7 @@
                 let data = {
                     'id': this.categorieIdEdit,
                     'category_name': this.category_name,
+                    'status': this.status,
                 }
                 axios.post('/editCategorie', data).then(res =>{
                     this.initialize();
@@ -229,19 +232,6 @@
                     button: "Aceptar",
                 });
             },
-
-            deleteCategory(id){
-                let data = {
-                    'id': id
-                }
-
-                axios.post('/deleteCategorie', data).then(res => {
-                    this.initialize()
-                }).catch(error => {
-                    console.log(error.response);
-                });
-            },
-            
             search(){
                 let data = {
                     'name': this.searchText

@@ -13,7 +13,7 @@ import swal from 'sweetalert';
 import FormLogin from './FormLogin.vue'
 import RegisterForm from '../User/userRegistration.vue'
 
-export default{
+export default {
 	components: {
 		'form-login': FormLogin,
 		'user-registration': RegisterForm,
