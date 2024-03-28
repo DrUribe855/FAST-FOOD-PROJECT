@@ -296,10 +296,21 @@ return [
     'menu' => [
         // Sidebar items:
         [
+            'text' => 'Registrar Usuario',
+            'route' => 'userRegistration',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Categorias',
+            'url' => '/categorie',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        [
             'text' => 'Products',
             'route' => 'viewP',
             'icon' => 'fas fa-fw fa-lock',
         ],
+        
         
     ],
 
