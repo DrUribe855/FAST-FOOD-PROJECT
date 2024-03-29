@@ -29,9 +29,15 @@
                 <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
               </v-col>
 
+<<<<<<< HEAD
               <v-col cols="12" md="6">
                 <v-text-field v-model="registerProduct.status" label="Estado" required></v-text-field>
               </v-col>
+=======
+            <v-col cols="12">
+              <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
+            </v-col>
+>>>>>>> 4b7436d40cbc40f03c52454ee23348be30e60c5c
 
               <v-col class="d-flex" cols="12" sm="6" >
                 <v-select
