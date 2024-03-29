@@ -2572,15 +2572,61 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      listProducts: [],
-      categories: [],
-      formRegister: false,
-      updateP: true,
-      dataUpdate: {}
+      dialog: false,
+      dialogDelete: false,
+      headers: [{
+        text: 'Nombre',
+        value: 'product_name'
+      }, {
+        text: 'Descripción',
+        value: 'description'
+      }, {
+        text: 'Precio',
+        value: 'price'
+      }, {
+        text: 'Categoría',
+        value: 'category_id'
+      }, {
+        text: 'Estado',
+        value: 'status'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }],
+      desserts: [],
+      editedIndex: -1,
+      editedItem: {
+        product_name: '',
+        description: '',
+        price: 0,
+        status: 0,
+        protein: 0
+      },
+      defaultItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0
+      }
     };
   },
   created: function created() {
     this.list();
+  },
+  computed: {
+    formTitle: function formTitle() {
+      return this.editedIndex === -1 ? 'Registro de producto' : 'Modificar producto';
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
+    },
+    dialogDelete: function dialogDelete(val) {
+      val || this.closeDelete();
+    }
   },
   methods: {
     viewUpdate: function viewUpdate(ProductData) {
@@ -2601,12 +2647,50 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/showProducts').then(function (respuesta) {
         console.log("Respuesta del servidor");
         console.log(respuesta.data);
-        _this.listProducts = respuesta.data.showproducts;
+        _this.desserts = respuesta.data.showproducts;
       })["catch"](function (error) {
         console.log("Error en servidor");
         console.log(error);
         console.log(error.response);
       });
+    },
+    editItem: function editItem(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+    deleteItem: function deleteItem(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+    deleteItemConfirm: function deleteItemConfirm() {
+      this.desserts.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+    close: function close() {
+      var _this2 = this;
+      this.dialog = false;
+      this.$nextTick(function () {
+        _this2.editedItem = Object.assign({}, _this2.defaultItem);
+        _this2.editedIndex = -1;
+      });
+    },
+    closeDelete: function closeDelete() {
+      var _this3 = this;
+      this.dialogDelete = false;
+      this.$nextTick(function () {
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
+      });
+    },
+    save: function save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+      } else {
+        this.desserts.push(this.editedItem);
+      }
+      this.close();
     }
   }
 });
@@ -3330,88 +3414,228 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_vm.updateP ? _c("div", [!_vm.formRegister ? _c("button", {
-    staticClass: "btn btn-warning",
+  return _c("v-app", [_c("v-main", [_c("div", [_c("v-data-table", {
+    staticClass: "elevation-1",
     attrs: {
-      type: "submit"
+      headers: _vm.headers,
+      items: _vm.desserts,
+      "sort-by": "calories"
     },
-    on: {
-      click: function click($event) {
-        _vm.formRegister = true;
+    scopedSlots: _vm._u([{
+      key: "top",
+      fn: function fn() {
+        return [_c("v-toolbar", {
+          attrs: {
+            flat: ""
+          }
+        }, [_c("v-toolbar-title", [_vm._v("Listado de productos")]), _vm._v(" "), _c("v-divider", {
+          staticClass: "mx-4",
+          attrs: {
+            inset: "",
+            vertical: ""
+          }
+        }), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("v-dialog", {
+          attrs: {
+            "max-width": "500px"
+          },
+          scopedSlots: _vm._u([{
+            key: "activator",
+            fn: function fn(_ref) {
+              var on = _ref.on,
+                attrs = _ref.attrs;
+              return [_c("v-btn", _vm._g(_vm._b({
+                staticClass: "mb-2",
+                attrs: {
+                  color: "primary",
+                  dark: ""
+                }
+              }, "v-btn", attrs, false), on), [_vm._v("\n                      Registrar producto\n                    ")])];
+            }
+          }]),
+          model: {
+            value: _vm.dialog,
+            callback: function callback($$v) {
+              _vm.dialog = $$v;
+            },
+            expression: "dialog"
+          }
+        }, [_vm._v(" "), _c("v-card", [_c("v-card-title", [_c("span", {
+          staticClass: "text-h5"
+        }, [_vm._v(_vm._s(_vm.formTitle))])]), _vm._v(" "), _c("v-card-text", [_c("v-container", [_c("v-row", [_c("v-col", {
+          attrs: {
+            cols: "12",
+            sm: "6",
+            md: "4"
+          }
+        }, [_c("v-text-field", {
+          attrs: {
+            label: "Nombre"
+          },
+          model: {
+            value: _vm.editedItem.product_name,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "product_name", $$v);
+            },
+            expression: "editedItem.product_name"
+          }
+        })], 1), _vm._v(" "), _c("v-col", {
+          attrs: {
+            cols: "12",
+            sm: "6",
+            md: "4"
+          }
+        }, [_c("v-text-field", {
+          attrs: {
+            label: "Descripción"
+          },
+          model: {
+            value: _vm.editedItem.description,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "description", $$v);
+            },
+            expression: "editedItem.description"
+          }
+        })], 1), _vm._v(" "), _c("v-col", {
+          attrs: {
+            cols: "12",
+            sm: "6",
+            md: "4"
+          }
+        }, [_c("v-text-field", {
+          attrs: {
+            label: "Precio"
+          },
+          model: {
+            value: _vm.editedItem.price,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "price", $$v);
+            },
+            expression: "editedItem.price"
+          }
+        })], 1), _vm._v(" "), _c("v-col", {
+          attrs: {
+            cols: "12",
+            sm: "6",
+            md: "4"
+          }
+        }, [_c("v-text-field", {
+          attrs: {
+            label: "Categoria"
+          },
+          model: {
+            value: _vm.editedItem.category_id,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "category_id", $$v);
+            },
+            expression: "editedItem.category_id"
+          }
+        })], 1), _vm._v(" "), _c("v-col", {
+          attrs: {
+            cols: "12",
+            sm: "6",
+            md: "4"
+          }
+        }, [_c("v-text-field", {
+          attrs: {
+            label: "Estado"
+          },
+          model: {
+            value: _vm.editedItem.status,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "status", $$v);
+            },
+            expression: "editedItem.status"
+          }
+        })], 1)], 1)], 1)], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.close
+          }
+        }, [_vm._v("\n                        Cancelar\n                      ")]), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.save
+          }
+        }, [_vm._v("\n                        Cerrar\n                      ")])], 1)], 1)], 1), _vm._v(" "), _c("v-dialog", {
+          attrs: {
+            "max-width": "500px"
+          },
+          model: {
+            value: _vm.dialogDelete,
+            callback: function callback($$v) {
+              _vm.dialogDelete = $$v;
+            },
+            expression: "dialogDelete"
+          }
+        }, [_c("v-card", [_c("v-card-title", {
+          staticClass: "text-h5"
+        }, [_vm._v("Are you sure you want to delete this item?")]), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.closeDelete
+          }
+        }, [_vm._v("Cancel")]), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.deleteItemConfirm
+          }
+        }, [_vm._v("OK")]), _vm._v(" "), _c("v-spacer")], 1)], 1)], 1)], 1)];
+      },
+      proxy: true
+    }, {
+      key: "item.actions",
+      fn: function fn(_ref2) {
+        var item = _ref2.item;
+        return [_c("v-icon", {
+          staticClass: "mr-2",
+          attrs: {
+            small: ""
+          },
+          on: {
+            click: function click($event) {
+              return _vm.editItem(item);
+            }
+          }
+        }, [_vm._v("\n                mdi-pencil\n              ")]), _vm._v(" "), _c("v-icon", {
+          attrs: {
+            small: ""
+          },
+          on: {
+            click: function click($event) {
+              return _vm.deleteItem(item);
+            }
+          }
+        }, [_vm._v("\n                mdi-delete\n              ")])];
       }
-    }
-  }, [_vm._v("Registrar Producto")]) : _vm._e(), _vm._v(" "), _c("div", _vm._l(_vm.listProducts, function (listProduct) {
-    return !_vm.formRegister ? _c("section", {
-      key: listProduct.id,
-      staticClass: "bg-white p-3 rounded shadow mb-3 mt-3"
-    }, [_c("div", {
-      staticClass: "row align-items-center"
-    }, [_c("div", {
-      staticClass: "col-md-3"
-    }, [_c("div", {
-      staticClass: "image"
-    }, [_c("img", {
-      attrs: {
-        src: listProduct.image_url,
-        alt: "Imagen"
-      }
-    })])]), _vm._v(" "), _c("div", {
-      staticClass: "col-md-3"
-    }, [_c("div", {
-      staticClass: "content"
-    }, [_c("h4", {
-      staticClass: "raleway-font"
-    }, [_c("b", [_vm._v(_vm._s(listProduct.product_name))])]), _vm._v(" "), _c("p", {
-      staticClass: "inter-font"
-    }, [_vm._v(_vm._s(listProduct.description))])])]), _vm._v(" "), _c("div", {
-      staticClass: "col-md-3"
-    }), _vm._v(" "), _c("div", {
-      staticClass: "col-md-3 text-center"
-    }, [_c("div", {
-      staticClass: "mb-2"
-    }, [_c("button", {
-      staticClass: "btn custom-btn same-width-btn",
-      on: {
-        click: function click($event) {
-          return _vm.viewUpdate(listProduct);
-        }
-      }
-    }, [_vm._v("Modificar")])]), _vm._v(" "), _vm._m(0, true)])]), _vm._v(" "), _c("div", {
-      staticClass: "col-md-3"
-    }, [_c("div", {
-      staticClass: "content"
-    }, [_c("h4", {
-      staticClass: "raleway-font"
-    }, [_c("b", [_vm._v(_vm._s(listProduct.product_name))])]), _vm._v(" "), _c("p", {
-      staticClass: "inter-font"
-    }, [_vm._v(_vm._s(listProduct.description))])])]), _vm._v(" "), _c("div", {
-      staticClass: "col-md-3"
-    }), _vm._v(" "), _vm._m(1, true)]) : _vm._e();
-  }), 0)]) : _vm._e(), _vm._v(" "), _vm.formRegister ? _c("formulario") : _vm._e(), _vm._v(" "), !_vm.updateP ? _c("update", {
-    attrs: {
-      ProductData: _vm.dataUpdate
-    }
-  }) : _vm._e()], 1);
+    }, {
+      key: "no-data",
+      fn: function fn() {
+        return [_c("v-btn", {
+          attrs: {
+            color: "primary"
+          },
+          on: {
+            click: _vm.list
+          }
+        }, [_vm._v("\n                Reset\n              ")])];
+      },
+      proxy: true
+    }])
+  })], 1)])], 1);
 };
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", [_c("button", {
-    staticClass: "btn custom-btn same-width-btn"
-  }, [_vm._v("Desactivar")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "col-md-3 text-center"
-  }, [_c("div", {
-    staticClass: "mb-2"
-  }, [_c("button", {
-    staticClass: "btn custom-btn same-width-btn"
-  }, [_vm._v("Modificar")])]), _vm._v(" "), _c("div", [_c("button", {
-    staticClass: "btn custom-btn same-width-btn"
-  }, [_vm._v("Desactivar")])])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
