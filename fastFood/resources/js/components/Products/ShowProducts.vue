@@ -16,6 +16,7 @@
                             <div class="content">
                                 <h4 class="raleway-font"><b>{{ listProduct.product_name }}</b></h4>
                                 <p class="inter-font">{{ listProduct.description }}</p> 
+                                <p>{{ listProduct.category_id }}</p>
                             </div>
                         </div>
 

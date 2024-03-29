@@ -3060,7 +3060,7 @@ var render = function render() {
       staticClass: "raleway-font"
     }, [_c("b", [_vm._v(_vm._s(listProduct.product_name))])]), _vm._v(" "), _c("p", {
       staticClass: "inter-font"
-    }, [_vm._v(_vm._s(listProduct.description))])])]), _vm._v(" "), _c("div", {
+    }, [_vm._v(_vm._s(listProduct.description))]), _vm._v(" "), _c("p", [_vm._v(_vm._s(listProduct.category_id))])])]), _vm._v(" "), _c("div", {
       staticClass: "col-md-3 text-center"
     }, [_c("div", {
       staticClass: "mb-2"

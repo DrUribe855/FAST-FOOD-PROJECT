@@ -20,6 +20,7 @@ Route::post('/editCategorie', [CategoryController::class, 'editCategorie']);
 Route::post('/deleteCategorie', [CategoryController::class, 'deleteCategorie']);
 Route::post('/searchCategorie', [CategoryController::class, 'searchCategorie']);
 
+
 //Ver Formulario de Registro de Usuario
 Route::get('/userRegistration', [UserController::class, 'showRegister'])->name('userRegistration');
 
@@ -34,6 +35,7 @@ Route::get('/showProducts', [ProductController::class, 'ShowProducts'])->name('s
 Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
 Route::put("/UpdateProduct/{id}", [ProductController::class, 'updateProducto'])->name('updateProd');
 Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
+
 
 
 
