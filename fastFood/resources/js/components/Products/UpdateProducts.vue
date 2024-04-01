@@ -2,68 +2,39 @@
     <div>
         <v-app>
             <v-main>
-                <v-form >
+                <v-container class="mx-auto mt-2 pa-5">
+                    <v-card-title class="justify-center">
+                        MODIFICAR PRODUCTO
+                    </v-card-title>
                     <v-container>
                         <v-row>
-                            <v-col cols="12" md="4" >
-                                <v-text-field
-                                v-model="datosEdit.product_name"
-                                    label="Nombre"
-                                    required
-                                ></v-text-field>
+                            <v-col cols="12" md="6">
+                                <v-text-field v-model="datosEdit.product_name" label="Nombre" required></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" >
-                                <v-text-field
-                                    v-model="datosEdit.description"
-                                    label="descripcion"
-                                    required
-                                ></v-text-field>
+                            <v-col cols="12" md="6">
+                                <v-text-field v-model="datosEdit.description" label="Descripción" required></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" >
-                                <v-text-field
-                                    v-model="datosEdit.quantity"
-                                    label="quantity"
-                                    required
-                                ></v-text-field>
+                            <v-col cols="12" md="6">
+                                <v-text-field v-model="datosEdit.quantity" label="Cantidad" required></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" >
-                                <v-text-field
-                                    v-model="datosEdit.price"
-                                    label="price"
-                                    required
-                                ></v-text-field>
+                            <v-col cols="12" md="6">
+                                <v-text-field v-model="datosEdit.price" label="Precio" required></v-text-field>
                             </v-col>
-                            <v-col cols="12" md="4" >
-                                <v-text-field
-                                    v-model="datosEdit.status"
-                                    label="Status"
-                                    required
-                                ></v-text-field>
+                            <v-col cols="12">
+                                <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
                             </v-col>
-                            <v-col cols="12" md="4" >
-                                <v-file-input
-                                    truncate-length="15"
-                                    v-model="selectedFile"
-                                    @change="captureFileName"
-                                ></v-file-input>
+                            <v-col cols="12" md="6">
+                                <v-text-field v-model="datosEdit.status" label="Estado" required></v-text-field>
                             </v-col>
-                            <v-col class="d-flex" cols="12" sm="6" >
-                                <v-select
-                                    v-model="datosEdit.category_id"
-                                    :items="categories"
-                                    label="Categoria"
-                                    item-text="category_name"
-                                    item-value="id"
-                                    required
-                                ></v-select>
+                            <v-col cols="12" md="6">
+                                <v-select v-model="datosEdit.category_id" :items="categories" label="Categoría" item-text="category_name" item-value="id"></v-select>
                             </v-col>
                         </v-row>
                     </v-container>
-                    <v-btn
-                        elevation="2"
-                        @click="UpdateProduct()"
-                    >Actualizar</v-btn>
-                </v-form>
+                    <v-card-actions class="d-flex justify-center">
+                        <v-btn @click="UpdateProduct()" elevation="2" color="grey" dark class="primary-btn">Actualizar</v-btn>
+                    </v-card-actions>
+                </v-container>
             </v-main>
         </v-app>
     </div>
