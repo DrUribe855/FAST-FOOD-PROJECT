@@ -49,6 +49,10 @@
         android:drawableLeft="@drawable/baseline_account_circle_24"
         android:drawablePadding="30dp"
         android:hint="Email"
+<<<<<<< HEAD
+=======
+        android:text="andrey@mail.com"
+>>>>>>> 51386c35fca84340e19ff2ae32f0094f553cfe3d
         android:textColorHint="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +69,10 @@
         android:hint="Password"
         android:textColorHint="@color/white"
         android:textSize="20sp"
+<<<<<<< HEAD
+=======
+        android:text="andrey123"
+>>>>>>> 51386c35fca84340e19ff2ae32f0094f553cfe3d
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:drawableLeft="@drawable/baseline_account_circle_24"

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Preguntas</string>
+    <string name="pregunta1">¿En la programación, un bucle for se utiliza para ejecutar un bloque de código un número específico de veces?</string>
+    <string name="pregunta2">¿El lenguaje de programación Python utiliza la indentación para definir bloques de código en lugar de utilizar llaves como en otros lenguajes?</string>
+    <string name="pregunta3">¿HTML se considera un lenguaje de programación?</string>
+    <string name="pregunta4">¿En programación, una variable puede cambiar su valor durante la ejecución del programa?</string>
+    <string name="pregunta5">¿El operador lógico "AND" devuelve True solo si ambas condiciones que compara son verdaderas? </string>
+    <string name="pregunta6">¿JavaScript es un lenguaje de programación orientado a objetos?</string>
+    <string name="pregunta7">¿Un arreglo en programación es una estructura de datos que puede almacenar elementos de diferentes tipos de datos? </string>
+    <string name="pregunta8">¿El lenguaje de programación C++ es una extensión del lenguaje de programación C? </string>
+    <string name="pregunta9">¿En la programación orientada a objetos, la herencia permite que una clase herede propiedades y métodos de otra clase? </string>
+    <string name="pregunta10">¿El término bug se utiliza comúnmente en programación para referirse a errores o problemas en el código?</string>
+</resources>

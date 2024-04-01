@@ -2221,27 +2221,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Products_Products_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Products/Products.vue */ "./resources/js/components/Products/Products.vue");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_1__);
-
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    'product': _Products_Products_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
   data: function data() {
     return {
-      categories: [],
       dialog: false,
-      dialogEdit: false,
-      showProduct: false,
-      showBtn: false,
-      categorie_id: '',
-      category_name: '',
-      categorieIdEdit: '',
-      searchText: ''
+      dialogDelete: false,
+      headers: [{
+        text: 'Categoria',
+        value: 'category_name'
+      }, {
+        text: '',
+        value: 'actions',
+        sortable: false
+      }],
+      desserts: [],
+      editedIndex: -1,
+      editedItem: {
+        category_name: ''
+      },
+      defaultItem: {
+        Categoria: ''
+      }
     };
+  },
+  computed: {
+    formTitle: function formTitle() {
+      return this.editedIndex === -1 ? 'Nueva categoria' : 'Editar categoria';
+    }
+  },
+  watch: {
+    dialog: function dialog(val) {
+      val || this.close();
+    },
+    dialogDelete: function dialogDelete(val) {
+      val || this.closeDelete();
+    }
   },
   created: function created() {
     this.initialize();
@@ -2250,110 +2264,79 @@ __webpack_require__.r(__webpack_exports__);
     initialize: function initialize() {
       var _this = this;
       axios.get('/getCategorie').then(function (res) {
-        _this.categories = res.data.categories;
+        _this.desserts = res.data.categories;
       })["catch"](function (error) {
         console.log(error.response);
       });
     },
-    typeSave: function typeSave() {
-      console.log(this.showBtn);
-      if (!this.showBtn) {
-        this.saveCategorie();
-      } else {
-        this.saveCategorieEdit();
-      }
+    editItem: function editItem(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
-    redirectProduct: function redirectProduct(categorie_id) {
-      this.showProduct = true;
-      this.categorie_id = categorie_id;
-      console.log(this.categorie_id);
+    deleteItem: function deleteItem(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
     },
-    saveCategorie: function saveCategorie() {
+    deleteItemConfirm: function deleteItemConfirm() {
+      this.desserts.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+    close: function close() {
       var _this2 = this;
-      if (this.category_name != '') {
-        var category_name = {
-          'category_name': this.category_name
-        };
-        axios.post('/newCategorie', category_name).then(function (res) {
+      this.dialog = false;
+      this.$nextTick(function () {
+        _this2.editedItem = Object.assign({}, _this2.defaultItem);
+        _this2.editedIndex = -1;
+      });
+    },
+    closeDelete: function closeDelete() {
+      var _this3 = this;
+      this.dialogDelete = false;
+      this.$nextTick(function () {
+        _this3.editedItem = Object.assign({}, _this3.defaultItem);
+        _this3.editedIndex = -1;
+      });
+    },
+    save: function save() {
+      var _this4 = this;
+      if (this.editedIndex > -1) {
+        console.log("12 ", this.editedItem);
+        axios.post('/editCategorie', this.editedItem).then(function (res) {
+          _this4.initialize();
+          _this4.alert('OK', 'La categoria se modifico correctamente', 'success');
+        })["catch"](function (error) {
+          if (error.response.status == 422) {
+            _this4.alert('ERROR', 'El nombre solo pueden ser letras', 'error');
+          } else {
+            _this4.alert('ERROR', 'Error no identificado', 'error');
+          }
+          console.log(error.response);
+        });
+      } else {
+        axios.post('/newCategorie', this.editedItem).then(function (res) {
           console.log('Respuesta de registro');
           console.log(res.data);
-          _this2.initialize();
-          _this2.close();
-          _this2.alert('OK', 'La categoria se registro correctamente', 'success');
+          _this4.initialize();
+          _this4.alert('OK', 'La categoria se registro correctamente', 'success');
         })["catch"](function (error) {
           console.log(error.response);
           if (error.response.status == 422) {
-            _this2.alert('ERROR', 'El nombre solo pueden ser letras', 'error');
+            _this4.alert('ERROR', 'El nombre solo pueden ser letras', 'error');
           } else {
-            _this2.alert('ERROR', 'Error no identificado', 'error');
+            _this4.alert('ERROR', 'Error no identificado', 'error');
           }
         });
-      } else {
-        this.alert('ERROR', 'El nombre de la categoria no puede esta vacio', 'error');
       }
-    },
-    close: function close() {
-      this.category_name = '';
-      this.dialog = false;
-    },
-    openWindow: function openWindow(name, id) {
-      if (name != '') {
-        this.showBtn = true;
-      } else {
-        this.showBtn = false;
-      }
-      this.categorieIdEdit = id;
-      this.category_name = name;
-      this.dialog = true;
-    },
-    saveCategorieEdit: function saveCategorieEdit() {
-      var _this3 = this;
-      var data = {
-        'id': this.categorieIdEdit,
-        'category_name': this.category_name
-      };
-      axios.post('/editCategorie', data).then(function (res) {
-        _this3.initialize();
-        _this3.close();
-        _this3.alert('OK', 'La categoria se modifico correctamente', 'success');
-      })["catch"](function (error) {
-        if (error.response.status == 422) {
-          _this3.alert('ERROR', 'El nombre solo pueden ser letras', 'error');
-        } else {
-          _this3.alert('ERROR', 'Error no identificado', 'error');
-        }
-        console.log(error.response);
-      });
+      this.close();
     },
     alert: function alert(title, text, type) {
-      sweetalert__WEBPACK_IMPORTED_MODULE_1___default()({
+      swal({
         title: title,
         text: text,
         icon: type,
         button: "Aceptar"
-      });
-    },
-    deleteCategory: function deleteCategory(id) {
-      var _this4 = this;
-      var data = {
-        'id': id
-      };
-      axios.post('/deleteCategorie', data).then(function (res) {
-        _this4.initialize();
-      })["catch"](function (error) {
-        console.log(error.response);
-      });
-    },
-    search: function search() {
-      var _this5 = this;
-      var data = {
-        'name': this.searchText
-      };
-      axios.post('/searchCategorie', data).then(function (res) {
-        _this5.categories = res.data.categories;
-        _this5.searchText = '';
-      })["catch"](function (error) {
-        console.log(error);
       });
     }
   }
@@ -3087,56 +3070,155 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("v-app", [_c("v-main", [!_vm.showProduct ? [_c("div", {
-    staticClass: "my-5"
-  }, [_c("v-row", {
-    attrs: {
-      justify: "end"
+  return _c("div", [_c("v-app", [_c("v-main", [_c("div", {
+    staticClass: "d-flex justify-content-center mt-6",
+    staticStyle: {
+      "max-width": "2000px"
     }
-  }, [_c("v-text-field", {
-    staticClass: "mx-4",
+  }, [[_c("v-data-table", {
+    staticClass: "elevation-1",
     attrs: {
-      label: "Buscar"
+      headers: _vm.headers,
+      items: _vm.desserts,
+      "sort-by": "calories"
     },
-    model: {
-      value: _vm.searchText,
-      callback: function callback($$v) {
-        _vm.searchText = $$v;
+    scopedSlots: _vm._u([{
+      key: "top",
+      fn: function fn() {
+        return [_c("v-toolbar", {
+          attrs: {
+            flat: ""
+          }
+        }, [_c("v-toolbar-title", [_vm._v("CATEGORIAS")]), _vm._v(" "), _c("v-divider", {
+          staticClass: "mx-4",
+          attrs: {
+            inset: "",
+            vertical: ""
+          }
+        }), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("v-dialog", {
+          attrs: {
+            "max-width": "500px"
+          },
+          scopedSlots: _vm._u([{
+            key: "activator",
+            fn: function fn(_ref) {
+              var on = _ref.on,
+                attrs = _ref.attrs;
+              return [_c("v-btn", _vm._g(_vm._b({
+                staticClass: "mb-2",
+                attrs: {
+                  color: "primary",
+                  dark: ""
+                }
+              }, "v-btn", attrs, false), on), [_vm._v("\n                                Nueva categoria\n                            ")])];
+            }
+          }]),
+          model: {
+            value: _vm.dialog,
+            callback: function callback($$v) {
+              _vm.dialog = $$v;
+            },
+            expression: "dialog"
+          }
+        }, [_vm._v(" "), _c("v-card", [_c("v-card-title", [_c("span", {
+          staticClass: "text-h5"
+        }, [_vm._v(_vm._s(_vm.formTitle))])]), _vm._v(" "), _c("v-card-text", [_c("v-container", [_c("v-row", [_c("v-col", [_c("v-text-field", {
+          attrs: {
+            label: "Nombre de categoria"
+          },
+          model: {
+            value: _vm.editedItem.category_name,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "category_name", $$v);
+            },
+            expression: "editedItem.category_name"
+          }
+        })], 1)], 1)], 1)], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.close
+          }
+        }, [_vm._v("\n                                Cancelar\n                            ")]), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.save
+          }
+        }, [_vm._v("\n                                Guardar\n                            ")])], 1)], 1)], 1), _vm._v(" "), _c("v-dialog", {
+          attrs: {
+            "max-width": "500px"
+          },
+          model: {
+            value: _vm.dialogDelete,
+            callback: function callback($$v) {
+              _vm.dialogDelete = $$v;
+            },
+            expression: "dialogDelete"
+          }
+        }, [_c("v-card", [_c("v-card-title", {
+          staticClass: "text-h5"
+        }, [_vm._v("Are you sure you want to delete this item?")]), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.closeDelete
+          }
+        }, [_vm._v("Cancel")]), _vm._v(" "), _c("v-btn", {
+          attrs: {
+            color: "blue darken-1",
+            text: ""
+          },
+          on: {
+            click: _vm.deleteItemConfirm
+          }
+        }, [_vm._v("OK")]), _vm._v(" "), _c("v-spacer")], 1)], 1)], 1)], 1)];
       },
-      expression: "searchText"
-    }
-  }), _vm._v(" "), _c("v-btn", {
-    staticClass: "mr-4 mt-2",
-    attrs: {
-      depressed: "",
-      color: "#E48700",
-      dark: ""
-    },
-    on: {
-      click: _vm.search
-    }
-  }, [_vm._v("\n                            Buscar\n                        ")]), _vm._v(" "), _c("v-btn", {
-    staticClass: "mr-4 mt-2",
-    attrs: {
-      depressed: "",
-      color: "#FABB5C",
-      dark: ""
-    },
-    on: {
-      click: function click($event) {
-        return _vm.openWindow("", "");
+      proxy: true
+    }, {
+      key: "item.actions",
+      fn: function fn(_ref2) {
+        var item = _ref2.item;
+        return [_c("v-icon", {
+          staticClass: "mr-2",
+          attrs: {
+            small: ""
+          },
+          on: {
+            click: function click($event) {
+              return _vm.editItem(item);
+            }
+          }
+        }, [_vm._v("\n                        mdi-pencil\n                    ")]), _vm._v(" "), _c("v-icon", {
+          attrs: {
+            small: ""
+          },
+          on: {
+            click: function click($event) {
+              return _vm.deleteItem(item);
+            }
+          }
+        }, [_vm._v("\n                        mdi-delete\n                    ")])];
       }
-    }
-  }, [_vm._v("\n                            Nueva categoria\n                        ")]), _vm._v(" "), _c("v-dialog", {
-    attrs: {
-      persistent: "",
-      "max-width": "290"
-    },
-    model: {
-      value: _vm.dialog,
-      callback: function callback($$v) {
-        _vm.dialog = $$v;
+    }, {
+      key: "no-data",
+      fn: function fn() {
+        return [_c("v-btn", {
+          attrs: {
+            color: "primary"
+          },
+          on: {
+            click: _vm.initialize
+          }
+        }, [_vm._v("\n                        Reset\n                    ")])];
       },
+<<<<<<< HEAD
       expression: "dialog"
     }
   }, [_c("v-card", [_c("v-card-title", {
@@ -3238,6 +3320,11 @@ var render = function render() {
       categorie_id: _vm.categorie_id
     }
   }) : _vm._e()], 2)], 1)], 1);
+=======
+      proxy: true
+    }])
+  })]], 2)])], 1)], 1);
+>>>>>>> 51386c35fca84340e19ff2ae32f0094f553cfe3d
 };
 var staticRenderFns = [];
 render._withStripped = true;
