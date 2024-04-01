@@ -82,7 +82,7 @@
       },
       getCategorias() {
         axios.get('/ExtractCategories').then(respuesta => {
-          this.categories = respuesta.data.categories;
+          this.categories = respuestas;
         }).catch((error) => {
           console.error('Error al obtener la lista de categorías: ', error);
         });

@@ -78,8 +78,8 @@
                                 md="4"
                               >
                                 <v-text-field
-                                  v-model="editedItem.category_id"
-                                  label="Categoria"
+                                  v-model="editedItem.quantity"
+                                  label="Cantidad"
                                 ></v-text-field>
                               </v-col>
                               <v-col
@@ -87,10 +87,27 @@
                                 sm="6"
                                 md="4"
                               >
-                                <v-text-field
-                                  v-model="editedItem.status"
-                                  label="Estado"
-                                ></v-text-field>
+                                <v-select
+                                label="Categoría"
+                                :items="categories"
+                                v-model="editedItem.category_name"></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                              <v-select
+                                label="Estado"
+                                :items="status"
+                                v-model="editedItem.status"></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                              <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -110,19 +127,8 @@
                             text
                             @click="save"
                           >
-                            Cerrar
+                            Guardar
                           </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                    <v-dialog v-model="dialogDelete" max-width="500px">
-                      <v-card>
-                        <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                          <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                          <v-spacer></v-spacer>
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
@@ -135,12 +141,6 @@
                     @click="editItem(item)"
                   >
                     mdi-pencil
-                  </v-icon>
-                  <v-icon
-                    small
-                    @click="deleteItem(item)"
-                  >
-                    mdi-delete
                   </v-icon>
                 </template>
                 <template v-slot:no-data>
@@ -168,6 +168,12 @@ export default {
     },
     data() {
         return {
+          status: [
+            'Activo',
+            'Inactivo'
+          ],
+          selectedFile: null,
+          categories: [],
           dialog: false,
           dialogDelete: false,
           headers: [
@@ -181,23 +187,20 @@ export default {
           desserts: [],
           editedIndex: -1,
           editedItem: {
+            id: '',
             product_name: '',
             description: '',
             price: 0,
-            status: 0,
-            protein: 0,
-          },
-          defaultItem: {
-            name: '',
-            calories: 0,
-            fat: 0,
-            carbs: 0,
-            protein: 0,
+            quantity: 0,
+            status: '',
+            category: '',
+            image_url: '',
           },
         };
     },
     created() {
         this.list();
+        this.getCategories();
     },
     computed: {
       formTitle () {
@@ -214,6 +217,105 @@ export default {
       },
     },
     methods: {
+        captureFileName() {
+          if (this.selectedFile && this.selectedFile.name) {
+            this.editedItem.image_url = this.selectedFile.name;
+          }
+        },
+        save() { 
+        if(this.formTitle === 'Registro de producto'){
+          // if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || 
+          // !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
+          //   swal({
+          //     title: "Campos Vacíos",
+          //     text: "Por favor complete todos los campos",
+          //     icon: "error",
+          //     button: "Aceptar",
+          //   });
+          //   return;
+          // }
+
+          axios.post('/registerProduct', this.editedItem)
+          .then(respuesta => {
+            if (respuesta.data.status) {
+              console.log("Registro exitoso");
+              console.log(respuesta.data)
+              swal({
+                title: "Registro Exitoso",
+                text: "El producto se registró correctamente",
+                icon: "success",
+                button: "Aceptar",
+              });
+              this.editedItem.product_name = null;
+              this.editedItem.description = null;
+              this.editedItem.quantity = null;
+              this.editedItem.price = null;
+              this.editedItem.image_url = null;
+              this.editedItem.status = null;
+              this.editedItem.category_name = null;
+              this.list();
+              this.close();
+            } else {
+              console.log("Error:");
+              swal({
+                title: "Registro Fallido",
+                text: "El usuario no fue registrado correctamente",
+                icon: "error",
+                button: "Aceptar",
+              });
+            }
+          }).catch(error => {
+            if (error.response.status == 422) {
+              alert("Existe");
+            }
+            console.log("Error en servidor");
+            console.log(error);
+            console.log(error.response);
+          });
+        }else{
+          axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
+              if (respuesta.data.status) {
+                console.log("Actualización exitosa");
+                swal({
+                    title: "Actualizacion Exitoso",
+                    text: "El producto se actualizo correctamente",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+                this.list();
+                this.close();
+              } else {
+                console.log("Error: Los datos están duplicados");
+                swal({
+                    title: "Error",
+                    text: "Error verifica que todo este bien",
+                    icon: "danger",
+                    button: "Aceptar",
+                });
+              }
+            }).catch(error => {
+              swal({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Algo Salio mal! (Existe)',
+              });
+              console.log("Error en servidor");
+              console.log(error);
+              console.log(error.response);
+          });
+        }
+      },
+        getCategories() {
+        axios.get('/ExtractCategories').then(response => {
+          response.data.categories.forEach(category => {
+            this.categories.push(category.category_name);
+          });
+          console.log(this.categories);
+        }).catch((error) => {
+          console.error('Error al obtener la lista de categorías: ', error);
+          console.log(error.response);
+        });
+      },
         viewUpdate(ProductData) {
             console.log("Estoy entrando", ProductData);
             this.dataUpdate = ProductData
@@ -265,15 +367,6 @@ export default {
               this.editedItem = Object.assign({}, this.defaultItem)
               this.editedIndex = -1
             })
-        },
-
-        save () {
-            if (this.editedIndex > -1) {
-              Object.assign(this.desserts[this.editedIndex], this.editedItem)
-            } else {
-              this.desserts.push(this.editedItem)
-            }
-            this.close()
         },
     },
 };
