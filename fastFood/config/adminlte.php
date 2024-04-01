@@ -305,6 +305,11 @@ return [
             'route' => 'viewP',
             'icon' => 'fas fa-fw fa-hotdog',
         ],
+        [
+            'text' => 'Registro de ventas',
+            'url' => '/sellsView',
+            'icon' => 'fas fa-fw fa-bars',
+        ],
         
         
     ],

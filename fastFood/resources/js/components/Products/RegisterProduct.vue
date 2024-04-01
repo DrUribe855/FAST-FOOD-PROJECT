@@ -2,26 +2,21 @@
   <div>
     <v-app>
       <v-main>
-        <v-card class="mx-auto" max-width="800">
-        <v-card-title class="text-center">
-          Registro de Producto
-        </v-card-title>
-        <v-card-text>
+        <v-container class="mx-auto mt-2 pa-5" max-width="800">
+          <v-card-title class="justify-center">
+              REGISTRO DE PRODUCTO
+          </v-card-title>
           <v-container>
             <v-row>
-
               <v-col cols="12" md="6">
                 <v-text-field v-model="registerProduct.product_name" label="Nombre" required></v-text-field>
               </v-col>
-
               <v-col cols="12" md="6">
                 <v-text-field v-model="registerProduct.description" label="Descripción" required></v-text-field>
               </v-col>
-
               <v-col cols="12" md="6">
                 <v-text-field v-model="registerProduct.quantity" label="Cantidad" required></v-text-field>
               </v-col>
-
               <v-col cols="12" md="6">
                 <v-text-field v-model="registerProduct.price" label="Precio" required></v-text-field>
               </v-col>
@@ -29,36 +24,25 @@
                 <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
               </v-col>
 
-<<<<<<< HEAD
-              <v-col cols="12" md="6">
-                <v-text-field v-model="registerProduct.status" label="Estado" required></v-text-field>
-              </v-col>
-=======
             <v-col cols="12">
               <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
             </v-col>
->>>>>>> 4b7436d40cbc40f03c52454ee23348be30e60c5c
-
-              <v-col class="d-flex" cols="12" sm="6" >
-                <v-select
-                    v-model="registerProduct.category_id"
-                    :items="categories"
-                    label="Categoria"
-                    item-text="category_name"
-                    item-value="id"
-                    required
-                ></v-select>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="registerProduct.status" label="Estado" required></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-select v-model="registerProduct.category_id" :items="categories" label="Categoría" item-text="category_name" item-value="id"></v-select>
               </v-col>
             </v-row>
           </v-container>
-        </v-card-text>
-        <v-card-actions class="d-flex justify-center">
-          <v-btn @click="buttonBack()" elevation="2" color="grey" class="mr-4 primary-btn">Volver</v-btn>
-          <v-btn @click="save()" elevation="2" color="primary" dark class="primary-btn">Enviar</v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn @click="buttonBack()" elevation="2" color="grey" class="mr-4 primary-btn">Volver</v-btn>
+            <v-btn @click="save()" elevation="2" color="primary" dark class="primary-btn">Enviar</v-btn>
+          </v-card-actions>
+        </v-container>
       </v-main>
     </v-app>
+    
   </div>
 </template>
 
@@ -97,7 +81,7 @@
       },
       getCategorias() {
         axios.get('/ExtractCategories').then(respuesta => {
-          this.categories = respuesta.data.categories;
+          this.categories = respuestas;
         }).catch((error) => {
           console.error('Error al obtener la lista de categorías: ', error);
         });
