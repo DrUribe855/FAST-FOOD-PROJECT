@@ -96,27 +96,6 @@
                           </v-container>
                         </v-card-text>
 
-<<<<<<< HEAD
-                        <div class="col-md-3 ">
-                            <div class="content">
-                                <h4 class="raleway-font"><b>{{ listProduct.product_name }}</b></h4>
-                                <p class="inter-font">{{ listProduct.description }}</p> 
-                                <p>{{ listProduct.category_id }}</p>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 text-center">
-                            <div class="mb-2">
-                                <button class="btn custom-btn same-width-btn" @click="viewUpdate(listProduct)">Modificar</button>
-                            </div>
-                            <div>
-                                <button class="btn custom-btn same-width-btn">Desactivar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-=======
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn
@@ -173,7 +152,7 @@
                   </v-btn>
                 </template>
               </v-data-table>
->>>>>>> 5a63430634d0f46bc49b6b7329fb332905e9b330
+
             </div>
         </v-main>
     </v-app>
@@ -190,12 +169,6 @@ export default {
     },
     data() {
         return {
-<<<<<<< HEAD
-            listProducts: [],
-            formRegister: false,
-            updateP: true,
-            dataUpdate: {},
-=======
           dialog: false,
           dialogDelete: false,
           headers: [
@@ -222,7 +195,6 @@ export default {
             carbs: 0,
             protein: 0,
           },
->>>>>>> 5a63430634d0f46bc49b6b7329fb332905e9b330
         };
     },
     created() {
