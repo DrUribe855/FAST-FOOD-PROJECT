@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
-use App\Models\Categorie;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
