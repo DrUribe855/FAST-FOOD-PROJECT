@@ -2,258 +2,240 @@
     <div>
         <v-app>
             <v-main>
-                <template v-if="!showProduct">
-                    <div class="my-5">
-                        <v-row justify="end">
-                            <v-text-field
+            <div class="d-flex justify-content-center mt-6" style="max-width: 2000px;">
+                <template>
+                    <v-data-table
+                        :headers="headers"
+                        :items="desserts"
+                        sort-by="calories"
+                        class="elevation-1"
+                    >
+                        <template v-slot:top>
+                        <v-toolbar
+                            flat
+                        >
+                            <v-toolbar-title>CATEGORIAS</v-toolbar-title>
+                            <v-divider
                                 class="mx-4"
-                                v-model="searchText"
-                                label="Buscar"
-                            ></v-text-field>
-                            <v-btn 
-                                class="mr-4 mt-2" 
-                                depressed
-                                color="#E48700"
-                                dark
-                                @click="search">
-                                Buscar
-                            </v-btn>
-                            <v-btn 
-                                class="mr-4 mt-2" 
-                                depressed
-                                color="#FABB5C"
-                                dark
-                                @click="openWindow('','')">
-                                Nueva categoria
-                            </v-btn>
+                                inset
+                                vertical
+                            ></v-divider>
+                            <v-spacer></v-spacer>
                             <v-dialog
-                                v-model="dialog"
-                                persistent
-                                max-width="290">
-                                <v-card>
-                                    <v-card-title class="text-h5">
-                                        <v-text-field
-                                            v-model="category_name"
-                                            label="Nombre categoria"
-                                        ></v-text-field>
-                                    </v-card-title>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                            color="black"
-                                            text
-                                            @click="close"
-                                        >
-                                            Cancelar
-                                        </v-btn>
-                                        <v-btn
-                                            color="#E48700"
-                                            text
-                                            @click="typeSave"
-                                        >
-                                            Aceptar
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-card>
+                            v-model="dialog"
+                                max-width="500px"
+                            >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                color="primary"
+                                dark
+                                class="mb-2"
+                                v-bind="attrs"
+                                v-on="on"
+                                >
+                                    Nueva categoria
+                                </v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title>
+                                    <span class="text-h5">{{ formTitle }}</span>
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-container>
+                                        <v-row>
+                                            <v-col>
+                                                <v-text-field
+                                                v-model="editedItem.category_name"
+                                                label="Nombre de categoria"
+                                                ></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-container>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="close"
+                                >
+                                    Cancelar
+                                </v-btn>
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="save"
+                                >
+                                    Guardar
+                                </v-btn>
+                                </v-card-actions>
+                            </v-card>
                             </v-dialog>
-                        </v-row>
-                    </div>
-                    <div  class="row position-relative d-flex justify-content-center align-items-center">
-                        <div v-for="data in categories" :key="data.id">
-                            <div>
-                                <v-card
-                                    height="250"
-                                    width="250"
-                                    class="pb-5"
-                                    style="overflow: visible; margin: 4em !important;">
-                                    <div class="position-relative d-flex justify-content-center align-items-center mx-2 my-0 p-0" @click="redirectProduct(data.id)"> 
-                                        <div>
-                                            <v-img
-                                                height="150"
-                                                width="150"
-                                                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                                                style="border-radius: 50%; transform: translateY(-25%);"
-                                            ></v-img>
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex justify-content-center mx-5">
-                                        <v-card-title>{{ data.category_name }}</v-card-title>
-                                        <v-btn
-                                            class="mx-1"
-                                            color="#FABB5C"
-                                            fab
-                                            small
-                                            dark
-                                            @click="openWindow(data.category_name, data.id)">
-                                            <v-icon>mdi-pencil</v-icon>
-                                        </v-btn>
-                                        <v-btn
-                                            class="mx-1"
-                                            fab
-                                            dark
-                                            small
-                                            color="#E48700"
-                                            @click="deleteCategory(data.id)">
-                                            <v-icon dark>
-                                                mdi-minus
-                                            </v-icon>
-                                        </v-btn>
-                                    </div>
-                                </v-card>
-                            </div>
-                        </div>
-                    </div>
+                            <v-dialog v-model="dialogDelete" max-width="500px">
+                            <v-card>
+                                <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+                                <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                                <v-spacer></v-spacer>
+                                </v-card-actions>
+                            </v-card>
+                            </v-dialog>
+                        </v-toolbar>
+                        </template>
+                        <template v-slot:item.actions="{ item }">
+                        <v-icon
+                            small
+                            class="mr-2"
+                            @click="editItem(item)"
+                        >
+                            mdi-pencil
+                        </v-icon>
+                        <v-icon
+                            small
+                            @click="deleteItem(item)"
+                        >
+                            mdi-delete
+                        </v-icon>
+                        </template>
+                        <template v-slot:no-data>
+                        <v-btn
+                            color="primary"
+                            @click="initialize"
+                        >
+                            Reset
+                        </v-btn>
+                        </template>
+                    </v-data-table>
                 </template>
-                <product v-if="showProduct" :categorie_id="categorie_id"></product>
+            </div>
             </v-main>
         </v-app>
     </div>
 </template>
 
 <script>
-    import Product from "../Products/Products.vue";
-    import swal from 'sweetalert';
+  export default {
+    data: () => ({
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        { text: 'Categoria', value: 'category_name' },
+        { text: '', value: 'actions', sortable: false },
+      ],
+      desserts: [],
+      editedIndex: -1,
+      editedItem: {
+        category_name: '',
+      },
+      defaultItem: {
+        Categoria: '',
+      },
+    }),
 
-    export default {
-        components: {
-            'product': Product,
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'Nueva categoria' : 'Editar categoria'
+      },
+    },
+
+    watch: {
+      dialog (val) {
+        val || this.close()
+      },
+      dialogDelete (val) {
+        val || this.closeDelete()
+      },
+    },
+
+    created () {
+      this.initialize()
+    },
+
+    methods: {
+      initialize(){
+            axios.get('/getCategorie').then(res => {
+                this.desserts = res.data.categories;
+            }).catch(error => {
+                console.log(error.response);
+            });
         },
 
-        data(){
-            return {
-                categories: [],
-                dialog: false,
-                dialogEdit: false,
-                showProduct: false,
-                showBtn: false,
-                categorie_id: '',
-                category_name: '',
-                categorieIdEdit: '',
-                searchText: '',
-            }
-        },
+      editItem (item) {
+        this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
 
-        created(){
-            this.initialize();
-        },
+      deleteItem (item) {
+        this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+      },
 
-        methods:{
-            initialize(){
-                axios.get('/getCategorie').then(res => {
-                    this.categories = res.data.categories;
-                }).catch(error => {
-                    console.log(error.response);
-                });
-            },
+      deleteItemConfirm () {
+        this.desserts.splice(this.editedIndex, 1)
+        this.closeDelete()
+      },
 
-            typeSave(){
-                console.log(this.showBtn);
-                if (!this.showBtn) {
-                    this.saveCategorie();
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+
+      closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+
+    save () {
+        if (this.editedIndex > -1) {
+            console.log("12 ",this.editedItem);
+            axios.post('/editCategorie', this.editedItem).then(res =>{
+                this.initialize();
+                this.alert('OK', 'La categoria se modifico correctamente', 'success')
+            }).catch(error => {
+                if (error.response.status == 422) {
+                    this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
                 }else{
-                    this.saveCategorieEdit();
+                    this.alert('ERROR', 'Error no identificado', 'error')
                 }
-            },
-            
-            redirectProduct(categorie_id){
-                this.showProduct = true;
-                this.categorie_id = categorie_id;
-                console.log(this.categorie_id);
-            },
-
-            saveCategorie(){
-                if (this.category_name != '') {
-                    let category_name = {
-                        'category_name': this.category_name
-                    };
-    
-                    axios.post('/newCategorie', category_name).then(res => {
-                        console.log('Respuesta de registro');
-                        console.log(res.data);
-                        this.initialize();
-                        this.close();
-                        this.alert('OK', 'La categoria se registro correctamente', 'success')
-                    }).catch(error => {
-                        console.log(error.response);
-                        if (error.response.status == 422) {
-                            this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
-                        }else{
-                            this.alert('ERROR', 'Error no identificado', 'error')
-                        }
-                    })
+                console.log(error.response);
+            });
+        } else {
+            axios.post('/newCategorie', this.editedItem).then(res => {
+                console.log('Respuesta de registro');
+                console.log(res.data);
+                this.initialize();
+                this.alert('OK', 'La categoria se registro correctamente', 'success')
+            }).catch(error => {
+                console.log(error.response);
+                if (error.response.status == 422) {
+                    this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
                 }else{
-                    this.alert('ERROR', 'El nombre de la categoria no puede esta vacio', 'error')
+                    this.alert('ERROR', 'Error no identificado', 'error')
                 }
-            },
-
-            close(){
-                this.category_name = '';
-                this.dialog = false;
-            },
-
-            openWindow(name, id){
-                if (name != '') {
-                    this.showBtn = true;
-                }else{
-                    this.showBtn = false;
-                }
-                this.categorieIdEdit = id;
-                this.category_name = name;
-                this.dialog = true;
-            },
-
-            saveCategorieEdit(){
-                let data = {
-                    'id': this.categorieIdEdit,
-                    'category_name': this.category_name,
-                }
-                axios.post('/editCategorie', data).then(res =>{
-                    this.initialize();
-                    this.close();
-                    this.alert('OK', 'La categoria se modifico correctamente', 'success')
-                }).catch(error => {
-                    if (error.response.status == 422) {
-                        this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
-                    }else{
-                        this.alert('ERROR', 'Error no identificado', 'error')
-                    }
-                    console.log(error.response);
-                });
-            },
-
-            alert(title, text, type){
-                swal({
-                    title: title,
-                    text: text,
-                    icon: type,
-                    button: "Aceptar",
-                });
-            },
-
-            deleteCategory(id){
-                let data = {
-                    'id': id
-                }
-
-                axios.post('/deleteCategorie', data).then(res => {
-                    this.initialize()
-                }).catch(error => {
-                    console.log(error.response);
-                });
-            },
-            
-            search(){
-                let data = {
-                    'name': this.searchText
-                };
-                axios.post('/searchCategorie', data).then(res => {
-                    this.categories = res.data.categories;
-                    this.searchText = '';
-                }).catch(error => {
-                    console.log(error);
-                });
-            }
-        },
-    }
-
+            })
+        }
+        this.close()
+    },
+    alert(title, text, type){
+        swal({
+            title: title,
+            text: text,
+            icon: type,
+            button: "Aceptar",
+        });
+    },
+    },
+  }
 </script>
