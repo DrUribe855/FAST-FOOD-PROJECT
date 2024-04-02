@@ -37,6 +37,8 @@ Route::get('/showProducts', [ProductController::class, 'ShowProducts'])->name('s
 Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
 Route::put("/UpdateProduct/{id}", [ProductController::class, 'updateProducto'])->name('updateProd');
 Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
+Route::get('/consultCategory', [ProductController::class, 'consultIndivualCategory']);
+
 
 // Registro de ventas
 Route::get('/sellsView', [BillController::class, 'billsView']);

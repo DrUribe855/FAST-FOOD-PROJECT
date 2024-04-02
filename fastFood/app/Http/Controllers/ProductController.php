@@ -141,4 +141,15 @@ class ProductController extends Controller
         ];
         return response()->json($data);
     }
+
+    public function consultIndivualCategory($id)
+    {
+        $consult_category = Category::find($id);
+        $name = $consult_category->category_name;
+        $data = [
+            'status' => true,
+            'name' => $name,
+        ];
+        return response()->json($data);
+    }
 }

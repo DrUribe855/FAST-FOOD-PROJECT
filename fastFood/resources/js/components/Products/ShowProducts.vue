@@ -160,12 +160,9 @@
 </template>
 
 <script>
-import RegisterProduct from "./RegisterProduct.vue";
-import UpdateProducts from "./UpdateProducts.vue";
 export default {
     components: {
-        'formulario': RegisterProduct,
-        'update': UpdateProducts,
+        
     },
     data() {
         return {
@@ -234,7 +231,7 @@ export default {
           console.log(this.editedItem.category_name)
         if(this.formTitle === 'Registro de producto'){
           if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || 
-          !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_id) {
+          !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_name) {
             swal({
               title: "Campos Vacíos",
               text: "Por favor complete todos los campos",
@@ -351,10 +348,11 @@ export default {
                 console.log(error.response);
             });
         },
-        editItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialog = true
+        editItem(item) {
+          this.editedIndex = this.desserts.indexOf(item);
+          this.editedItem = Object.assign({}, item);
+          console.log("Este soy yo ", this.editedItem); // Imprimir editedItem en la consola
+          this.dialog = true;
         },
         deleteItem (item) {
             this.editedIndex = this.desserts.indexOf(item)
