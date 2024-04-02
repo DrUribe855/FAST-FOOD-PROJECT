@@ -39,10 +39,12 @@ class CategoryController extends Controller
     public function editCategorie(Request $request){
         $request->validate([
             'category_name' => 'required|alpha',
+            'status' => 'required',
         ]);
 
         $update = Category::find($request->input('id'));
         $update->category_name = $request->input('category_name');
+        $update->status = $request->input('status');
         $update->save();
 
         $data = [

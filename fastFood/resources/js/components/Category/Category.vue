@@ -48,7 +48,16 @@
                                                 <v-text-field
                                                 v-model="editedItem.category_name"
                                                 label="Nombre de categoria"
+                                                outlined
                                                 ></v-text-field>
+                                            </v-col>
+                                            <v-col>
+                                                <v-select
+                                                    v-model="editedItem.status"
+                                                    :items="items"
+                                                    label="Estado"
+                                                    outlined
+                                                ></v-select>  
                                             </v-col>
                                         </v-row>
                                     </v-container>
@@ -124,16 +133,23 @@
       dialogDelete: false,
       headers: [
         { text: 'Categoria', value: 'category_name' },
+        { text: 'Estado', value: 'status' },
         { text: '', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
         category_name: '',
+        status: '',
       },
       defaultItem: {
         Categoria: '',
       },
+      items: [
+        'Activo',
+        'Inactivo',
+        // You can add more items here
+      ],
     }),
 
     computed: {

@@ -2230,6 +2230,9 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Categoria',
         value: 'category_name'
       }, {
+        text: 'Estado',
+        value: 'status'
+      }, {
         text: '',
         value: 'actions',
         sortable: false
@@ -2237,11 +2240,15 @@ __webpack_require__.r(__webpack_exports__);
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        category_name: ''
+        category_name: '',
+        status: ''
       },
       defaultItem: {
         Categoria: ''
-      }
+      },
+      items: ['Activo', 'Inactivo'
+      // You can add more items here
+      ]
     };
   },
   computed: {
@@ -3132,7 +3139,8 @@ var render = function render() {
           staticClass: "text-h5"
         }, [_vm._v(_vm._s(_vm.formTitle))])]), _vm._v(" "), _c("v-card-text", [_c("v-container", [_c("v-row", [_c("v-col", [_c("v-text-field", {
           attrs: {
-            label: "Nombre de categoria"
+            label: "Nombre de categoria",
+            outlined: ""
           },
           model: {
             value: _vm.editedItem.category_name,
@@ -3140,6 +3148,19 @@ var render = function render() {
               _vm.$set(_vm.editedItem, "category_name", $$v);
             },
             expression: "editedItem.category_name"
+          }
+        })], 1), _vm._v(" "), _c("v-col", [_c("v-select", {
+          attrs: {
+            items: _vm.items,
+            label: "Estado",
+            outlined: ""
+          },
+          model: {
+            value: _vm.editedItem.status,
+            callback: function callback($$v) {
+              _vm.$set(_vm.editedItem, "status", $$v);
+            },
+            expression: "editedItem.status"
           }
         })], 1)], 1)], 1)], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
           attrs: {
