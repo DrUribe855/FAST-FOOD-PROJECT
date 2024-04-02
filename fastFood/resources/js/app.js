@@ -17,6 +17,8 @@ Vue.component('user-register', require('./components/User/userRegistration.vue')
 // Productos
 Vue.component('consult-product', require('./components/Products/Products.vue').default);
 Vue.component('show-products', require('./components/Products/ShowProducts.vue').default);
+// Ventas
+Vue.component('bills', require('./components/Bills/Bills.vue').default);
 
 
 const app = new Vue({

@@ -1,66 +1,161 @@
 <template>
-    <div>
-        <div v-if="updateP">
-            <button v-if="!formRegister" type="submit" class="btn btn-warning" @click="formRegister=true">Registrar Producto</button>
+    <v-app>
+        <v-main>
             <div>
-                <section v-if="!formRegister" class="bg-white p-3 rounded shadow mb-3 mt-3" v-for="listProduct in listProducts" :key="listProduct.id">
-                    <div class="row align-items-center">
+              <v-data-table
+                :headers="headers"
+                :items="desserts"
+                sort-by="calories"
+                class="elevation-1"
+              >
+                <template v-slot:top>
+                  <v-toolbar
+                    flat
+                  >
+                    <v-toolbar-title>Listado de productos</v-toolbar-title>
+                    <v-divider
+                      class="mx-4"
+                      inset
+                      vertical
+                    ></v-divider>
+                    <v-spacer></v-spacer>
+                    <v-dialog
+                      v-model="dialog"
+                      max-width="500px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="primary"
+                          dark
+                          class="mb-2"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          Registrar producto
+                        </v-btn>
+                      </template>
+                      <v-card>
+                        <v-card-title>
+                          <span class="text-h5">{{ formTitle }}</span>
+                        </v-card-title>
 
-                        <div class="col-md-3">
-                            
-                            <div class="image">
-                                <img :src="listProduct.image_url" alt="Imagen">
-                            </div>
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                                <v-text-field
+                                  v-model="editedItem.product_name"
+                                  label="Nombre"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                                <v-text-field
+                                  v-model="editedItem.description"
+                                  label="Descripción"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                                <v-text-field
+                                  v-model="editedItem.price"
+                                  label="Precio"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                                <v-text-field
+                                  v-model="editedItem.quantity"
+                                  label="Cantidad"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                                <v-select
+                                label="Categoría"
+                                :items="categories"
+                                v-model="editedItem.category_name"></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                              <v-select
+                                label="Estado"
+                                :items="status"
+                                v-model="editedItem.status"></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="4"
+                              >
+                              <v-file-input truncate-length="50" label="File input" v-model="selectedFile" @change="captureFileName" required></v-file-input>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
 
-                        </div>
-
-                        <div class="col-md-3 ">
-                            <div class="content">
-                                <h4 class="raleway-font"><b>{{ listProduct.product_name }}</b></h4>
-                                <p class="inter-font">{{ listProduct.description }}</p> 
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            
-                        </div>
-
-                        <div class="col-md-3 text-center">
-                            <div class="mb-2">
-                                <button class="btn custom-btn same-width-btn" @click="viewUpdate(listProduct)">Modificar</button>
-                            </div>
-                            <div>
-                                <button class="btn custom-btn same-width-btn">Desactivar</button>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="col-md-3 ">
-                        <div class="content">
-                            <h4 class="raleway-font"><b>{{ listProduct.product_name }}</b></h4>
-                            <p class="inter-font">{{ listProduct.description }}</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        
-                    </div>
-
-                    <div class="col-md-3 text-center">
-                        <div class="mb-2">
-                            <button class="btn custom-btn same-width-btn">Modificar</button>
-                        </div>
-                        <div>
-                            <button class="btn custom-btn same-width-btn">Desactivar</button>
-                        </div>
-                    </div>
-
-                </section>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="close"
+                          >
+                            Cancelar
+                          </v-btn>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="save"
+                          >
+                            Guardar
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-toolbar>
+                </template>
+                <template v-slot:item.actions="{ item }">
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="editItem(item)"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                </template>
+                <template v-slot:no-data>
+                  <v-btn
+                    color="primary"
+                    @click="list"
+                  >
+                    Reset
+                  </v-btn>
+                </template>
+              </v-data-table>
             </div>
-        </div>
-        <formulario v-if="formRegister"></formulario>
-        <update v-if="!updateP" :ProductData="dataUpdate"></update>
-    </div>
+        </v-main>
+    </v-app>
+
 </template>
 
 <script>
@@ -73,17 +168,154 @@ export default {
     },
     data() {
         return {
-            listProducts: [],
-            categories: [],
-            formRegister: false,
-            updateP: true,
-            dataUpdate: {},
+          status: [
+            'Activo',
+            'Inactivo'
+          ],
+          selectedFile: null,
+          categories: [],
+          dialog: false,
+          dialogDelete: false,
+          headers: [
+            { text: 'Nombre', value: 'product_name' },
+            { text: 'Descripción', value: 'description' },
+            { text: 'Precio', value: 'price' },
+            { text: 'Categoría', value: 'category_id' },
+            { text: 'Estado', value: 'status' },
+            { text: 'Actions', value: 'actions', sortable: false },
+          ],
+          desserts: [],
+          editedIndex: -1,
+          editedItem: {
+            id: '',
+            product_name: '',
+            description: '',
+            price: 0,
+            quantity: 0,
+            status: '',
+            category: '',
+            image_url: '',
+          },
         };
     },
     created() {
         this.list();
+        this.getCategories();
+    },
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'Registro de producto' : 'Modificar producto'
+      },
+    },
+
+    watch: {
+      dialog (val) {
+        val || this.close()
+      },
+      dialogDelete (val) {
+        val || this.closeDelete()
+      },
     },
     methods: {
+        captureFileName() {
+          if (this.selectedFile && this.selectedFile.name) {
+            this.editedItem.image_url = this.selectedFile.name;
+          }
+        },
+        save() { 
+        if(this.formTitle === 'Registro de producto'){
+          // if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || 
+          // !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
+          //   swal({
+          //     title: "Campos Vacíos",
+          //     text: "Por favor complete todos los campos",
+          //     icon: "error",
+          //     button: "Aceptar",
+          //   });
+          //   return;
+          // }
+
+          axios.post('/registerProduct', this.editedItem)
+          .then(respuesta => {
+            if (respuesta.data.status) {
+              console.log("Registro exitoso");
+              console.log(respuesta.data)
+              swal({
+                title: "Registro Exitoso",
+                text: "El producto se registró correctamente",
+                icon: "success",
+                button: "Aceptar",
+              });
+              this.editedItem.product_name = null;
+              this.editedItem.description = null;
+              this.editedItem.quantity = null;
+              this.editedItem.price = null;
+              this.editedItem.image_url = null;
+              this.editedItem.status = null;
+              this.editedItem.category_name = null;
+              this.list();
+              this.close();
+            } else {
+              console.log("Error:");
+              swal({
+                title: "Registro Fallido",
+                text: "El usuario no fue registrado correctamente",
+                icon: "error",
+                button: "Aceptar",
+              });
+            }
+          }).catch(error => {
+            if (error.response.status == 422) {
+              alert("Existe");
+            }
+            console.log("Error en servidor");
+            console.log(error);
+            console.log(error.response);
+          });
+        }else{
+          axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
+              if (respuesta.data.status) {
+                console.log("Actualización exitosa");
+                swal({
+                    title: "Actualizacion Exitoso",
+                    text: "El producto se actualizo correctamente",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+                this.list();
+                this.close();
+              } else {
+                console.log("Error: Los datos están duplicados");
+                swal({
+                    title: "Error",
+                    text: "Error verifica que todo este bien",
+                    icon: "danger",
+                    button: "Aceptar",
+                });
+              }
+            }).catch(error => {
+              swal({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Algo Salio mal! (Existe)',
+              });
+              console.log("Error en servidor");
+              console.log(error);
+              console.log(error.response);
+          });
+        }
+      },
+        getCategories() {
+        axios.get('/ExtractCategories').then(response => {
+          response.data.categories.forEach(category => {
+            this.categories.push(category.category_name);
+          });
+          console.log(this.categories);
+        }).catch((error) => {
+          console.error('Error al obtener la lista de categorías: ', error);
+          console.log(error.response);
+        });
+      },
         viewUpdate(ProductData) {
             console.log("Estoy entrando", ProductData);
             this.dataUpdate = ProductData
@@ -101,12 +333,40 @@ export default {
             axios.get('/showProducts').then(respuesta => {
                 console.log("Respuesta del servidor");
                 console.log(respuesta.data);
-                this.listProducts = respuesta.data.showproducts;
+                this.desserts = respuesta.data.showproducts;
             }).catch(error => {
                 console.log("Error en servidor");
                 console.log(error);
                 console.log(error.response);
             });
+        },
+        editItem (item) {
+            this.editedIndex = this.desserts.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+            this.dialog = true
+        },
+        deleteItem (item) {
+            this.editedIndex = this.desserts.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+            this.dialogDelete = true
+        },  
+        deleteItemConfirm () {
+            this.desserts.splice(this.editedIndex, 1)
+            this.closeDelete()
+        },  
+        close () {
+            this.dialog = false
+            this.$nextTick(() => {
+              this.editedItem = Object.assign({}, this.defaultItem)
+              this.editedIndex = -1
+            })
+        },
+        closeDelete () {
+            this.dialogDelete = false
+            this.$nextTick(() => {
+              this.editedItem = Object.assign({}, this.defaultItem)
+              this.editedIndex = -1
+            })
         },
     },
 };

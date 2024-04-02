@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\BillController;
 
 
 use App\Http\Controllers\ProductController;
@@ -35,5 +36,8 @@ Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->
 Route::put("/UpdateProduct/{id}", [ProductController::class, 'updateProducto'])->name('updateProd');
 Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
 
+// Registro de ventas
+Route::get('/sellsView', [BillController::class, 'billsView']);
+Route::get('/getBills', [BillController::class, 'getBills']);
 
 
