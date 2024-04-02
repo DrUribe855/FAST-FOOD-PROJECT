@@ -33,7 +33,11 @@ class ProductController extends Controller
 
     public function ShowProducts()
     {
-        $showProducts = Product::get();
+
+
+        $showProducts = Product::whereHas('category')
+                        ->with('category')
+                        ->get();
         $data = [
             'status' => true,
             'showproducts' => $showProducts,

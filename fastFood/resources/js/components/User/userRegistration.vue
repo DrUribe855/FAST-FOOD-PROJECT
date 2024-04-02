@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="small-text">
-                  <b>¿Ya tienes una cuenta? <a @click="$parent.backToLogin()">Inicia sesión</a>.</b>
+                  <b>¿Ya tienes una cuenta? <a class="btn-inicio"@click="$parent.backToLogin()">Inicia sesión</a></b>
                 </div>
             </div>
         </div>
@@ -96,7 +96,11 @@
                         this.registerUser.phone_number = null;
                         this.registerUser.email = null;
                         this.registerUser.password = null;
-                        //this.desserts = respuesta.data.machineryData;
+                        // Retrasar la redirección por 3 segundos
+                        setTimeout(() => {
+                            // Redireccionar a la ruta especificada
+                            window.location.href = '/'; // Redirige a la raíz de tu aplicación
+                        }, 2000);
                     } else {
                         console.log("Error:");
                         swal({

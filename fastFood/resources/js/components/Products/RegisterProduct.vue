@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
   export default {
     data: () => ({
       valid: false,
@@ -98,42 +99,42 @@
           return;
         }
 
-        axios.post('/registerProduct', this.registerProduct)
-        .then(respuesta => {
-          if (respuesta.data.status) {
-            console.log("Registro exitoso");
-            swal({
-              title: "Registro Exitoso",
-              text: "El producto se registró correctamente",
-              icon: "success",
-              button: "Aceptar",
-            });
-            this.registerProduct.product_name = null;
-            this.registerProduct.description = null;
-            this.registerProduct.quantity = null;
-            this.registerProduct.price = null;
-            this.registerProduct.image_url = null;
-            this.registerProduct.status = null;
-            this.registerProduct.category_id = null;
-            this.$parent.backComponent();
-            this.showProducts();
-          } else {
-            console.log("Error:");
-            swal({
-              title: "Registro Fallido",
-              text: "El usuario no fue registrado correctamente",
-              icon: "error",
-              button: "Aceptar",
-            });
-          }
-        }).catch(error => {
-          if (error.response.status == 422) {
-            alert("Existe");
-          }
-          console.log("Error en servidor");
-          console.log(error);
-          console.log(error.response);
-        });
+        // axios.post('/registerProduct', this.registerProduct)
+        // .then(respuesta => {
+        //   if (respuesta.data.status) {
+        //     console.log("Registro exitoso");
+        //     swal({
+        //       title: "Registro Exitoso",
+        //       text: "El producto se registró correctamente",
+        //       icon: "success",
+        //       button: "Aceptar",
+        //     });
+        //     this.registerProduct.product_name = null;
+        //     this.registerProduct.description = null;
+        //     this.registerProduct.quantity = null;
+        //     this.registerProduct.price = null;
+        //     this.registerProduct.image_url = null;
+        //     this.registerProduct.status = null;
+        //     this.registerProduct.category_id = null;
+        //     this.$parent.backComponent();
+        //     this.showProducts();
+        //   } else {
+        //     console.log("Error:");
+        //     swal({
+        //       title: "Registro Fallido",
+        //       text: "El usuario no fue registrado correctamente",
+        //       icon: "error",
+        //       button: "Aceptar",
+        //     });
+        //   }
+        // }).catch(error => {
+        //   if (error.response.status == 422) {
+        //     alert("Existe");
+        //   }
+        //   console.log("Error en servidor");
+        //   console.log(error);
+        //   console.log(error.response);
+        // });
       },
     },
   }

@@ -2493,6 +2493,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_0__);
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2536,9 +2539,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     save: function save() {
-      var _this2 = this;
       if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
-        swal({
+        sweetalert__WEBPACK_IMPORTED_MODULE_0___default()({
           title: "Campos Vacíos",
           text: "Por favor complete todos los campos",
           icon: "error",
@@ -2546,41 +2548,43 @@ __webpack_require__.r(__webpack_exports__);
         });
         return;
       }
-      axios.post('/registerProduct', this.registerProduct).then(function (respuesta) {
-        if (respuesta.data.status) {
-          console.log("Registro exitoso");
-          swal({
-            title: "Registro Exitoso",
-            text: "El producto se registró correctamente",
-            icon: "success",
-            button: "Aceptar"
-          });
-          _this2.registerProduct.product_name = null;
-          _this2.registerProduct.description = null;
-          _this2.registerProduct.quantity = null;
-          _this2.registerProduct.price = null;
-          _this2.registerProduct.image_url = null;
-          _this2.registerProduct.status = null;
-          _this2.registerProduct.category_id = null;
-          _this2.$parent.backComponent();
-          _this2.showProducts();
-        } else {
-          console.log("Error:");
-          swal({
-            title: "Registro Fallido",
-            text: "El usuario no fue registrado correctamente",
-            icon: "error",
-            button: "Aceptar"
-          });
-        }
-      })["catch"](function (error) {
-        if (error.response.status == 422) {
-          alert("Existe");
-        }
-        console.log("Error en servidor");
-        console.log(error);
-        console.log(error.response);
-      });
+
+      // axios.post('/registerProduct', this.registerProduct)
+      // .then(respuesta => {
+      //   if (respuesta.data.status) {
+      //     console.log("Registro exitoso");
+      //     swal({
+      //       title: "Registro Exitoso",
+      //       text: "El producto se registró correctamente",
+      //       icon: "success",
+      //       button: "Aceptar",
+      //     });
+      //     this.registerProduct.product_name = null;
+      //     this.registerProduct.description = null;
+      //     this.registerProduct.quantity = null;
+      //     this.registerProduct.price = null;
+      //     this.registerProduct.image_url = null;
+      //     this.registerProduct.status = null;
+      //     this.registerProduct.category_id = null;
+      //     this.$parent.backComponent();
+      //     this.showProducts();
+      //   } else {
+      //     console.log("Error:");
+      //     swal({
+      //       title: "Registro Fallido",
+      //       text: "El usuario no fue registrado correctamente",
+      //       icon: "error",
+      //       button: "Aceptar",
+      //     });
+      //   }
+      // }).catch(error => {
+      //   if (error.response.status == 422) {
+      //     alert("Existe");
+      //   }
+      //   console.log("Error en servidor");
+      //   console.log(error);
+      //   console.log(error.response);
+      // });
     }
   }
 });
@@ -2625,7 +2629,7 @@ __webpack_require__.r(__webpack_exports__);
         value: 'price'
       }, {
         text: 'Categoría',
-        value: 'category_id'
+        value: 'category.category_name'
       }, {
         text: 'Estado',
         value: 'status'
@@ -2643,7 +2647,7 @@ __webpack_require__.r(__webpack_exports__);
         price: 0,
         quantity: 0,
         status: '',
-        category: '',
+        category_id: '',
         image_url: ''
       },
       defaultItem: {
@@ -2680,18 +2684,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     save: function save() {
       var _this = this;
+      console.log(this.editedItem.category_id);
       if (this.formTitle === 'Registro de producto') {
-        // if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || 
-        // !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
-        //   swal({
-        //     title: "Campos Vacíos",
-        //     text: "Por favor complete todos los campos",
-        //     icon: "error",
-        //     button: "Aceptar",
-        //   });
-        //   return;
-        // }
-
+        if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_id) {
+          swal({
+            title: "Campos Vacíos",
+            text: "Por favor complete todos los campos",
+            icon: "error",
+            button: "Aceptar"
+          });
+          return;
+        }
         axios.post('/registerProduct', this.editedItem).then(function (respuesta) {
           if (respuesta.data.status) {
             console.log("Registro exitoso");
@@ -2709,6 +2712,7 @@ __webpack_require__.r(__webpack_exports__);
             _this.editedItem.image_url = null;
             _this.editedItem.status = null;
             _this.editedItem.category_name = null;
+            _this.editedItem.category_id = null; // Restablecer category_id
             _this.list();
             _this.close();
           } else {
@@ -2988,7 +2992,11 @@ __webpack_require__.r(__webpack_exports__);
           _this.registerUser.phone_number = null;
           _this.registerUser.email = null;
           _this.registerUser.password = null;
-          //this.desserts = respuesta.data.machineryData;
+          // Retrasar la redirección por 3 segundos
+          setTimeout(function () {
+            // Redireccionar a la ruta especificada
+            window.location.href = '/'; // Redirige a la raíz de tu aplicación
+          }, 2000);
         } else {
           console.log("Error:");
           sweetalert__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -3218,113 +3226,9 @@ var render = function render() {
           }
         }, [_vm._v("\n                        Reset\n                    ")])];
       },
-<<<<<<< HEAD
-      expression: "dialog"
-    }
-  }, [_c("v-card", [_c("v-card-title", {
-    staticClass: "text-h5"
-  }, [_c("v-text-field", {
-    attrs: {
-      label: "Nombre categoria"
-    },
-    model: {
-      value: _vm.category_name,
-      callback: function callback($$v) {
-        _vm.category_name = $$v;
-      },
-      expression: "category_name"
-    }
-  })], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      color: "black",
-      text: ""
-    },
-    on: {
-      click: _vm.close
-    }
-  }, [_vm._v("\n                                        Cancelar\n                                    ")]), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      color: "#E48700",
-      text: ""
-    },
-    on: {
-      click: _vm.typeSave
-    }
-  }, [_vm._v("\n                                        Aceptar\n                                    ")])], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c("div", {
-    staticClass: "row position-relative d-flex justify-content-center align-items-center"
-  }, _vm._l(_vm.categories, function (data) {
-    return _c("div", {
-      key: data.id
-    }, [_c("div", [_c("v-card", {
-      staticClass: "pb-5",
-      staticStyle: {
-        overflow: "visible",
-        margin: "4em !important"
-      },
-      attrs: {
-        height: "250",
-        width: "250"
-      }
-    }, [_c("div", {
-      staticClass: "position-relative d-flex justify-content-center align-items-center mx-2 my-0 p-0",
-      on: {
-        click: function click($event) {
-          return _vm.redirectProduct(data.id);
-        }
-      }
-    }, [_c("div", [_c("v-img", {
-      staticStyle: {
-        "border-radius": "50%",
-        transform: "translateY(-25%)"
-      },
-      attrs: {
-        height: "150",
-        width: "150",
-        src: "https://cdn.vuetifyjs.com/images/cards/cooking.png"
-      }
-    })], 1)]), _vm._v(" "), _c("div", {
-      staticClass: "row d-flex justify-content-center mx-5"
-    }, [_c("v-card-title", [_vm._v(_vm._s(data.category_name))]), _vm._v(" "), _c("v-btn", {
-      staticClass: "mx-1",
-      attrs: {
-        color: "#FABB5C",
-        fab: "",
-        small: "",
-        dark: ""
-      },
-      on: {
-        click: function click($event) {
-          return _vm.openWindow(data.category_name, data.id);
-        }
-      }
-    }, [_c("v-icon", [_vm._v("mdi-pencil")])], 1), _vm._v(" "), _c("v-btn", {
-      staticClass: "mx-1",
-      attrs: {
-        fab: "",
-        dark: "",
-        small: "",
-        color: "#E48700"
-      },
-      on: {
-        click: function click($event) {
-          return _vm.deleteCategory(data.id);
-        }
-      }
-    }, [_c("v-icon", {
-      attrs: {
-        dark: ""
-      }
-    }, [_vm._v("\n                                            mdi-minus\n                                        ")])], 1)], 1)])], 1)]);
-  }), 0)] : _vm._e(), _vm._v(" "), _vm.showProduct ? _c("product", {
-    attrs: {
-      categorie_id: _vm.categorie_id
-    }
-  }) : _vm._e()], 2)], 1)], 1);
-=======
       proxy: true
     }])
   })]], 2)])], 1)], 1);
->>>>>>> 51386c35fca84340e19ff2ae32f0094f553cfe3d
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -3356,7 +3260,7 @@ var render = function render() {
     attrs: {
       "for": "formGroupExampleInput"
     }
-  }, [_vm._v("Correo electronico")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Correo electrónico")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3367,7 +3271,7 @@ var render = function render() {
     attrs: {
       type: "email",
       id: "formGroupExampleInput",
-      placeholder: "Ingrese su correo electronico"
+      placeholder: "Ingrese su correo electrónico"
     },
     domProps: {
       value: _vm.email
@@ -3410,12 +3314,13 @@ var render = function render() {
   })]), _vm._v(" "), _c("div", {
     staticClass: "small-text"
   }, [_c("b", [_vm._v("¿No tienes una cuenta? "), _c("a", {
+    staticClass: "btn-register",
     on: {
       click: function click($event) {
         return _vm.$parent.goToRegister();
       }
     }
-  }, [_vm._v("Registrate")]), _vm._v(".")])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Regístrate")])])]), _vm._v(" "), _c("div", {
     staticClass: "button-container"
   }, [_c("button", {
     staticClass: "button-login",
@@ -3839,6 +3744,7 @@ var render = function render() {
             md: "4"
           }
         }, [_c("v-select", {
+          key: _vm.editedItem.category_id,
           attrs: {
             label: "Categoría",
             items: _vm.categories
@@ -4286,12 +4192,13 @@ var render = function render() {
   }, [_vm._v("Continuar")])])]), _vm._v(" "), _c("div", {
     staticClass: "small-text"
   }, [_c("b", [_vm._v("¿Ya tienes una cuenta? "), _c("a", {
+    staticClass: "btn-inicio",
     on: {
       click: function click($event) {
         return _vm.$parent.backToLogin();
       }
     }
-  }, [_vm._v("Inicia sesión")]), _vm._v(".")])])])])]);
+  }, [_vm._v("Inicia sesión")])])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

@@ -90,6 +90,7 @@
                                 <v-select
                                 label="Categoría"
                                 :items="categories"
+                                :key="editedItem.category_id"
                                 v-model="editedItem.category_name"></v-select>
                               </v-col>
                               <v-col
@@ -180,7 +181,7 @@ export default {
             { text: 'Nombre', value: 'product_name' },
             { text: 'Descripción', value: 'description' },
             { text: 'Precio', value: 'price' },
-            { text: 'Categoría', value: 'category_id' },
+            { text: 'Categoría', value: 'category.category_name' },
             { text: 'Estado', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
           ],
@@ -193,7 +194,7 @@ export default {
             price: 0,
             quantity: 0,
             status: '',
-            category: '',
+            category_id: '',
             image_url: '',
           },
           defaultItem: {
@@ -230,17 +231,18 @@ export default {
           }
         },
         save() { 
+          console.log(this.editedItem.category_id)
         if(this.formTitle === 'Registro de producto'){
-          // if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || 
-          // !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
-          //   swal({
-          //     title: "Campos Vacíos",
-          //     text: "Por favor complete todos los campos",
-          //     icon: "error",
-          //     button: "Aceptar",
-          //   });
-          //   return;
-          // }
+          if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || 
+          !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_id) {
+            swal({
+              title: "Campos Vacíos",
+              text: "Por favor complete todos los campos",
+              icon: "error",
+              button: "Aceptar",
+            });
+            return;
+          }
 
           axios.post('/registerProduct', this.editedItem)
           .then(respuesta => {
@@ -260,6 +262,7 @@ export default {
               this.editedItem.image_url = null;
               this.editedItem.status = null;
               this.editedItem.category_name = null;
+              this.editedItem.category_id = null; // Restablecer category_id
               this.list();
               this.close();
             } else {
