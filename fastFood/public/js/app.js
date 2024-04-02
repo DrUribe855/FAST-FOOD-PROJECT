@@ -2307,12 +2307,7 @@ __webpack_require__.r(__webpack_exports__);
           _this4.initialize();
           _this4.alert('OK', 'La categoria se modifico correctamente', 'success');
         })["catch"](function (error) {
-          if (error.response.status == 422) {
-            _this4.alert('ERROR', 'El nombre solo pueden ser letras', 'error');
-          } else {
-            _this4.alert('ERROR', 'Error no identificado', 'error');
-          }
-          console.log(error.response);
+          _this4.alert('ERROR', "Error no identificado codigo de error: ".concat(error.response.status), 'error');
         });
       } else {
         axios.post('/newCategorie', this.editedItem).then(function (res) {
@@ -2321,12 +2316,7 @@ __webpack_require__.r(__webpack_exports__);
           _this4.initialize();
           _this4.alert('OK', 'La categoria se registro correctamente', 'success');
         })["catch"](function (error) {
-          console.log(error.response);
-          if (error.response.status == 422) {
-            _this4.alert('ERROR', 'El nombre solo pueden ser letras', 'error');
-          } else {
-            _this4.alert('ERROR', 'Error no identificado', 'error');
-          }
+          _this4.alert('ERROR', "Error no identificado codigo de error: ".concat(error.response.status), 'error');
         });
       }
       this.close();
