@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
     public function insertCategorie(Request $request){
         $request->validate([
-            'category_name' => 'required|alpha',
+            'category_name' => 'required',
         ]);
         
         $categorie = new Category($request->all());
@@ -38,7 +38,7 @@ class CategoryController extends Controller
 
     public function editCategorie(Request $request){
         $request->validate([
-            'category_name' => 'required|alpha',
+            'category_name' => 'required',
         ]);
 
         $update = Category::find($request->input('id'));

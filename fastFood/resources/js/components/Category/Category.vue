@@ -204,12 +204,7 @@
                 this.initialize();
                 this.alert('OK', 'La categoria se modifico correctamente', 'success')
             }).catch(error => {
-                if (error.response.status == 422) {
-                    this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
-                }else{
-                    this.alert('ERROR', 'Error no identificado', 'error')
-                }
-                console.log(error.response);
+                this.alert('ERROR', `Error no identificado codigo de error: ${error.response.status}`, 'error');
             });
         } else {
             axios.post('/newCategorie', this.editedItem).then(res => {
@@ -218,12 +213,7 @@
                 this.initialize();
                 this.alert('OK', 'La categoria se registro correctamente', 'success')
             }).catch(error => {
-                console.log(error.response);
-                if (error.response.status == 422) {
-                    this.alert('ERROR', 'El nombre solo pueden ser letras', 'error')
-                }else{
-                    this.alert('ERROR', 'Error no identificado', 'error')
-                }
+                this.alert('ERROR', `Error no identificado codigo de error: ${error.response.status}`, 'error');
             })
         }
         this.close()
