@@ -194,7 +194,7 @@ export default {
             price: 0,
             quantity: 0,
             status: '',
-            category_id: '',
+            category_name: '',
             image_url: '',
           },
           defaultItem: {
@@ -231,7 +231,7 @@ export default {
           }
         },
         save() { 
-          console.log(this.editedItem.category_id)
+          console.log(this.editedItem.category_name)
         if(this.formTitle === 'Registro de producto'){
           if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || 
           !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_id) {
@@ -286,6 +286,7 @@ export default {
           axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
               if (respuesta.data.status) {
                 console.log("Actualización exitosa");
+                console.log(respuesta.data),
                 swal({
                     title: "Actualizacion Exitoso",
                     text: "El producto se actualizo correctamente",

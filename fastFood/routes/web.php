@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', [UserController::class, 'index']);
 Route::post('/login', [LoginController::class, 'verifyUserData'])->name('login');
+Route::get('/logout', [LoginController::class, 'logout']);
 
 // Categories
 Route::get('/', [UserController::class, 'index']);

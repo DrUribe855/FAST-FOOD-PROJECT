@@ -2647,7 +2647,7 @@ __webpack_require__.r(__webpack_exports__);
         price: 0,
         quantity: 0,
         status: '',
-        category_id: '',
+        category_name: '',
         image_url: ''
       },
       defaultItem: {
@@ -2684,7 +2684,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     save: function save() {
       var _this = this;
-      console.log(this.editedItem.category_id);
+      console.log(this.editedItem.category_name);
       if (this.formTitle === 'Registro de producto') {
         if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_id) {
           swal({
@@ -2736,7 +2736,7 @@ __webpack_require__.r(__webpack_exports__);
         axios.put("/UpdateProduct/".concat(this.editedItem.id), this.editedItem).then(function (respuesta) {
           if (respuesta.data.status) {
             console.log("Actualización exitosa");
-            swal({
+            console.log(respuesta.data), swal({
               title: "Actualizacion Exitoso",
               text: "El producto se actualizo correctamente",
               icon: "success",
