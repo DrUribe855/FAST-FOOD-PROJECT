@@ -123,21 +123,21 @@ class ProductController extends Controller
         //     return response()->json(['status' => false, 'error' => $validator->errors()], 400);
         // }
 
+        $category = Category::where('category_name', $request->category_name)->first();
+
         $product = Product::find($id);
-        $product->product_name = $request->input('product_name');
-        $product->description = $request->input('description');
-        $product->quantity = $request->input('quantity');
-        $product->price = $request->input('price');
-        $product->image_url = $request->input('image_url');
-        $product->status = $request->input('status');
-        $product->category_id = $request->input('category_id');
+        $product->product_name = $request->product_name;
+        $product->description = $request->description;
+        $product->quantity = $request->quantity;
+        $product->price = $request->price;
+        $product->image_url = $request->image_url;
+        $product->status = $request->status;
+        $product->category_id = $category->id;
         $product->save();
         
         $data = [
             'status' => true,
             'product' => $product,
-            'id' => $id,
-            'request' => $request,
         ];
         return response()->json($data);
     }

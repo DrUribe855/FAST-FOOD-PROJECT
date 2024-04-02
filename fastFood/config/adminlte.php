@@ -255,7 +255,8 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
+    'logout_method' => 'GET',
+    'logout_route' => '/logout',
     'use_route_url' => false,
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
