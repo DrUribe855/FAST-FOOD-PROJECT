@@ -234,7 +234,7 @@ export default {
           console.log(this.editedItem.category_id)
         if(this.formTitle === 'Registro de producto'){
           if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || 
-          !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_id) {
+          !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_name) {
             swal({
               title: "Campos Vacíos",
               text: "Por favor complete todos los campos",

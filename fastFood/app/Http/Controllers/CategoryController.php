@@ -43,31 +43,12 @@ class CategoryController extends Controller
 
         $update = Category::find($request->input('id'));
         $update->category_name = $request->input('category_name');
+        $update->status = $request->input('status');
         $update->save();
 
         $data = [
             'status' => true,
             'update' => $update,
-        ];
-
-        return response()->json($data);
-    }
-
-    public function deleteCategorie(Request $request){
-        $category = Category::find($request->input('id'));
-        $category->delete();
-
-        $data = [
-            'status' => true,
-        ];
-
-        return response()->json($request);
-    }
-
-    public function searchCategorie(Request $request){
-        $data = [
-            'status' => true,
-            'categories' => Category::where('category_name', $request->input('name'))->get(),
         ];
 
         return response()->json($data);
