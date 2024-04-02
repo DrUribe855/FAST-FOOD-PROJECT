@@ -14,13 +14,11 @@ Route::post('/login', [LoginController::class, 'verifyUserData'])->name('login')
 Route::get('/logout', [LoginController::class, 'logout']);
 
 // Categories
-Route::get('/', [UserController::class, 'index']);
-Route::get('/categorie', [CategoryController::class, 'index']);
-Route::get('/getCategorie', [CategoryController::class, 'getCategorie']);
-Route::post('/newCategorie', [CategoryController::class, 'insertCategorie']);
-Route::post('/editCategorie', [CategoryController::class, 'editCategorie']);
-Route::post('/deleteCategorie', [CategoryController::class, 'deleteCategorie']);
-Route::post('/searchCategorie', [CategoryController::class, 'searchCategorie']);
+Route::get('/categorie', [CategoryController::class, 'index'])->middleware('can: admin.generalShow');
+Route::get('/getCategorie', [CategoryController::class, 'getCategorie'])->middleware('can: admin.generalShow');
+Route::post('/newCategorie', [CategoryController::class, 'insertCategorie'])->middleware('can: admin.insert');
+Route::post('/editCategorie', [CategoryController::class, 'editCategorie'])->middleware('can: admin.update');
+Route::post('/searchCategorie', [CategoryController::class, 'searchCategorie'])->middleware('can: admin.generalShow');
 
 
 //Ver Formulario de Registro de Usuario
@@ -37,12 +35,12 @@ Route::get('/showProducts', [ProductController::class, 'ShowProducts'])->name('s
 Route::post('/registerProduct', [ProductController::class, 'registerProduct'])->name('registerProduct');
 Route::put("/UpdateProduct/{id}", [ProductController::class, 'updateProducto'])->name('updateProd');
 Route::get('/ExtractCategories', [ProductController::class, 'getCategorys']);
-Route::get('/consultCategory', [ProductController::class, 'consultIndivualCategory']);
+Route::get('/consultCategory/{id}', [ProductController::class, 'consultIndivualCategory']);
 
 
 // Registro de ventas
-Route::get('/sellsView', [BillController::class, 'billsView']);
-Route::get('/getBills', [BillController::class, 'getBills']);
+Route::get('/sellsView', [BillController::class, 'billsView'])->middleware('can: admin.generalShow');
+Route::get('/getBills', [BillController::class, 'getBills'])->middleware('can: admin.generalShow');
 
 
 

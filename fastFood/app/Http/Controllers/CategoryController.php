@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
     public function insertCategorie(Request $request){
         $request->validate([
-            'category_name' => 'required|alpha',
+            'category_name' => 'required',
         ]);
         
         $categorie = new Category($request->all());
@@ -38,8 +38,7 @@ class CategoryController extends Controller
 
     public function editCategorie(Request $request){
         $request->validate([
-            'category_name' => 'required|alpha',
-            'status' => 'required',
+            'category_name' => 'required',
         ]);
 
         $update = Category::find($request->input('id'));
@@ -50,26 +49,6 @@ class CategoryController extends Controller
         $data = [
             'status' => true,
             'update' => $update,
-        ];
-
-        return response()->json($data);
-    }
-
-    public function deleteCategorie(Request $request){
-        $category = Category::find($request->input('id'));
-        $category->delete();
-
-        $data = [
-            'status' => true,
-        ];
-
-        return response()->json($request);
-    }
-
-    public function searchCategorie(Request $request){
-        $data = [
-            'status' => true,
-            'categories' => Category::where('category_name', $request->input('name'))->get(),
         ];
 
         return response()->json($data);
