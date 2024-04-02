@@ -2,11 +2,12 @@
     <div>
         <v-app>
             <v-main>
-            <div class="d-flex justify-content-center mt-6" style="max-width: 2000px;">
+            <div class="mt-6" style="width: 700px;margin: 0 auto; display: block;">
                 <template>
                     <v-data-table
                         :headers="headers"
                         :items="desserts"
+                        :search="search"
                         sort-by="calories"
                         class="elevation-1"
                     >
@@ -14,7 +15,13 @@
                         <v-toolbar
                             flat
                         >
-                            <v-toolbar-title>CATEGORIAS</v-toolbar-title>
+                            <v-toolbar-title><v-text-field
+                                v-model="search"
+                                append-icon="mdi-magnify"
+                                label="Buscar"
+                                single-line
+                                hide-details
+                            ></v-text-field></v-toolbar-title>
                             <v-divider
                                 class="mx-4"
                                 inset
@@ -120,20 +127,21 @@
 <script>
   export default {
     data: () => ({
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        { text: 'Categoria', value: 'category_name' },
-        { text: '', value: 'actions', sortable: false },
-      ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        category_name: '',
-      },
-      defaultItem: {
-        Categoria: '',
-      },
+        search: '',
+        dialog: false,
+        dialogDelete: false,
+        headers: [
+            { text: 'Categoria', value: 'category_name' },
+            { text: '', value: 'actions', sortable: false },
+        ],
+        desserts: [],
+        editedIndex: -1,
+        editedItem: {
+            category_name: '',
+        },
+        defaultItem: {
+            Categoria: '',
+        },
     }),
 
     computed: {

@@ -2224,6 +2224,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      search: '',
       dialog: false,
       dialogDelete: false,
       headers: [{
@@ -3069,15 +3070,18 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", [_c("v-app", [_c("v-main", [_c("div", {
-    staticClass: "d-flex justify-content-center mt-6",
+    staticClass: "mt-6",
     staticStyle: {
-      "max-width": "2000px"
+      width: "700px",
+      margin: "0 auto",
+      display: "block"
     }
   }, [[_c("v-data-table", {
     staticClass: "elevation-1",
     attrs: {
       headers: _vm.headers,
       items: _vm.desserts,
+      search: _vm.search,
       "sort-by": "calories"
     },
     scopedSlots: _vm._u([{
@@ -3087,7 +3091,21 @@ var render = function render() {
           attrs: {
             flat: ""
           }
-        }, [_c("v-toolbar-title", [_vm._v("CATEGORIAS")]), _vm._v(" "), _c("v-divider", {
+        }, [_c("v-toolbar-title", [_c("v-text-field", {
+          attrs: {
+            "append-icon": "mdi-magnify",
+            label: "Buscar",
+            "single-line": "",
+            "hide-details": ""
+          },
+          model: {
+            value: _vm.search,
+            callback: function callback($$v) {
+              _vm.search = $$v;
+            },
+            expression: "search"
+          }
+        })], 1), _vm._v(" "), _c("v-divider", {
           staticClass: "mx-4",
           attrs: {
             inset: "",
