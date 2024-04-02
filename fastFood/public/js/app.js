@@ -2686,7 +2686,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       console.log(this.editedItem.category_name);
       if (this.formTitle === 'Registro de producto') {
-        if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_id) {
+        if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_id) {
           swal({
             title: "Campos Vacíos",
             text: "Por favor complete todos los campos",
