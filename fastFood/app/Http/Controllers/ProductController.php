@@ -35,9 +35,10 @@ class ProductController extends Controller
     {
 
 
-        $showProducts = Product::whereHas('category')
-                        ->with('category')
+        $showProducts = Product::join('categories', 'products.category_id', '=', 'categories.id')
+                        ->select('products.*', 'categories.category_name as category_name')
                         ->get();
+
         $data = [
             'status' => true,
             'showproducts' => $showProducts,
@@ -84,7 +85,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->product_name = $request->product_name;
         $product->description = $request->description;
-        $product->quantity = $request->quantity;
+        // $product->quantity = $request->quantity;
         $product->price = $request->price;
         $product->image_url = $request->image_url;
         $product->status = $request->status;

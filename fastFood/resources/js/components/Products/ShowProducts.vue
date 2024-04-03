@@ -168,7 +168,7 @@ export default {
             { text: 'Nombre', value: 'product_name' },
             { text: 'Descripción', value: 'description' },
             { text: 'Precio', value: 'price' },
-            { text: 'Categoría', value: 'category.category_name' },
+            { text: 'Categoría', value: 'category_name' },
             { text: 'Estado', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
           ],
@@ -179,7 +179,6 @@ export default {
             product_name: '',
             description: '',
             price: 0,
-            quantity: 0,
             status: '',
             category_name: '',
             image_url: '',
@@ -220,7 +219,7 @@ export default {
       save() { 
         console.log(this.editedItem.category_name)
       if(this.formTitle === 'Registro de producto'){
-        if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || 
+        if (!this.editedItem.product_name || !this.editedItem.description || 
         !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_name) {
 
           swal({
@@ -231,6 +230,7 @@ export default {
           });
           return;
         }
+        console.log(this.editedItem);
 
         axios.post('/registerProduct', this.editedItem)
         .then(respuesta => {
@@ -245,7 +245,6 @@ export default {
             });
             this.editedItem.product_name = null;
             this.editedItem.description = null;
-            this.editedItem.quantity = null;
             this.editedItem.price = null;
             this.editedItem.image_url = null;
             this.editedItem.status = null;
@@ -342,23 +341,6 @@ export default {
       editItem(item) {
         this.editedIndex = this.desserts.indexOf(item);
         this.editedItem = Object.assign({}, item);
-        axios.get(`/consultCategory/${this.editedItem.category_id}`)
-        .then(response => {
-          if (response.data.status) {
-            console.log("Entre a el axios")
-            console.log("Nombre de la categoría:", response.data.name);
-            // Asignar el nombre de la categoría al input de editar
-            this.editedItem.category_name = response.data.name;
-            this.$nextTick(() => {
-              this.editedItem.category_name = response.data.name;
-            });
-          } else {
-            console.log("No se encontró la categoría correspondiente");
-          }
-        })
-        .catch(error => {
-          console.log("Error al consultar la categoría:", error);
-        });
         this.dialog = true;
       },
       deleteItem (item) {

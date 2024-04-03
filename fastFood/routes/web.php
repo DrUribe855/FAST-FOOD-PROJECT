@@ -14,11 +14,11 @@ Route::post('/login', [LoginController::class, 'verifyUserData'])->name('login')
 Route::get('/logout', [LoginController::class, 'logout']);
 
 // Categories
-Route::get('/categorie', [CategoryController::class, 'index'])->middleware('can: admin.generalShow');
-Route::get('/getCategorie', [CategoryController::class, 'getCategorie'])->middleware('can: admin.generalShow');
-Route::post('/newCategorie', [CategoryController::class, 'insertCategorie'])->middleware('can: admin.insert');
-Route::post('/editCategorie', [CategoryController::class, 'editCategorie'])->middleware('can: admin.update');
-Route::post('/searchCategorie', [CategoryController::class, 'searchCategorie'])->middleware('can: admin.generalShow');
+Route::get('/categorie', [CategoryController::class, 'index']); //->middleware('can: admin.generalShow');
+Route::get('/getCategorie', [CategoryController::class, 'getCategorie']); //->middleware('can: admin.generalShow');
+Route::post('/newCategorie', [CategoryController::class, 'insertCategorie']); //->middleware('can: admin.insert');
+Route::post('/editCategorie', [CategoryController::class, 'editCategorie']); //->middleware('can: admin.update');
+Route::post('/searchCategorie', [CategoryController::class, 'searchCategorie']); //->middleware('can: admin.generalShow');
 
 
 //Ver Formulario de Registro de Usuario

@@ -2667,7 +2667,7 @@ __webpack_require__.r(__webpack_exports__);
         value: 'price'
       }, {
         text: 'Categoría',
-        value: 'category.category_name'
+        value: 'category_name'
       }, {
         text: 'Estado',
         value: 'status'
@@ -2683,7 +2683,6 @@ __webpack_require__.r(__webpack_exports__);
         product_name: '',
         description: '',
         price: 0,
-        quantity: 0,
         status: '',
         category_name: '',
         image_url: ''
@@ -2724,7 +2723,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       console.log(this.editedItem.category_name);
       if (this.formTitle === 'Registro de producto') {
-        if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_name) {
+        if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_name) {
           swal({
             title: "Campos Vacíos",
             text: "Por favor complete todos los campos",
@@ -2733,6 +2732,7 @@ __webpack_require__.r(__webpack_exports__);
           });
           return;
         }
+        console.log(this.editedItem);
         axios.post('/registerProduct', this.editedItem).then(function (respuesta) {
           if (respuesta.data.status) {
             console.log("Registro exitoso");
@@ -2745,7 +2745,6 @@ __webpack_require__.r(__webpack_exports__);
             });
             _this.editedItem.product_name = null;
             _this.editedItem.description = null;
-            _this.editedItem.quantity = null;
             _this.editedItem.price = null;
             _this.editedItem.image_url = null;
             _this.editedItem.status = null;
@@ -2841,24 +2840,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editItem: function editItem(item) {
-      var _this4 = this;
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      axios.get("/consultCategory/".concat(this.editedItem.category_id)).then(function (response) {
-        if (response.data.status) {
-          console.log("Entre a el axios");
-          console.log("Nombre de la categoría:", response.data.name);
-          // Asignar el nombre de la categoría al input de editar
-          _this4.editedItem.category_name = response.data.name;
-          _this4.$nextTick(function () {
-            _this4.editedItem.category_name = response.data.name;
-          });
-        } else {
-          console.log("No se encontró la categoría correspondiente");
-        }
-      })["catch"](function (error) {
-        console.log("Error al consultar la categoría:", error);
-      });
       this.dialog = true;
     },
     deleteItem: function deleteItem(item) {
@@ -2871,19 +2854,19 @@ __webpack_require__.r(__webpack_exports__);
       this.closeDelete();
     },
     close: function close() {
-      var _this5 = this;
+      var _this4 = this;
       this.dialog = false;
       this.$nextTick(function () {
-        _this5.editedItem = Object.assign({}, _this5.defaultItem);
-        _this5.editedIndex = -1;
+        _this4.editedItem = Object.assign({}, _this4.defaultItem);
+        _this4.editedIndex = -1;
       });
     },
     closeDelete: function closeDelete() {
-      var _this6 = this;
+      var _this5 = this;
       this.dialogDelete = false;
       this.$nextTick(function () {
-        _this6.editedItem = Object.assign({}, _this6.defaultItem);
-        _this6.editedIndex = -1;
+        _this5.editedItem = Object.assign({}, _this5.defaultItem);
+        _this5.editedIndex = -1;
       });
     }
   }
