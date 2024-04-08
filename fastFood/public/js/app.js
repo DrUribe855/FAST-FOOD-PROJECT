@@ -3232,7 +3232,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("v-app", [_c("v-main", [_c("div", {
+  return _c("div", [_c("v-app", [!_vm.showProduct ? _c("v-main", [_c("div", {
     staticClass: "mt-6",
     staticStyle: {
       width: "700px",
@@ -3278,37 +3278,6 @@ var render = function render() {
           attrs: {
             "max-width": "500px"
           },
-          model: {
-            value: _vm.dialog,
-            callback: function callback($$v) {
-              _vm.dialog = $$v;
-            },
-            expression: "dialog"
-          }
-        }, [_c("v-toolbar-title", [_c("v-text-field", {
-          attrs: {
-            "append-icon": "mdi-magnify",
-            label: "Buscar",
-            "single-line": "",
-            "hide-details": ""
-          },
-          model: {
-            value: _vm.search,
-            callback: function callback($$v) {
-              _vm.search = $$v;
-            },
-            expression: "search"
-          }
-        })], 1), _vm._v(" "), _c("v-divider", {
-          staticClass: "mx-4",
-          attrs: {
-            inset: "",
-            vertical: ""
-          }
-        }), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("v-dialog", {
-          attrs: {
-            "max-width": "500px"
-          },
           scopedSlots: _vm._u([{
             key: "activator",
             fn: function fn(_ref) {
@@ -3320,9 +3289,9 @@ var render = function render() {
                   color: "primary",
                   dark: ""
                 }
-              }, "v-btn", attrs, false), on), [_vm._v("\n                                                Nueva categoria\n                                            ")])];
+              }, "v-btn", attrs, false), on), [_vm._v("\n                                Nueva categoria\n                                ")])];
             }
-          }]),
+          }], null, false, 3478993114),
           model: {
             value: _vm.dialog,
             callback: function callback($$v) {
@@ -3363,7 +3332,7 @@ var render = function render() {
           on: {
             click: _vm.close
           }
-        }, [_vm._v("\n                                                Cancelar\n                                            ")]), _vm._v(" "), _c("v-btn", {
+        }, [_vm._v("\n                                    Cancelar\n                                ")]), _vm._v(" "), _c("v-btn", {
           attrs: {
             color: "blue darken-1",
             text: ""
@@ -3371,7 +3340,7 @@ var render = function render() {
           on: {
             click: _vm.save
           }
-        }, [_vm._v("\n                                                Guardar\n                                            ")])], 1)], 1)], 1)], 1)], 1)];
+        }, [_vm._v("\n                                    Guardar\n                                ")])], 1)], 1)], 1)], 1)];
       },
       proxy: true
     }, {
@@ -3424,11 +3393,11 @@ var render = function render() {
           on: {
             click: _vm.initialize
           }
-        }, [_vm._v("\n                                Reset\n                            ")])];
+        }, [_vm._v("\n                            Reset\n                        ")])];
       },
       proxy: true
-    }])
-  })]], 2)]), _vm._v(" "), _vm.showProduct ? _c("product", {
+    }], null, false, 3419213661)
+  })]], 2)]) : _vm._e(), _vm._v(" "), _vm.showProduct ? _c("product", {
     attrs: {
       dataCategory: _vm.category
     }
