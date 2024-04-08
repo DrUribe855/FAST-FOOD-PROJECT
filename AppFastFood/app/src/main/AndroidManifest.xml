@@ -17,12 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppFastFood"
 <<<<<<< HEAD
+<<<<<<< HEAD
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
 =======
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
+=======
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+>>>>>>> origin/dev01
         <activity
             android:name=".LoginActivity"
 >>>>>>> 51386c35fca84340e19ff2ae32f0094f553cfe3d
