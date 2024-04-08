@@ -14,7 +14,6 @@ Vue.component('categorie', require('./components/Category/Category.vue').default
 // usuarios
 Vue.component('user-register', require('./components/User/userRegistration.vue').default);
 // Productos
-Vue.component('consult-product', require('./components/Products/Products.vue').default);
 Vue.component('show-products', require('./components/Products/ShowProducts.vue').default);
 // Ventas
 Vue.component('bills', require('./components/Bills/Bills.vue').default);

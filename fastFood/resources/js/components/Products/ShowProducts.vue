@@ -77,16 +77,6 @@
                                 sm="6"
                                 md="4"
                               >
-                                <v-text-field
-                                  v-model="editedItem.quantity"
-                                  label="Cantidad"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="4"
-                              >
                                 <v-select
                                 label="Categoría"
                                 :items="categories"
@@ -160,12 +150,9 @@
 </template>
 
 <script>
-import RegisterProduct from "./RegisterProduct.vue";
-import UpdateProducts from "./UpdateProducts.vue";
 export default {
     components: {
-        'formulario': RegisterProduct,
-        'update': UpdateProducts,
+        
     },
     data() {
         return {
@@ -181,7 +168,7 @@ export default {
             { text: 'Nombre', value: 'product_name' },
             { text: 'Descripción', value: 'description' },
             { text: 'Precio', value: 'price' },
-            { text: 'Categoría', value: 'category.category_name' },
+            { text: 'Categoría', value: 'category_name' },
             { text: 'Estado', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
           ],
@@ -192,7 +179,6 @@ export default {
             product_name: '',
             description: '',
             price: 0,
-            quantity: 0,
             status: '',
             category_name: '',
             image_url: '',
@@ -225,160 +211,161 @@ export default {
       },
     },
     methods: {
-        captureFileName() {
-          if (this.selectedFile && this.selectedFile.name) {
-            this.editedItem.image_url = this.selectedFile.name;
-          }
-        },
-        save() { 
-          console.log(this.editedItem.category_name)
-        if(this.formTitle === 'Registro de producto'){
-          if (!this.editedItem.product_name || !this.editedItem.description || !this.editedItem.quantity || 
-          !this.editedItem.price || !this.editedItem.image_url || !this.editedItem.status || !this.editedItem.category_name) {
+      captureFileName() {
+        if (this.selectedFile && this.selectedFile.name) {
+          this.editedItem.image_url = this.selectedFile.name;
+        }
+      },
+      save() { 
+        console.log(this.editedItem.category_name)
+      if(this.formTitle === 'Registro de producto'){
+        if (!this.editedItem.product_name || !this.editedItem.description || 
+        !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_name) {
+
+          swal({
+            title: "Campos Vacíos",
+            text: "Por favor complete todos los campos",
+            icon: "error",
+            button: "Aceptar",
+          });
+          return;
+        }
+        console.log(this.editedItem);
+
+        axios.post('/registerProduct', this.editedItem)
+        .then(respuesta => {
+          if (respuesta.data.status) {
+            console.log("Registro exitoso");
+            console.log(respuesta.data)
             swal({
-              title: "Campos Vacíos",
-              text: "Por favor complete todos los campos",
+              title: "Registro Exitoso",
+              text: "El producto se registró correctamente",
+              icon: "success",
+              button: "Aceptar",
+            });
+            this.editedItem.product_name = null;
+            this.editedItem.description = null;
+            this.editedItem.price = null;
+            this.editedItem.image_url = null;
+            this.editedItem.status = null;
+            this.editedItem.category_name = null;
+            this.editedItem.category_id = null; // Restablecer category_id
+            this.list();
+            this.close();
+          } else {
+            console.log("Error:");
+            swal({
+              title: "Registro Fallido",
+              text: "El usuario no fue registrado correctamente",
               icon: "error",
               button: "Aceptar",
             });
-            return;
           }
-
-          axios.post('/registerProduct', this.editedItem)
-          .then(respuesta => {
+        }).catch(error => {
+          if (error.response.status == 422) {
+            alert("Existe");
+          }
+          console.log("Error en servidor");
+          console.log(error);
+          console.log(error.response);
+        });
+      }else{
+        axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
             if (respuesta.data.status) {
-              console.log("Registro exitoso");
-              console.log(respuesta.data)
+              console.log("Actualización exitosa");
+              console.log(respuesta.data),
               swal({
-                title: "Registro Exitoso",
-                text: "El producto se registró correctamente",
-                icon: "success",
-                button: "Aceptar",
+                  title: "Actualizacion Exitoso",
+                  text: "El producto se actualizo correctamente",
+                  icon: "success",
+                  button: "Aceptar",
               });
-              this.editedItem.product_name = null;
-              this.editedItem.description = null;
-              this.editedItem.quantity = null;
-              this.editedItem.price = null;
-              this.editedItem.image_url = null;
-              this.editedItem.status = null;
-              this.editedItem.category_name = null;
-              this.editedItem.category_id = null; // Restablecer category_id
               this.list();
               this.close();
             } else {
-              console.log("Error:");
+              console.log("Error: Los datos están duplicados");
               swal({
-                title: "Registro Fallido",
-                text: "El usuario no fue registrado correctamente",
-                icon: "error",
-                button: "Aceptar",
+                  title: "Error",
+                  text: "Error verifica que todo este bien",
+                  icon: "danger",
+                  button: "Aceptar",
               });
             }
           }).catch(error => {
-            if (error.response.status == 422) {
-              alert("Existe");
-            }
+            swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo Salio mal! (Existe)',
+            });
             console.log("Error en servidor");
             console.log(error);
             console.log(error.response);
-          });
-        }else{
-          axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
-              if (respuesta.data.status) {
-                console.log("Actualización exitosa");
-                console.log(respuesta.data),
-                swal({
-                    title: "Actualizacion Exitoso",
-                    text: "El producto se actualizo correctamente",
-                    icon: "success",
-                    button: "Aceptar",
-                });
-                this.list();
-                this.close();
-              } else {
-                console.log("Error: Los datos están duplicados");
-                swal({
-                    title: "Error",
-                    text: "Error verifica que todo este bien",
-                    icon: "danger",
-                    button: "Aceptar",
-                });
-              }
-            }).catch(error => {
-              swal({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Algo Salio mal! (Existe)',
-              });
-              console.log("Error en servidor");
-              console.log(error);
-              console.log(error.response);
-          });
-        }
+        });
+      }
+    },
+    getCategories() {
+      axios.get('/ExtractCategories').then(response => {
+        response.data.categories.forEach(category => {
+          this.categories.push(category.category_name);
+        });
+        console.log(this.categories)
+      }).catch((error) => {
+        console.error('Error al obtener la lista de categorías: ', error);
+        console.log(error.response);
+      });
+    },
+      viewUpdate(ProductData) {
+        console.log("Estoy entrando", ProductData);
+        this.dataUpdate = ProductData
+        this.updateP = false;
       },
-        getCategories() {
-        axios.get('/ExtractCategories').then(response => {
-          response.data.categories.forEach(category => {
-            this.categories.push(category.category_name);
-          });
-          console.log(this.categories);
-        }).catch((error) => {
-          console.error('Error al obtener la lista de categorías: ', error);
-          console.log(error.response);
+      backComponent() {
+        this.formRegister = false;
+      },
+      backModificarProduct(){
+        this.formRegister = false;
+        this.updateP = true;
+      },
+      list() {
+        console.log("Entre")
+        axios.get('/showProducts').then(respuesta => {
+            console.log("Respuesta del servidor");
+            console.log(respuesta.data);
+            this.desserts = respuesta.data.showproducts;
+        }).catch(error => {
+            console.log("Error en servidor");
+            console.log(error);
+            console.log(error.response);
         });
       },
-        viewUpdate(ProductData) {
-            console.log("Estoy entrando", ProductData);
-            this.dataUpdate = ProductData
-            this.updateP = false;
-        },
-        backComponent() {
-            this.formRegister = false;
-        },
-        backModificarProduct(){
-            this.formRegister = false;
-            this.updateP = true;
-        },
-        list() {
-            console.log("Entre")
-            axios.get('/showProducts').then(respuesta => {
-                console.log("Respuesta del servidor");
-                console.log(respuesta.data);
-                this.desserts = respuesta.data.showproducts;
-            }).catch(error => {
-                console.log("Error en servidor");
-                console.log(error);
-                console.log(error.response);
-            });
-        },
-        editItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialog = true
-        },
-        deleteItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialogDelete = true
-        },  
-        deleteItemConfirm () {
-            this.desserts.splice(this.editedIndex, 1)
-            this.closeDelete()
-        },  
-        close () {
-            this.dialog = false
-            this.$nextTick(() => {
-              this.editedItem = Object.assign({}, this.defaultItem)
-              this.editedIndex = -1
-            })
-        },
-        closeDelete () {
-            this.dialogDelete = false
-            this.$nextTick(() => {
-              this.editedItem = Object.assign({}, this.defaultItem)
-              this.editedIndex = -1
-            })
-        },
+      editItem(item) {
+        this.editedIndex = this.desserts.indexOf(item);
+        this.editedItem = Object.assign({}, item);
+        this.dialog = true;
+      },
+      deleteItem (item) {
+        this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+      },  
+      deleteItemConfirm () {
+        this.desserts.splice(this.editedIndex, 1)
+        this.closeDelete()
+      },  
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+      closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
     },
 };
 </script>
