@@ -129,7 +129,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->product_name = $request->product_name;
         $product->description = $request->description;
-        $product->quantity = $request->quantity;
+        // $product->quantity = $request->quantity;
         $product->price = $request->price;
         $product->image_url = $request->image_url;
         $product->status = $request->status;

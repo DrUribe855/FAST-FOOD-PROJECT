@@ -134,7 +134,7 @@
 </template>
 
 <script>
-    import Product from '../Products/Products.vue'
+    import Product from '../Products/ShowProducts.vue'
     export default {
         components: {
             'product': Product,

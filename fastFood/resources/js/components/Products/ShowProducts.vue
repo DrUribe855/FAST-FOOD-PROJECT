@@ -18,7 +18,14 @@
                       inset
                       vertical
                     ></v-divider>
+                    <h6 v-if="id">{{ id.category_name.toUpperCase() }}</h6>
                     <v-spacer></v-spacer>
+                    <v-btn v-if="id" 
+                      color="primary"
+                      class="mb-2 mr-2"
+                      @click="$parent.$parent.close()">
+                      volver
+                    </v-btn>
                     <v-dialog
                       v-model="dialog"
                       max-width="500px"
@@ -134,14 +141,6 @@
                     mdi-pencil
                   </v-icon>
                 </template>
-                <template v-slot:no-data>
-                  <v-btn
-                    color="primary"
-                    @click="list"
-                  >
-                    Reset
-                  </v-btn>
-                </template>
               </v-data-table>
             </div>
         </v-main>
@@ -149,8 +148,9 @@
 
 </template>
 
-<script>
+<script>  
 export default {
+  props: ['dataCategory'],
     components: {
         
     },
@@ -190,11 +190,17 @@ export default {
             carbs: 0,
             protein: 0,
           },
+          id: '',
         };
     },
     created() {
-        this.list();
-        this.getCategories();
+      if (this.dataCategory != undefined) {
+        this.id = this.dataCategory;
+        this.list(false);
+      }else{
+        this.list(true);
+      }
+      this.getCategories();
     },
     computed: {
       formTitle () {
@@ -250,7 +256,12 @@ export default {
             this.editedItem.status = null;
             this.editedItem.category_name = null;
             this.editedItem.category_id = null; // Restablecer category_id
-            this.list();
+            if (this.dataCategory != undefined) {
+              this.id = this.dataCategory;
+              this.list(false);
+            }else{
+              this.list(true);
+            }
             this.close();
           } else {
             console.log("Error:");
@@ -280,7 +291,12 @@ export default {
                   icon: "success",
                   button: "Aceptar",
               });
-              this.list();
+              if (this.dataCategory != undefined) {
+                this.id = this.dataCategory;
+                this.list(false);
+              }else{
+                this.list(true);
+              }
               this.close();
             } else {
               console.log("Error: Los datos están duplicados");
@@ -326,17 +342,30 @@ export default {
         this.formRegister = false;
         this.updateP = true;
       },
-      list() {
-        console.log("Entre")
-        axios.get('/showProducts').then(respuesta => {
-            console.log("Respuesta del servidor");
-            console.log(respuesta.data);
-            this.desserts = respuesta.data.showproducts;
-        }).catch(error => {
-            console.log("Error en servidor");
-            console.log(error);
-            console.log(error.response);
-        });
+      list(type) {
+        if (type) {
+          console.log("Entre")
+          axios.get('/showProducts').then(respuesta => {
+              console.log("Respuesta del servidor");
+              console.log(respuesta.data);
+              this.desserts = respuesta.data.showproducts;
+          }).catch(error => {
+              console.log("Error en servidor");
+              console.log(error);
+              console.log(error.response);
+          });
+        }else{
+          axios.get(`/consultProduct/${this.id.id}`).then(respuesta => {
+              console.log("Respuesta del servidor");
+              console.log(respuesta.data);
+              this.desserts = respuesta.data.product;
+          }).catch(error => {
+              console.log("Error en servidor");
+              console.log(error);
+              swal("Error", "CLick", "danger");
+              console.log(error.response);
+          });
+        }
       },
       editItem(item) {
         this.editedIndex = this.desserts.indexOf(item);
