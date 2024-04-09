@@ -24,7 +24,7 @@ class Product extends Model
         return $this->hasMany(Bill_item::class);
     }
 
-    public function categorie() : BelongsTo{
+    public function category() : BelongsTo{
         return $this->belongsTo(Category::class);
     }
 }

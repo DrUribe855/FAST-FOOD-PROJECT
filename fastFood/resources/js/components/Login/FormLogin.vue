@@ -6,18 +6,18 @@
 					<h2 class="">Iniciar sesión</h2>
 				</div>
 				<div class="mb-3">
-				  <label for="formGroupExampleInput" class="form-label" >Correo electronico</label>
-				  <input v-model="email" type="email" class="form-control" id="formGroupExampleInput" placeholder="Ingrese su correo electronico">
+					<label for="formGroupExampleInput" class="form-label">Correo electrónico</label>
+					<input v-model="email" type="email" class="form-control" id="formGroupExampleInput" placeholder="Ingrese su correo electrónico">
 				</div>
 				<div class="mb-3">
-				  <label for="formGroupExampleInput2" class="form-label">Contraseña</label>
-				  <input v-model="password" type="password" class="form-control" id="formGroupExampleInput2" placeholder="Ingrese su contraseña">
+					<label for="formGroupExampleInput2" class="form-label">Contraseña</label>
+					<input v-model="password" type="password" class="form-control" id="formGroupExampleInput2" placeholder="Ingrese su contraseña">
 				</div>
 				<div class="small-text">
-				  <b>¿No tienes una cuenta? <a @click="$parent.goToRegister()">Registrate</a>.</b>
+					<b>¿No tienes una cuenta? <a class="btn-register" @click="$parent.goToRegister()">Regístrate</a></b>
 				</div>
 				<div class="button-container">
-				  <button class="button-login" type="button" @click="login()">Ingresar</button>
+					<button class="button-login" type="button" @click="login()">Ingresar</button>
 				</div>
 			</form>
 		</div>

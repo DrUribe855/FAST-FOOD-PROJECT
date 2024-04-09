@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->string('description');
-            $table->integer('quantity');
             $table->float('price');
             $table->string('image_url');
             $table->enum('status', ['Activo', 'Inactivo']);

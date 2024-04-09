@@ -59,4 +59,11 @@ class LoginController extends Controller
         return true;
     }
 
+    public function logout(Request $request){
+        Auth::logout(); // Destruye la sesión del usuario
+
+        $request->session()->invalidate(); // Invalida la sesión actual
+        return redirect('/');
+    }
+
 }

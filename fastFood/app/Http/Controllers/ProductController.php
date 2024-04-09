@@ -33,7 +33,12 @@ class ProductController extends Controller
 
     public function ShowProducts()
     {
-        $showProducts = Product::get();
+
+
+        $showProducts = Product::join('categories', 'products.category_id', '=', 'categories.id')
+                        ->select('products.*', 'categories.category_name as category_name')
+                        ->get();
+
         $data = [
             'status' => true,
             'showproducts' => $showProducts,
@@ -80,7 +85,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->product_name = $request->product_name;
         $product->description = $request->description;
-        $product->quantity = $request->quantity;
+        // $product->quantity = $request->quantity;
         $product->price = $request->price;
         $product->image_url = $request->image_url;
         $product->status = $request->status;
@@ -119,21 +124,32 @@ class ProductController extends Controller
         //     return response()->json(['status' => false, 'error' => $validator->errors()], 400);
         // }
 
+        $category = Category::where('category_name', $request->category_name)->first();
+
         $product = Product::find($id);
-        $product->product_name = $request->input('product_name');
-        $product->description = $request->input('description');
-        $product->quantity = $request->input('quantity');
-        $product->price = $request->input('price');
-        $product->image_url = $request->input('image_url');
-        $product->status = $request->input('status');
-        $product->category_id = $request->input('category_id');
+        $product->product_name = $request->product_name;
+        $product->description = $request->description;
+        // $product->quantity = $request->quantity;
+        $product->price = $request->price;
+        $product->image_url = $request->image_url;
+        $product->status = $request->status;
+        $product->category_id = $category->id;
         $product->save();
         
         $data = [
             'status' => true,
             'product' => $product,
-            'id' => $id,
-            'request' => $request,
+        ];
+        return response()->json($data);
+    }
+
+    public function consultIndivualCategory($id)
+    {
+        $consult_category = Category::find($id);
+        $name = $consult_category->category_name;
+        $data = [
+            'status' => true,
+            'name' => $name,
         ];
         return response()->json($data);
     }

@@ -18,7 +18,14 @@
                       inset
                       vertical
                     ></v-divider>
+                    <h6 v-if="id">{{ id.category_name.toUpperCase() }}</h6>
                     <v-spacer></v-spacer>
+                    <v-btn v-if="id" 
+                      color="primary"
+                      class="mb-2 mr-2"
+                      @click="$parent.$parent.close()">
+                      volver
+                    </v-btn>
                     <v-dialog
                       v-model="dialog"
                       max-width="500px"
@@ -77,19 +84,10 @@
                                 sm="6"
                                 md="4"
                               >
-                                <v-text-field
-                                  v-model="editedItem.quantity"
-                                  label="Cantidad"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="4"
-                              >
                                 <v-select
                                 label="Categoría"
                                 :items="categories"
+                                :key="editedItem.category_id"
                                 v-model="editedItem.category_name"></v-select>
                               </v-col>
                               <v-col
@@ -143,14 +141,6 @@
                     mdi-pencil
                   </v-icon>
                 </template>
-                <template v-slot:no-data>
-                  <v-btn
-                    color="primary"
-                    @click="list"
-                  >
-                    Reset
-                  </v-btn>
-                </template>
               </v-data-table>
             </div>
         </v-main>
@@ -158,13 +148,11 @@
 
 </template>
 
-<script>
-import RegisterProduct from "./RegisterProduct.vue";
-import UpdateProducts from "./UpdateProducts.vue";
+<script>  
 export default {
+  props: ['dataCategory'],
     components: {
-        'formulario': RegisterProduct,
-        'update': UpdateProducts,
+        
     },
     data() {
         return {
@@ -180,7 +168,7 @@ export default {
             { text: 'Nombre', value: 'product_name' },
             { text: 'Descripción', value: 'description' },
             { text: 'Precio', value: 'price' },
-            { text: 'Categoría', value: 'category_id' },
+            { text: 'Categoría', value: 'category_name' },
             { text: 'Estado', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
           ],
@@ -191,16 +179,28 @@ export default {
             product_name: '',
             description: '',
             price: 0,
-            quantity: 0,
             status: '',
-            category: '',
+            category_name: '',
             image_url: '',
           },
+          defaultItem: {
+            name: '',
+            calories: 0,
+            fat: 0,
+            carbs: 0,
+            protein: 0,
+          },
+          id: '',
         };
     },
     created() {
-        this.list();
-        this.getCategories();
+      if (this.dataCategory != undefined) {
+        this.id = this.dataCategory;
+        this.list(false);
+      }else{
+        this.list(true);
+      }
+      this.getCategories();
     },
     computed: {
       formTitle () {
@@ -217,157 +217,184 @@ export default {
       },
     },
     methods: {
-        captureFileName() {
-          if (this.selectedFile && this.selectedFile.name) {
-            this.editedItem.image_url = this.selectedFile.name;
-          }
-        },
-        save() { 
-        if(this.formTitle === 'Registro de producto'){
-          // if (!this.registerProduct.product_name || !this.registerProduct.description || !this.registerProduct.quantity || 
-          // !this.registerProduct.price || !this.registerProduct.image_url || !this.registerProduct.status || !this.registerProduct.category_id) {
-          //   swal({
-          //     title: "Campos Vacíos",
-          //     text: "Por favor complete todos los campos",
-          //     icon: "error",
-          //     button: "Aceptar",
-          //   });
-          //   return;
-          // }
+      captureFileName() {
+        if (this.selectedFile && this.selectedFile.name) {
+          this.editedItem.image_url = this.selectedFile.name;
+        }
+      },
+      save() { 
+        console.log(this.editedItem.category_name)
+      if(this.formTitle === 'Registro de producto'){
+        if (!this.editedItem.product_name || !this.editedItem.description || 
+        !this.editedItem.price || !this.editedItem.status || !this.editedItem.category_name) {
 
-          axios.post('/registerProduct', this.editedItem)
-          .then(respuesta => {
+          swal({
+            title: "Campos Vacíos",
+            text: "Por favor complete todos los campos",
+            icon: "error",
+            button: "Aceptar",
+          });
+          return;
+        }
+        console.log(this.editedItem);
+
+        axios.post('/registerProduct', this.editedItem)
+        .then(respuesta => {
+          if (respuesta.data.status) {
+            console.log("Registro exitoso");
+            console.log(respuesta.data)
+            swal({
+              title: "Registro Exitoso",
+              text: "El producto se registró correctamente",
+              icon: "success",
+              button: "Aceptar",
+            });
+            this.editedItem.product_name = null;
+            this.editedItem.description = null;
+            this.editedItem.price = null;
+            this.editedItem.image_url = null;
+            this.editedItem.status = null;
+            this.editedItem.category_name = null;
+            this.editedItem.category_id = null; // Restablecer category_id
+            if (this.dataCategory != undefined) {
+              this.id = this.dataCategory;
+              this.list(false);
+            }else{
+              this.list(true);
+            }
+            this.close();
+          } else {
+            console.log("Error:");
+            swal({
+              title: "Registro Fallido",
+              text: "El usuario no fue registrado correctamente",
+              icon: "error",
+              button: "Aceptar",
+            });
+          }
+        }).catch(error => {
+          if (error.response.status == 422) {
+            alert("Existe");
+          }
+          console.log("Error en servidor");
+          console.log(error);
+          console.log(error.response);
+        });
+      }else{
+        axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
             if (respuesta.data.status) {
-              console.log("Registro exitoso");
-              console.log(respuesta.data)
+              console.log("Actualización exitosa");
+              console.log(respuesta.data),
               swal({
-                title: "Registro Exitoso",
-                text: "El producto se registró correctamente",
-                icon: "success",
-                button: "Aceptar",
+                  title: "Actualizacion Exitoso",
+                  text: "El producto se actualizo correctamente",
+                  icon: "success",
+                  button: "Aceptar",
               });
-              this.editedItem.product_name = null;
-              this.editedItem.description = null;
-              this.editedItem.quantity = null;
-              this.editedItem.price = null;
-              this.editedItem.image_url = null;
-              this.editedItem.status = null;
-              this.editedItem.category_name = null;
-              this.list();
+              if (this.dataCategory != undefined) {
+                this.id = this.dataCategory;
+                this.list(false);
+              }else{
+                this.list(true);
+              }
               this.close();
             } else {
-              console.log("Error:");
+              console.log("Error: Los datos están duplicados");
               swal({
-                title: "Registro Fallido",
-                text: "El usuario no fue registrado correctamente",
-                icon: "error",
-                button: "Aceptar",
+                  title: "Error",
+                  text: "Error verifica que todo este bien",
+                  icon: "danger",
+                  button: "Aceptar",
               });
             }
           }).catch(error => {
-            if (error.response.status == 422) {
-              alert("Existe");
-            }
+            swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo Salio mal! (Existe)',
+            });
             console.log("Error en servidor");
             console.log(error);
             console.log(error.response);
-          });
-        }else{
-          axios.put(`/UpdateProduct/${this.editedItem.id}`, this.editedItem).then(respuesta => {
-              if (respuesta.data.status) {
-                console.log("Actualización exitosa");
-                swal({
-                    title: "Actualizacion Exitoso",
-                    text: "El producto se actualizo correctamente",
-                    icon: "success",
-                    button: "Aceptar",
-                });
-                this.list();
-                this.close();
-              } else {
-                console.log("Error: Los datos están duplicados");
-                swal({
-                    title: "Error",
-                    text: "Error verifica que todo este bien",
-                    icon: "danger",
-                    button: "Aceptar",
-                });
-              }
-            }).catch(error => {
-              swal({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Algo Salio mal! (Existe)',
-              });
+        });
+      }
+    },
+    getCategories() {
+      axios.get('/ExtractCategories').then(response => {
+        response.data.categories.forEach(category => {
+          this.categories.push(category.category_name);
+        });
+        console.log(this.categories)
+      }).catch((error) => {
+        console.error('Error al obtener la lista de categorías: ', error);
+        console.log(error.response);
+      });
+    },
+      viewUpdate(ProductData) {
+        console.log("Estoy entrando", ProductData);
+        this.dataUpdate = ProductData
+        this.updateP = false;
+      },
+      backComponent() {
+        this.formRegister = false;
+      },
+      backModificarProduct(){
+        this.formRegister = false;
+        this.updateP = true;
+      },
+      list(type) {
+        if (type) {
+          console.log("Entre")
+          axios.get('/showProducts').then(respuesta => {
+              console.log("Respuesta del servidor");
+              console.log(respuesta.data);
+              this.desserts = respuesta.data.showproducts;
+          }).catch(error => {
               console.log("Error en servidor");
               console.log(error);
               console.log(error.response);
           });
+        }else{
+          axios.get(`/consultProduct/${this.id.id}`).then(respuesta => {
+              console.log("Respuesta del servidor");
+              console.log(respuesta.data);
+              this.desserts = respuesta.data.product;
+          }).catch(error => {
+              console.log("Error en servidor");
+              console.log(error);
+              swal("Error", "CLick", "danger");
+              console.log(error.response);
+          });
         }
       },
-        getCategories() {
-        axios.get('/ExtractCategories').then(response => {
-          response.data.categories.forEach(category => {
-            this.categories.push(category.category_name);
-          });
-          console.log(this.categories);
-        }).catch((error) => {
-          console.error('Error al obtener la lista de categorías: ', error);
-          console.log(error.response);
-        });
+      editItem(item) {
+        this.editedIndex = this.desserts.indexOf(item);
+        this.editedItem = Object.assign({}, item);
+        this.dialog = true;
       },
-        viewUpdate(ProductData) {
-            console.log("Estoy entrando", ProductData);
-            this.dataUpdate = ProductData
-            this.updateP = false;
-        },
-        backComponent() {
-            this.formRegister = false;
-        },
-        backModificarProduct(){
-            this.formRegister = false;
-            this.updateP = true;
-        },
-        list() {
-            console.log("Entre")
-            axios.get('/showProducts').then(respuesta => {
-                console.log("Respuesta del servidor");
-                console.log(respuesta.data);
-                this.desserts = respuesta.data.showproducts;
-            }).catch(error => {
-                console.log("Error en servidor");
-                console.log(error);
-                console.log(error.response);
-            });
-        },
-        editItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialog = true
-        },
-        deleteItem (item) {
-            this.editedIndex = this.desserts.indexOf(item)
-            this.editedItem = Object.assign({}, item)
-            this.dialogDelete = true
-        },  
-        deleteItemConfirm () {
-            this.desserts.splice(this.editedIndex, 1)
-            this.closeDelete()
-        },  
-        close () {
-            this.dialog = false
-            this.$nextTick(() => {
-              this.editedItem = Object.assign({}, this.defaultItem)
-              this.editedIndex = -1
-            })
-        },
-        closeDelete () {
-            this.dialogDelete = false
-            this.$nextTick(() => {
-              this.editedItem = Object.assign({}, this.defaultItem)
-              this.editedIndex = -1
-            })
-        },
+      deleteItem (item) {
+        this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+      },  
+      deleteItemConfirm () {
+        this.desserts.splice(this.editedIndex, 1)
+        this.closeDelete()
+      },  
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+      closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
     },
 };
 </script>
