@@ -7,7 +7,7 @@ return [
     | Title
     |--------------------------------------------------------------------------
     |
-    | Here you can change the default title of your admin panel.
+    | Here you can change the default title of your admin p3anel.
     |
     | For detailed instructions you can look the title section here:
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
@@ -255,7 +255,8 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
+    'logout_method' => 'GET',
+    'logout_route' => '/logout',
     'use_route_url' => false,
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
