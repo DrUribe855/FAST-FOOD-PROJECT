@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="10dp"
+    android:elevation="3dp">
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/pop_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <TextView
+        android:id="@+id/nameProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="Title"
+        android:textColor="#373b54"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imgProduct"
+        app:layout_constraintTop_toTopOf="@+id/imgProduct"></TextView>
+
+    <ImageView
+        android:id="@+id/btnSubtract"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/minus"
+        app:layout_constraintBottom_toBottomOf="@+id/imgProduct"
+        app:layout_constraintStart_toStartOf="@+id/nameProduct"></ImageView>
+
+    <TextView
+        android:id="@+id/cantProducts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSubtract"
+        app:layout_constraintStart_toEndOf="@+id/btnSubtract"
+        app:layout_constraintTop_toTopOf="@+id/btnSubtract"
+        app:layout_constraintVertical_bias="0.727"></TextView>
+
+    <ImageView
+        android:id="@+id/btnAdd"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSubtract"
+        app:layout_constraintStart_toEndOf="@+id/cantProducts"
+        app:layout_constraintTop_toTopOf="@+id/btnSubtract"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/subtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="0"
+        android:textColor="#373b54"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nameProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nameProduct" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="$"
+        android:textColor="#ff3d00"
+        app:layout_constraintBottom_toBottomOf="@+id/subtotal"
+        app:layout_constraintEnd_toStartOf="@+id/subtotal"
+        app:layout_constraintTop_toTopOf="@+id/subtotal" />
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#373b54"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
+        app:layout_constraintEnd_toEndOf="@+id/subtotal"
+        app:layout_constraintTop_toTopOf="@+id/btnAdd"
+        app:layout_constraintVertical_bias="0.961" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="$"
+        android:textColor="#ff3d00"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/total"
+        app:layout_constraintEnd_toStartOf="@+id/total"
+        app:layout_constraintTop_toTopOf="@+id/total"></TextView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

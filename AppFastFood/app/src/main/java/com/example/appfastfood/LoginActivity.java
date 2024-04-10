@@ -26,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText campo_correo;
     EditText campo_password;
 
+    Button btn_Iniciar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,24 +36,23 @@ public class LoginActivity extends AppCompatActivity {
         campo_correo = findViewById(R.id.campo_correo);
         campo_password = findViewById(R.id.campo_password);
 
-        Button btnIniciar = findViewById(R.id.btn_Iniciar);
-        btnIniciar.setOnClickListener(new View.OnClickListener() {
+        btn_Iniciar = findViewById(R.id.btn_Iniciar);
+        btn_Iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intencion = new Intent(LoginActivity.this, CartListActivity.class);
-                startActivity(intencion);
+                System.out.println("Click en el boton");
             }
         });
     }
 
-    public void validarIngreso(){
+    public void validarIngreso() {
         String correo = campo_correo.getText().toString();
         String password = campo_password.getText().toString();
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "http://10.199.144.125/fastFood/public/login";
 
-        StringRequest solicitud =  new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest solicitud = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -71,8 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println(error.getMessage());
                 System.out.println(error.toString());
             }
-        }){
-            protected Map<String, String> getParams(){
+        }) {
+            protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", correo);
                 params.put("password", password);
@@ -82,5 +83,5 @@ public class LoginActivity extends AppCompatActivity {
 
         queue.add(solicitud);
     }
-
 }
+
