@@ -2,13 +2,12 @@ package com.example.appfastfood;
 
 public class CartList {
 
-    String nameProduct, cantProducts, subtotal, total;
+    String nameProduct, cantProducts, price;
 
-    public CartList(String nameProduct, String cantProducts, String subtotal, String total) {
+    public CartList(String nameProduct, String cantProducts, String price) {
         this.nameProduct = nameProduct;
         this.cantProducts = cantProducts;
-        this.subtotal = subtotal;
-        this.total = total;
+        this.price = price;
     }
 
     public String getNameProduct() {
@@ -27,20 +26,12 @@ public class CartList {
         this.cantProducts = cantProducts;
     }
 
-    public String getSubtotal() {
-        return subtotal;
+    public String getPrice() {
+        return price;
     }
 
-    public void setSubtotal(String subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
-        this.total = total;
+    public void setPrice(String price) {
+        this.price = price;
     }
 }
 

@@ -13,21 +13,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        btnPrueba = findViewById(R.id.btnPrueba);
-
-        btnPrueba.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intencion = new Intent(getApplicationContext(), CartListActivity.class);
-                startActivity(intencion);
-
-            }
-        });
-
-
-
-
+        setContentView(R.layout.activity_principal);
     }
 }

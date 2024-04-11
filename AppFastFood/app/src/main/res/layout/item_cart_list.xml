@@ -67,7 +67,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/subtotal"
+        android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -85,12 +85,12 @@
         android:layout_marginEnd="4dp"
         android:text="$"
         android:textColor="#ff3d00"
-        app:layout_constraintBottom_toBottomOf="@+id/subtotal"
-        app:layout_constraintEnd_toStartOf="@+id/subtotal"
-        app:layout_constraintTop_toTopOf="@+id/subtotal" />
+        app:layout_constraintBottom_toBottomOf="@+id/price"
+        app:layout_constraintEnd_toStartOf="@+id/price"
+        app:layout_constraintTop_toTopOf="@+id/price" />
 
     <TextView
-        android:id="@+id/total"
+        android:id="@+id/subtotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
@@ -98,7 +98,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
-        app:layout_constraintEnd_toEndOf="@+id/subtotal"
+        app:layout_constraintEnd_toEndOf="@+id/price"
         app:layout_constraintTop_toTopOf="@+id/btnAdd"
         app:layout_constraintVertical_bias="0.961" />
 
@@ -109,8 +109,8 @@
         android:text="$"
         android:textColor="#ff3d00"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/total"
-        app:layout_constraintEnd_toStartOf="@+id/total"
-        app:layout_constraintTop_toTopOf="@+id/total"></TextView>
+        app:layout_constraintBottom_toBottomOf="@+id/subtotal"
+        app:layout_constraintEnd_toStartOf="@+id/subtotal"
+        app:layout_constraintTop_toTopOf="@+id/subtotal"></TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
