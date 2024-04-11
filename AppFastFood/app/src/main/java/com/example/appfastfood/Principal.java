@@ -1,5 +1,6 @@
 package com.example.appfastfood;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +24,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Principal extends AppCompatActivity {
+public class Principal extends AppCompatActivity implements AdapterCategorys.OnItemClickListener{
     List<Categorys>listaCategorys = new ArrayList<>();
     RecyclerView recycler;
     Config config;
-    AdapterCategorys adaptador = new AdapterCategorys( this.listaCategorys );
+    AdapterCategorys adaptador = new AdapterCategorys(this.listaCategorys,this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class Principal extends AppCompatActivity {
                 this.listaCategorys.add(new Categorys(id_category, name));
 
             }
-            this.adaptador = new AdapterCategorys(this.listaCategorys);
+            this.adaptador = new AdapterCategorys(this.listaCategorys,this);
             System.out.println("lista" + listaCategorys);
             this.recycler.setAdapter(adaptador);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -79,7 +80,18 @@ public class Principal extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public void onItemClick(Categorys category) {
+        // Aquí puedes realizar cualquier acción con la categoría seleccionada
+        String categoryId = category.getId_category();
+        String categoryName = category.getCategory_name();
+        Log.d("Categoria seleccionada", "ID: " + categoryId + ", Nombre: " + categoryName);
 
+        // Crear un Intent para cambiar a otra actividad y pasar los datos de la categoría
+        Intent intent = new Intent(getApplicationContext(), ProductosCategory.class);
+        intent.putExtra("category_id", categoryId);
+        intent.putExtra("category_name", categoryName);
+        startActivity(intent);
+    }
 }
 
 
