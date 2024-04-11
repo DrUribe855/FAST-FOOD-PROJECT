@@ -64,8 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="6dp"
-            android:backgroundTint="#F87413"
-            android:text="+Add" />
+            android:backgroundTint="#FFCFAD"
+            android:drawableLeft="@drawable/icon_add_car"
+            android:text="Agregar"
+            android:textColor="#F87413"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
