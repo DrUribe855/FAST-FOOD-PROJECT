@@ -2,7 +2,6 @@ package com.example.appfastfood;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appfastfood.utils.Config;
-import com.example.appfastfood.utils.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;

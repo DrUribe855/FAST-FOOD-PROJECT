@@ -1,4 +1,4 @@
-package com.example.appfastfood.utils;
+package com.example.appfastfood;
 
 public class Product {
     String product_id, product_name, description, price, image_url;
