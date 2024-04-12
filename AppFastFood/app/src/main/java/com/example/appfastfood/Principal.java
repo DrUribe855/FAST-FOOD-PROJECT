@@ -30,15 +30,16 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-public class Principal extends AppCompatActivity {
+public class Principal extends AppCompatActivity implements AdapterCategorys.OnItemClickListener{
     List<Categorys>listaCategorys = new ArrayList<>();
     List<Product>productList = new ArrayList<>();
     RecyclerView recycler, productrecycler;
     Config config;
-    AdapterCategorys adaptador = new AdapterCategorys( this.listaCategorys );
     AdapterProduct productAdapter = new AdapterProduct(this.productList);
     Gson gson = new Gson();
     SharedPreferences sharedPreferences;
+    AdapterCategorys adaptador = new AdapterCategorys(this.listaCategorys,this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +84,7 @@ public class Principal extends AppCompatActivity {
                 this.listaCategorys.add(new Categorys(id_category, name));
 
             }
-            this.adaptador = new AdapterCategorys(this.listaCategorys);
+            this.adaptador = new AdapterCategorys(this.listaCategorys,this);
             System.out.println("lista" + listaCategorys);
             this.recycler.setAdapter(adaptador);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -92,7 +93,17 @@ public class Principal extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    public void onItemClick(Categorys category) {
+        // Aquí puedes realizar cualquier acción con la categoría seleccionada
+        String categoryId = category.getId_category();
+        String categoryName = category.getCategory_name();
+        Log.d("Categoria seleccionada", "ID: " + categoryId + ", Nombre: " + categoryName);
+        // Crear un Intent para cambiar a otra actividad y pasar los datos de la categoría
+        Intent intent = new Intent(getApplicationContext(), ProductosCategory.class);
+        intent.putExtra("category_id", categoryId);
+        intent.putExtra("category_name", categoryName);
+        startActivity(intent);
+    }
 
     // Codigo de productos
     public void getProduct(){
@@ -146,7 +157,6 @@ public class Principal extends AppCompatActivity {
         //Intent intencion = new Intent(getApplicationContext(), prueba.class);
         //startActivity(intencion);
     }
-
 }
 
 
