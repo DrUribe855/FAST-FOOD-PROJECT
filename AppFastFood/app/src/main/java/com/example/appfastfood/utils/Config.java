@@ -30,7 +30,7 @@ public class Config {
     }
 
     public String getEndpoint(String endpoint){
-        return apiHost+endpoint;
+        return  this.apiHost+endpoint;
     }
 
 }
