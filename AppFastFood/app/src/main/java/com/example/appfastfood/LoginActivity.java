@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         campo_password = findViewById(R.id.campo_password);
         btnIniciar = findViewById(R.id.btnIniciar);
         config = new Config(getApplicationContext());
-        this.sesionValidate();
+        // this.sesionValidate();
 
 
 
@@ -52,14 +52,25 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = config.getEndpoint("API-FastFood/validarIngreso.php");
-        System.out.println("URL de API: " + url);
+        // System.out.println("URL de API: " + url);
         StringRequest solicitud =  new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     System.out.println("El servidor POST responde OK");
                     JSONObject jsonObject = new JSONObject(response);
-                    changeActivity(email, password);
+                    System.out.println("Respuesta de API: " + jsonObject);
+                    if (jsonObject.getBoolean("status")){
+                        System.out.println(response);
+
+                        String user_id = jsonObject.getJSONObject("user").getString("id");
+                        String name = jsonObject.getJSONObject("user").getString("name");
+
+                        changeActivity(user_id, name);
+                    }else{
+                        System.out.print("ERROR");
+
+                    }
 
 
                 } catch (JSONException e) {
@@ -86,17 +97,17 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(solicitud);
     }
 
-    public void changeActivity(String email, String password){
+    public void changeActivity(String userId, String name){
         SharedPreferences file = getSharedPreferences("app-fastfood",MODE_PRIVATE);
 
         SharedPreferences.Editor editor = file.edit();
 
-        editor.putString("email", email);
-        editor.putString("password", password);
+        editor.putString("userId", userId);
+        editor.putString("name", name);
 
         editor.commit();
 
-        Intent intention = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intention = new Intent(getApplicationContext(), Principal.class);
         startActivity(intention);
         finish();
     }
@@ -107,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         String name = file.getString("password", null);
 
         if(userId != null && name != null){
-            Intent intention = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intention = new Intent(getApplicationContext(), Principal.class);
             startActivity(intention);
             finish();
         }

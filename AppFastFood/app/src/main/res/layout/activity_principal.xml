@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/ll_main_content"
@@ -38,20 +39,112 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
     </LinearLayout>
-
+    
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="5dp"
-            android:backgroundTint="#F87413"
-            android:drawableRight="@drawable/icon_shop"
-            android:paddingRight="10dp"
-            android:onClick="createCuestionario" />
+        <LinearLayout
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                app:srcCompat="@drawable/home"
+                android:onClick="goToHome"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textAlignment="center"
+                android:textColor="#676767"
+                android:textSize="12sp"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/homeCarrito"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                app:srcCompat="@drawable/shopping_cart2"
+                android:onClick="showCar"/>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Carrito"
+                android:textAlignment="center"
+                android:textColor="#676767"
+                android:textSize="12sp"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/homeConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                app:srcCompat="@drawable/historial" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mis compras"
+                android:textAlignment="center"
+                android:textColor="#676767"
+                android:textSize="12sp"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/logout"
+                android:onClick="logout"/>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salir"
+                android:textColor="#676767"
+                android:textSize="12sp"
+                android:textAlignment="center"></TextView>
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

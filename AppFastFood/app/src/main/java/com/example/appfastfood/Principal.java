@@ -17,6 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appfastfood.utils.Config;
+import com.google.gson.Gson;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,8 +27,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import com.google.gson.Gson;
 
 public class Principal extends AppCompatActivity implements AdapterCategorys.OnItemClickListener{
     List<Categorys>listaCategorys = new ArrayList<>();
@@ -152,8 +152,27 @@ public class Principal extends AppCompatActivity implements AdapterCategorys.OnI
         editor.putStringSet("product_list", new HashSet<>(stringList));
         editor.commit();
 
-        //Intent intencion = new Intent(getApplicationContext(), prueba.class);
-        //startActivity(intencion);
+        Intent intencion = new Intent(getApplicationContext(), ProductosCategory.class);
+        startActivity(intencion);
+    }
+
+    public void logout(View view){
+        SharedPreferences file = getSharedPreferences("app-fastfood", MODE_PRIVATE);
+        SharedPreferences.Editor editor = file.edit();
+
+        editor.clear();
+        editor.clear();
+
+        editor.commit();
+        Intent intencion = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intencion);
+        finish();
+    }
+
+    public void goToHome(View view){
+        Intent intention = new Intent(getApplicationContext(), Principal.class);
+        startActivity(intention);
+        finish();
     }
 }
 
