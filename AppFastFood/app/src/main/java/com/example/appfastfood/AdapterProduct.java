@@ -1,24 +1,19 @@
 package com.example.appfastfood;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.appfastfood.utils.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +68,7 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
+                        Toast.makeText(itemView.getContext(), "El producto se agrego al carrito de compras", Toast.LENGTH_SHORT).show();
                         Product product = listProduct.get(position);
                         addProductToList(product);
                     }

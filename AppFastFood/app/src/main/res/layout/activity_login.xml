@@ -50,7 +50,7 @@
         android:drawableLeft="@drawable/baseline_account_circle_24"
         android:drawablePadding="30dp"
         android:hint="Email"
-        android:text="andrey@mail.com"
+        android:text="okon.edwina@example.com"
         android:textColorHint="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
         android:hint="Password"
         android:textColorHint="@color/white"
         android:textSize="20sp"
-        android:text="andrey123"
+        android:text="123"
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:drawableLeft="@drawable/baseline_account_circle_24"
@@ -76,7 +76,7 @@
         app:layout_constraintWidth_percent=".8"></EditText>
 
     <Button
-        android:id="@+id/btn_Iniciar"
+        android:id="@+id/btnIniciar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="20dp"
@@ -85,6 +85,7 @@
         android:textColor="@color/white"
         android:textStyle="bold|italic"
         android:textSize="20sp"
+        android:onClick="validarIngreso"
         app:layout_constraintWidth_percent=".8"
         android:backgroundTint="#504F4F"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"

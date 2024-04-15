@@ -1,82 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp"
-    tools:context=".Principal">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/ll_main_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hi"
-            android:textColor="#dd3d00"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            />
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Categorias"
+            android:textSize="25dp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_categorys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/nameUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="..."
-            android:textColor="#dd3d00"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:paddingLeft="20dp"/>
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Productos"
+            android:textSize="25dp"
+            android:textStyle="bold"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                app:srcCompat="@drawable/home"
+                android:onClick="goToHome"/>
 
-    <ImageView
-        android:layout_width="400dp"
-        android:layout_height="250dp"
-        android:src="@drawable/fast_food_principal"
-        android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textAlignment="center"
+                android:textColor="#676767"
+                android:textSize="12sp"></TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="Categorias"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_categorys"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/homeCarrito"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                app:srcCompat="@drawable/shopping_cart2"
+                android:onClick="showCar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="Productos"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Carrito"
+                android:textAlignment="center"
+                android:textColor="#676767"
+                android:textSize="12sp"></TextView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_products"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        </LinearLayout>
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:id="@+id/homeConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="23dp"
+                app:srcCompat="@drawable/historial" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mis compras"
+                android:textAlignment="center"
+                android:textColor="#676767"
+                android:textSize="12sp"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/logout"
+                android:onClick="logout"/>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salir"
+                android:textColor="#676767"
+                android:textSize="12sp"
+                android:textAlignment="center"></TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

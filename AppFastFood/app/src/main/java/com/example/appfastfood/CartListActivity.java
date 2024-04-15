@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.appfastfood.utils.Product;
+import com.example.appfastfood.Product;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

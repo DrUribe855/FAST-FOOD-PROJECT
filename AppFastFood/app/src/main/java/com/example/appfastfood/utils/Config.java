@@ -13,18 +13,18 @@ public class Config {
 
     String apiHost;
 
-    public Config(Context contexto){
-        // Carga el archivo properties
+    public Config (Context contexto){
         Resources res = contexto.getResources();
         InputStream inputStream = res.openRawResource(R.raw.config);
 
-        // Lee las propiedades del archivo
+        // Leer las propiedades del archivo.
+
         try {
             Properties properties = new Properties();
             properties.load(inputStream);
+            apiHost = properties.getProperty("api_host");
 
-            this.apiHost = properties.getProperty("api_host");
-        } catch (IOException e) {
+        }catch(IOException e){
             e.printStackTrace();
         }
     }

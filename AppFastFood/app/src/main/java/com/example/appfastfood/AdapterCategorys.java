@@ -13,8 +13,15 @@ import java.util.List;
 
 public class AdapterCategorys extends RecyclerView.Adapter<AdapterCategorys.ViewHolder> {
     List<Categorys> listCategorys;
-
-    public AdapterCategorys(List<Categorys> listCategorys){this.listCategorys = listCategorys;}
+    OnItemClickListener listener;
+    public interface OnItemClickListener {
+        void onItemClick(Categorys category);
+    }
+    public AdapterCategorys(List<Categorys> listCategorys, OnItemClickListener listener)
+    {
+        this.listCategorys = listCategorys;
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -28,6 +35,7 @@ public class AdapterCategorys extends RecyclerView.Adapter<AdapterCategorys.View
         Categorys temporal = this.listCategorys.get(position);
         System.out.println("Temporal" + temporal.getCategory_name());
         holder.cargarDatos(temporal, position);
+        holder.bind(temporal, listener);
 
     }
     public void limpiarLista(){
@@ -51,20 +59,14 @@ public class AdapterCategorys extends RecyclerView.Adapter<AdapterCategorys.View
             text_pizza.setText(datos.getCategory_name());
             System.out.println("Mensaje" + datos.getId_category());
         }
+        public void bind(final Categorys category, final OnItemClickListener listener) {
+            text_pizza.setText(category.getCategory_name());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(category);
+                }
+            });
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
