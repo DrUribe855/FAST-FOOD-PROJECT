@@ -60,13 +60,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/btnPrueba"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Prueba(Drigir a carro de compras)"
-                android:backgroundTint="@color/black"
+            <ImageView
+                android:layout_width="400dp"
+                android:layout_height="250dp"
+                android:src="@drawable/fast_food_principal"
                 android:layout_gravity="center"/>
+
 
         </LinearLayout>
 
