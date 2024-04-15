@@ -1,12 +1,12 @@
 <?php
 	include "Conexion.php";
 
-	if ( (!empty($_POST["campo_correo"]) && !empty($_POST["campo_password"])) || ( !empty($_GET['campo_correo']) && !empty($_GET['campo_password']) ) ) {
+	if ( (!empty($_POST["email"]) && !empty($_POST["password"])) || ( !empty($_GET['email']) && !empty($_GET['password']) ) ) {
 		
-		$email = (!empty($_POST['campo_correo']))? $_POST['campo_correo'] : $_GET['campo_correo'];
-		$password = (!empty($_POST['campo_password']))? MD5($_POST['campo_password']) : MD5($_GET['campo_password']);
+		$email = (!empty($_POST['email']))? $_POST['email'] : $_GET['email'];
+		$password = (!empty($_POST['password']))? $_POST['password'] : $_GET['password'];
 
-		$consulta = $base_de_datos->prepare("SELECT name FROM users WHERE email = :cor AND password = :pas");
+		$consulta = $base_de_datos->prepare("SELECT id, name FROM users WHERE email = :cor AND password = :pas");
 		$consulta->bindParam(":cor", $email);
 		$consulta->bindParam(":pas", $password);
 		$consulta->execute();
