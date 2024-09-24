@@ -5,65 +5,58 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginDataRequest;
 
 class LoginController extends Controller
 {
-    public function verifyUserData(Request $request){
+    public function verifyUserData(LoginDataRequest $request){
 
         
-        $credentials = $request->validate([
-            'email' => 'email',
-            'password' => 'required', 
-        ]);
+        $credentials = $request->only('email', 'password');
 
-        if($this->fieldValidation($credentials)){
-            $user = User::where('email', $credentials["email"])->get();
-            if(!$user){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No registrado'
-                ], 401); // Unauthorized 
-                
-            }
+        /* Se hace busqueda de usuario mediante email */
+
+        
+        $user = User::where('email', $credentials["email"])->first();
+
+        /* Se verifica la existencia del usuario */
+
+        if(!$user){
+            return $this->sendErrorResponse('Usuario no encontrado');
+        }
+
+        /* Se verifica el estado del usuario */
+
+        if($user->status !== 'Activo'){
+            return $this->sendErrorResponse('Cuenta desactivada');
+        }
+
+        /* Se intenta autenticar el usuario */
             
-            if(Auth::attempt($credentials)){
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Datos correctos'
-                ], 200); // OK
-            }else{
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Datos incorrectos'
-                ], 401); // Unauthorized 
-            }
-        }else{
-
+        if(Auth::attempt([$credentials])){
             return response()->json([
-                'status' => false,
-                'message' => 'Datos incompletos'
-            ], 400); // Not found
+                'status' => true,
+                'message' => "Datos correctos",
+            ]);
+        }else{
+            return $this->sendErrorResponse("Datos incorrectos");
         }
-
-        
-
-
     }
 
-    public function fieldValidation($data){
-
-        if($data["email"] == '' || $data["password"] == ''){
-            return false;
-        }
-
-        return true;
-    }
 
     public function logout(Request $request){
         Auth::logout(); // Destruye la sesión del usuario
 
         $request->session()->invalidate(); // Invalida la sesión actual
         return redirect('/');
+    }
+
+    /* Enviar respuesta de error */
+    protected function sendErrorResponse($message){
+        return response()->json([
+            'status' => false,
+            'message' => $message,
+        ]);
     }
 
 }
